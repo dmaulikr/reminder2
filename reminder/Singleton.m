@@ -53,51 +53,64 @@
         self.tasksArray = [[NSMutableArray alloc] init];
         self.tasksByDates = [[NSMutableDictionary alloc] init];
         
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"dd-MM-yyyy"];
         
+//        NSDate *date = [formatter dateFromString:dateString];
         
         
         Task *task1 = [[Task alloc] init];
         task1.title = @"dfsfagsfas";
         task1.content = @"sdfgaaaaaaaasdf";
-        task1.date = nil;
-        task1.dateString = @"12-05-17";
+        
+        task1.dateString = @"12-05-2017";
+        task1.date = [formatter dateFromString:task1.dateString];
+        
+        
         
         Task *task2 = [[Task alloc] init];
         task2.title = @"dfsffs";
         task2.content = @"sdfsgsfgdf";
-        task2.date = nil;
-        task2.dateString = @"12-05-17";
+        
+        task2.dateString = @"12-05-2017";
+        task2.date = [formatter dateFromString:task1.dateString];
+
         
         Task *task3 = [[Task alloc] init];
         task3.title = @"asaddfsfs";
         task3.content = @"sdfasfsdf";
-        task3.date = nil;
-        task3.dateString = @"13-05-17";
+        task3.dateString = @"13-05-2017";
+        task3.date = [formatter dateFromString:task1.dateString];
+
         
         Task *task4 = [[Task alloc] init];
         task4.title = @"333dfsfs";
         task4.content = @"sfgddfsdf";
-        task4.date = nil;
         task4.isDone = YES;
-        task4.dateString = @"13-05-17";
+        task4.dateString = @"13-05-2017";
+        task4.date = [formatter dateFromString:task1.dateString];
+
         
         Task *task5 = [[Task alloc] init];
         task5.title = @"3113dfsfs";
         task5.content = @"s31dfsdf";
-        task5.date = nil;
-        task5.dateString = @"13-05-17";
+        task5.dateString = @"13-05-2017";
+        task5.date = [formatter dateFromString:task1.dateString];
+
         
         Task *task6 = [[Task alloc] init];
         task6.title = @"333s113dfsfs";
         task6.content = @"s31dfsdf";
-        task6.date = nil;
-        task6.dateString = @"13-05-17";
+        task6.dateString = @"13-05-2017";
+        task6.date = [formatter dateFromString:task1.dateString];
+
         
         Task *task7 = [[Task alloc] init];
         task7.title = @"333s113dfsfs";
         task7.content = @"s31dfsdf";
-        task7.date = nil;
-        task7.dateString = @"14-05-17";
+        task7.dateString = @"14-05-2017";
+        task7.date = [formatter dateFromString:task1.dateString];
+
         
         [self.tasksArray addObject:task1];
         [self.tasksArray addObject:task2];

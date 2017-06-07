@@ -43,6 +43,7 @@
     self.datesKeys = [self.sharedInstance.tasksByDates allKeys];
     self.arrayByDates = self.sharedInstance.tasksByDates;
     
+    self.datesKeys = [self sortDates:self.datesKeys];
     
     
     
@@ -237,12 +238,19 @@
     self.lblSelectedDate.text = selectedDate;
 
 }
--(void)sortDates
+-(NSArray *)sortDates: (NSArray *)array
 {
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"dd-MM-yyyy"];
+    
     NSArray *sorted = [self.datesKeys sortedArrayUsingComparator:^(id obj1, id obj2){
         
-            NSArray *s1 = obj1;
+            NSString *s1 = obj1;
             NSString *s2 = obj2;
+        
+        NSDate *d1 = [formatter dateFromString:s1];
+        NSDate *d2 = [formatter dateFromString:s2];
             
 //            if (s1.points > s2.points) {
 //                return (NSComparisonResult)NSOrderedAscending;
@@ -250,7 +258,8 @@
 //                return (NSComparisonResult)NSOrderedDescending;
 //            }
 
-        return (NSComparisonResult)NSOrderedSame;
+        return (NSComparisonResult)NSOrderedAscending;
     }];
+    return sorted;
 }
 @end
