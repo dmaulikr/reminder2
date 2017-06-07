@@ -65,8 +65,6 @@
     
     self.dataSource = [[NSMutableArray alloc] init];
     
-//    self.dataSource = [self.sharedInstance loadAllTasks];
-    
     self.dataSource2 = [self.sharedInstance loadAll];
     
 
