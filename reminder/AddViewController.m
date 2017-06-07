@@ -59,7 +59,8 @@
         {
             return;
         }
-    }else if (textView == self.tNoteContent)
+    }
+    else if (textView == self.tNoteContent)
     {
         if ([textView.text isEqualToString:@"Task content"])
         {
@@ -82,7 +83,8 @@
         {
             return;
         }
-    }else if (textView == self.tNoteContent)
+    }
+    else if (textView == self.tNoteContent)
     {
         if ([textView.text isEqualToString:@""])
         {
