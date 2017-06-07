@@ -16,6 +16,13 @@
 		937C93E41EE6A1EA0046B504 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 937C93E21EE6A1EA0046B504 /* LaunchScreen.storyboard */; };
 		937C93EF1EE6A1EA0046B504 /* reminderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 937C93EE1EE6A1EA0046B504 /* reminderTests.m */; };
 		937C93FA1EE6A1EA0046B504 /* reminderUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 937C93F91EE6A1EA0046B504 /* reminderUITests.m */; };
+		937C940A1EE6B1CB0046B504 /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 937C94091EE6B1CB0046B504 /* Task.m */; };
+		937C940E1EE6B36C0046B504 /* Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 937C940D1EE6B36C0046B504 /* Singleton.m */; };
+		937C94121EE6B78E0046B504 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 937C94111EE6B78E0046B504 /* MainViewController.m */; };
+		937C94151EE6C7F10046B504 /* AddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 937C94141EE6C7F10046B504 /* AddViewController.m */; };
+		937C94181EE6CA480046B504 /* PopTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 937C94171EE6CA480046B504 /* PopTaskViewController.m */; };
+		937C941C1EE6CED90046B504 /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 937C941B1EE6CED90046B504 /* NoteCell.m */; };
+		939FA0561EE825300021CB5A /* Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0551EE825300021CB5A /* Colors.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +60,20 @@
 		937C93F51EE6A1EA0046B504 /* reminderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = reminderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		937C93F91EE6A1EA0046B504 /* reminderUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = reminderUITests.m; sourceTree = "<group>"; };
 		937C93FB1EE6A1EB0046B504 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		937C94081EE6B1CB0046B504 /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Task.h; sourceTree = "<group>"; };
+		937C94091EE6B1CB0046B504 /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Task.m; sourceTree = "<group>"; };
+		937C940C1EE6B36C0046B504 /* Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Singleton.h; sourceTree = "<group>"; };
+		937C940D1EE6B36C0046B504 /* Singleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Singleton.m; sourceTree = "<group>"; };
+		937C94101EE6B78E0046B504 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		937C94111EE6B78E0046B504 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		937C94131EE6C7F10046B504 /* AddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddViewController.h; sourceTree = "<group>"; };
+		937C94141EE6C7F10046B504 /* AddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddViewController.m; sourceTree = "<group>"; };
+		937C94161EE6CA480046B504 /* PopTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopTaskViewController.h; sourceTree = "<group>"; };
+		937C94171EE6CA480046B504 /* PopTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopTaskViewController.m; sourceTree = "<group>"; };
+		937C941A1EE6CED90046B504 /* NoteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCell.h; sourceTree = "<group>"; };
+		937C941B1EE6CED90046B504 /* NoteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCell.m; sourceTree = "<group>"; };
+		939FA0541EE825300021CB5A /* Colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colors.h; sourceTree = "<group>"; };
+		939FA0551EE825300021CB5A /* Colors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Colors.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +124,11 @@
 		937C93D01EE6A1EA0046B504 /* reminder */ = {
 			isa = PBXGroup;
 			children = (
+				939FA0501EE822E70021CB5A /* aa */,
+				937C94191EE6CEB40046B504 /* New Group */,
+				937C940F1EE6B7700046B504 /* Controllers */,
+				937C940B1EE6B34F0046B504 /* Singleton */,
+				937C94071EE6B1B00046B504 /* Model */,
 				937C93D41EE6A1EA0046B504 /* AppDelegate.h */,
 				937C93D51EE6A1EA0046B504 /* AppDelegate.m */,
 				937C93D71EE6A1EA0046B504 /* ViewController.h */,
@@ -141,6 +167,55 @@
 				937C93FB1EE6A1EB0046B504 /* Info.plist */,
 			);
 			path = reminderUITests;
+			sourceTree = "<group>";
+		};
+		937C94071EE6B1B00046B504 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				937C94081EE6B1CB0046B504 /* Task.h */,
+				937C94091EE6B1CB0046B504 /* Task.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		937C940B1EE6B34F0046B504 /* Singleton */ = {
+			isa = PBXGroup;
+			children = (
+				937C940C1EE6B36C0046B504 /* Singleton.h */,
+				937C940D1EE6B36C0046B504 /* Singleton.m */,
+			);
+			name = Singleton;
+			sourceTree = "<group>";
+		};
+		937C940F1EE6B7700046B504 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				937C94101EE6B78E0046B504 /* MainViewController.h */,
+				937C94111EE6B78E0046B504 /* MainViewController.m */,
+				937C94131EE6C7F10046B504 /* AddViewController.h */,
+				937C94141EE6C7F10046B504 /* AddViewController.m */,
+				937C94161EE6CA480046B504 /* PopTaskViewController.h */,
+				937C94171EE6CA480046B504 /* PopTaskViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		937C94191EE6CEB40046B504 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				937C941A1EE6CED90046B504 /* NoteCell.h */,
+				937C941B1EE6CED90046B504 /* NoteCell.m */,
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
+		939FA0501EE822E70021CB5A /* aa */ = {
+			isa = PBXGroup;
+			children = (
+				939FA0541EE825300021CB5A /* Colors.h */,
+				939FA0551EE825300021CB5A /* Colors.m */,
+			);
+			name = aa;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,9 +351,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				937C940A1EE6B1CB0046B504 /* Task.m in Sources */,
 				937C93D91EE6A1EA0046B504 /* ViewController.m in Sources */,
 				937C93D61EE6A1EA0046B504 /* AppDelegate.m in Sources */,
+				937C940E1EE6B36C0046B504 /* Singleton.m in Sources */,
+				937C94121EE6B78E0046B504 /* MainViewController.m in Sources */,
+				937C941C1EE6CED90046B504 /* NoteCell.m in Sources */,
 				937C93D31EE6A1EA0046B504 /* main.m in Sources */,
+				939FA0561EE825300021CB5A /* Colors.m in Sources */,
+				937C94151EE6C7F10046B504 /* AddViewController.m in Sources */,
+				937C94181EE6CA480046B504 /* PopTaskViewController.m in Sources */,
 				937C93DF1EE6A1EA0046B504 /* reminder.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -513,6 +595,7 @@
 				937C94001EE6A1EB0046B504 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		937C94011EE6A1EB0046B504 /* Build configuration list for PBXNativeTarget "reminderTests" */ = {
 			isa = XCConfigurationList;
@@ -521,6 +604,7 @@
 				937C94031EE6A1EB0046B504 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		937C94041EE6A1EB0046B504 /* Build configuration list for PBXNativeTarget "reminderUITests" */ = {
 			isa = XCConfigurationList;
@@ -529,6 +613,7 @@
 				937C94061EE6A1EB0046B504 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
