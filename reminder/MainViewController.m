@@ -30,15 +30,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *previousDateAction;
 
 - (IBAction)previousDateAction:(id)sender;
-
-- (IBAction)checkAction:(id)sender;
-
 @end
 
-
 @implementation MainViewController
-
-
 
 - (void)viewDidLoad
 {
@@ -49,8 +43,10 @@
     self.datesKeys = [self.sharedInstance.tasksByDates allKeys];
     self.arrayByDates = self.sharedInstance.tasksByDates;
     
-    [self loadLastDate];
     
+    
+    
+    [self loadLastDate];
     
     self.selectedDate = @"13-05-17";
     
@@ -67,7 +63,6 @@
     
     self.dataSource2 = [self.sharedInstance loadAll];
     
-
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addNewScreen)];
     
     tapGesture.numberOfTapsRequired = 1;
@@ -80,10 +75,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
     NSArray *arrayByDate = [self.dataSource2 objectForKey:self.selectedDate];
-    
-//    return [self.dataSource count];
     return [arrayByDate count];
 }
 
@@ -133,9 +125,7 @@
     
     NSArray *arr = [self.dataSource2 objectForKey:self.selectedDate];
     
-    
     Task *task = [arr objectAtIndex:indexPath.row];
-
     
     vc.task = task;
 
@@ -173,7 +163,6 @@
         [self.tableView reloadData];
     }
 }
-
 -(void)checkDone:(UIButton *)btn
 {
     int tag = (int)btn.tag;
@@ -198,8 +187,6 @@
     
     [self.tableView reloadData];
 }
-
-
 - (IBAction)nextDateAction:(id)sender
 {
     self.currentIndex ++;
@@ -249,5 +236,21 @@
     
     self.lblSelectedDate.text = selectedDate;
 
+}
+-(void)sortDates
+{
+    NSArray *sorted = [self.datesKeys sortedArrayUsingComparator:^(id obj1, id obj2){
+        
+            NSArray *s1 = obj1;
+            NSString *s2 = obj2;
+            
+//            if (s1.points > s2.points) {
+//                return (NSComparisonResult)NSOrderedAscending;
+//            } else if (s1.points < s2.points) {
+//                return (NSComparisonResult)NSOrderedDescending;
+//            }
+
+        return (NSComparisonResult)NSOrderedSame;
+    }];
 }
 @end

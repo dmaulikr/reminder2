@@ -52,23 +52,22 @@
 {
     if (textView == self.tNoteTItle)
     {
-        
-        if ([textView.text isEqualToString:@"Task title"]) {
+        if ([textView.text isEqualToString:@"Task title"])
+        {
             self.tNoteTItle.text = @"";
         }else
         {
             return;
         }
-        
     }else if (textView == self.tNoteContent)
     {
-        if ([textView.text isEqualToString:@"Task content"]) {
+        if ([textView.text isEqualToString:@"Task content"])
+        {
             self.tNoteContent.text = @"";
         }else
         {
             return;
         }
-        
     }
 }
 
@@ -76,7 +75,8 @@
 {
     if (textView == self.tNoteTItle )
     {
-        if ([textView.text isEqualToString:@""]) {
+        if ([textView.text isEqualToString:@""])
+        {
             self.tNoteTItle.text = @"Task title";
         }else
         {
@@ -84,7 +84,8 @@
         }
     }else if (textView == self.tNoteContent)
     {
-        if ([textView.text isEqualToString:@""]) {
+        if ([textView.text isEqualToString:@""])
+        {
             self.tNoteContent.text = @"Task content";
         }else
         {

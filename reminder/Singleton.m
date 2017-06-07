@@ -26,8 +26,10 @@
 }
 -(void)deleteTask:(Task *)task
 {
-    for (Task *task2 in self.tasksArray) {
-        if ([task2 isEqual:task]) {
+    for (Task *task2 in self.tasksArray)
+    {
+        if ([task2 isEqual:task])
+        {
             [self.tasksArray removeObject:task2];
             break;
         }
@@ -46,7 +48,8 @@
 - (instancetype)init
 {
     self = [super init];
-    if (self) {
+    if (self)
+    {
         self.tasksArray = [[NSMutableArray alloc] init];
         self.tasksByDates = [[NSMutableDictionary alloc] init];
         
@@ -104,7 +107,6 @@
         [self.tasksArray addObject:task6];
         [self.tasksArray addObject:task7];
         
-        
         for (Task *task in self.tasksArray)
         {
             NSString *dateStr = task.dateString;
@@ -118,7 +120,6 @@
                 }
             }
         }
-        NSLog(@"objk %@", self.tasksByDates);
     }
     return self;
 }

@@ -10,13 +10,4 @@
 
 @implementation Task
 
-//-(instancetype)init{
-//    self = [super init];
-//    if(self)
-//    {
-//        self = [[Task alloc] init];
-//    }
-//    return self;
-//}
-
 @end
