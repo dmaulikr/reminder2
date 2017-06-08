@@ -15,7 +15,6 @@
 -(void)addNewTask:(Task *)task
 {
     [self.tasksArray addObject:task];
-    
     [self sort];
 }
 -(NSMutableDictionary *)loadAll
@@ -25,12 +24,10 @@
 -(NSMutableArray *)loadAllTasks
 {
     return self.tasksArray;
-    
 }
 -(void)deleteTask:(Task *)task
 {
     [self.tasksByDates removeAllObjects];
-    
     for (Task *task2 in self.tasksArray)
     {
         if ([task2 isEqual:task])
@@ -66,9 +63,10 @@
         Task *task1 = [[Task alloc] init];
         task1.title = @"dfsfagsfas";
         task1.content = @"sdfgaaaaaaaasdf";
-        
         task1.dateString = @"08/06/2017";
         task1.date = [formatter dateFromString:task1.dateString];
+        task1.imageString = @"asdf.png";
+        
         
         Task *task2 = [[Task alloc] init];
         task2.title = @"dfsffs";
@@ -89,6 +87,7 @@
         task4.isDone = YES;
         task4.dateString = @"07/06/2017";
         task4.date = [formatter dateFromString:task4.dateString];
+        task4.imageString = @"asdf.png";
         
         Task *task5 = [[Task alloc] init];
         task5.title = @"4331123113dfsfs";
@@ -144,31 +143,29 @@
     
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-    NSDate *finidatum = date;
+    NSDate *newDate = date;
     dateFormatter.dateFormat = @"dd-MM-yyyy";
     NSDate *currDate = [NSDate date];
     
-    int razlika = [currDate timeIntervalSinceReferenceDate] - [finidatum timeIntervalSinceReferenceDate];
-    NSString *rezultat = [[NSString alloc] init];
+    int dif = [currDate timeIntervalSinceReferenceDate] - [newDate timeIntervalSinceReferenceDate];
+    NSString *timeSinceString = [[NSString alloc] init];
     
-    if (razlika<86400)
+    if (dif<86400)
     {
-            rezultat = [NSString stringWithFormat:@"Today"];
-        
+            timeSinceString = [NSString stringWithFormat:@"Today"];
     }
     else
     {
-        razlika = (razlika/86400);
-        
-        if (razlika==1)
+        dif = (dif/86400);
+        if (dif==1)
         {
-            rezultat = @"Yesterday";
+            timeSinceString = @"Yesterday";
         }
         else{
-            rezultat = [dateFormatter stringFromDate:finidatum];
+            timeSinceString = [dateFormatter stringFromDate:newDate];
         }
     }
-    return rezultat;
+    return timeSinceString;
 }
 -(void)sort
 {
@@ -187,7 +184,6 @@
     }
     NSLog(@"sorted --- >%@", self.tasksByDates);
     NSLog(@"");
-
 }
 
 @end

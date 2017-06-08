@@ -17,6 +17,8 @@
 @property (strong, nonatomic) NSDate *date;
 @property (strong, nonatomic) NSString *dateString;
 
+@property (strong, nonatomic) NSString *imageString;
+
 @property (assign) BOOL isLiked;
 @property (assign) BOOL isDone;
 //-(instancetype)init;

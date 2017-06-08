@@ -13,7 +13,6 @@
 #import "NoteCell.h"
 #include "IndexPath.h"
 
-
 @interface MainViewController ()  <UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate>
 @property (strong, nonatomic) UIStoryboard *storyBoard;
 @property (strong, nonatomic) NSArray *datesKeys;
@@ -26,7 +25,6 @@
 
 @property(nonatomic, assign) int currentIndex;
 @property(nonatomic, assign) int lastIndex;
-
 
 @property (weak, nonatomic) IBOutlet UILabel *lblSelectedDate;
 - (IBAction)nextDateAction:(id)sender;
@@ -41,6 +39,17 @@
 {
     [super viewDidLoad];
     
+    UISwipeGestureRecognizer *rightRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(leftSwipeHandle)];
+    rightRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
+    [rightRecognizer setNumberOfTouchesRequired:1];
+    
+    UISwipeGestureRecognizer *leftRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(rightSwipeHandle)];
+    leftRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+    [leftRecognizer setNumberOfTouchesRequired:1];
+    
+    [self.view addGestureRecognizer:rightRecognizer];
+    [self.view addGestureRecognizer:leftRecognizer];
+    
     self.forrmater = [[NSDateFormatter alloc] init];
     [self.forrmater setDateFormat:@"dd/MM/yyyy"];
     [self.forrmater setLocale:[NSLocale currentLocale]];
@@ -48,7 +57,10 @@
     
     self.sharedInstance = [Singleton sharedInstance];
     
-    [self load];
+    self.datesKeys = [self.sharedInstance.tasksByDates allKeys];
+    self.arrayByDates = self.sharedInstance.tasksByDates;
+    self.datesKeys = [self sortDates:self.datesKeys];
+
     
     [self loadLastDate];
     
@@ -86,6 +98,8 @@
     
     self.btnPreviousDate.hidden = NO;
     self.tableView.hidden = NO;
+    
+    NSLog(@"%@", self.dataSource2);
     
 
     if (self.currentIndex == 0)
@@ -184,7 +198,6 @@
     vc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     
     [self presentViewController:vc animated:YES completion:NULL];
-
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -193,8 +206,8 @@
 -(void)reloadTable
 {
     self.dataSource2 = [self.sharedInstance loadAll];
-    [self load];
-    [self.tableView reloadData];
+    [self loadAdd];
+
 }
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -204,15 +217,12 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-        
         NSArray *arr = [self.dataSource2 objectForKey:self.selectedDate];
-        
         Task *task = [arr objectAtIndex:indexPath.row];
         
         [self.sharedInstance deleteTask:task];
         [self.sharedInstance sort];
-        [self load];
-
+        [self loadDelete];
         [self.tableView reloadData];
     }
 }
@@ -242,7 +252,8 @@
 }
 - (IBAction)nextDateAction:(id)sender
 {
-    if (self.currentIndex < [self.datesKeys count]) {
+    if (self.currentIndex < [self.datesKeys count])
+    {
         self.currentIndex ++;
     }
     NSLog(@"current index -- > %i", self.currentIndex);
@@ -267,7 +278,6 @@
     self.btnNextDate.hidden = NO;
     if (self.currentIndex >= 0)
     {
-
         NSDate *selectedDate = [self.datesKeys objectAtIndex:self.currentIndex];
         self.selectedDate = selectedDate;
         
@@ -291,16 +301,50 @@
 }
 -(NSArray *)sortDates: (NSArray *)array
 {
-    NSArray *sorted = [self.datesKeys sortedArrayUsingComparator:^(id obj1, id obj2){
+    NSArray *sorted = [self.datesKeys sortedArrayUsingComparator:^(id obj1, id obj2)
+    {
+        NSDate *d1 = obj1;
+        NSDate *d2 = obj2;
+        
+        if (d1>d2)
+        {
+            return (NSComparisonResult)NSOrderedDescending;
+        }
+        else
+        {
+            return (NSComparisonResult)NSOrderedAscending;
+        }
         return (NSComparisonResult)NSOrderedDescending;
     }];
     return sorted;
 }
--(void)load
+-(void)loadDelete
 {
     self.datesKeys = [self.sharedInstance.tasksByDates allKeys];
     self.arrayByDates = self.sharedInstance.tasksByDates;
     self.datesKeys = [self sortDates:self.datesKeys];
     
+    self.currentIndex = (int)[self.datesKeys count];
+    [self.tableView reloadData];
+}
+-(void)loadAdd
+{
+    self.datesKeys = [self.sharedInstance.tasksByDates allKeys];
+    self.arrayByDates = self.sharedInstance.tasksByDates;
+    self.datesKeys = [self sortDates:self.datesKeys];
+
+    if (self.currentIndex < [self.datesKeys count] -1)
+    {
+        [self nextDateAction:self];
+    }
+    [self.tableView reloadData];
+}
+-(void)rightSwipeHandle
+{
+    [self nextDateAction:self];
+}
+-(void)leftSwipeHandle
+{
+    [self previousDateAction:self];
 }
 @end

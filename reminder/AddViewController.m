@@ -88,7 +88,8 @@
         if ([textView.text isEqualToString:@""])
         {
             self.tNoteTItle.text = @"Task title";
-        }else
+        }
+        else
         {
             return;
         }
@@ -98,7 +99,8 @@
         if ([textView.text isEqualToString:@""])
         {
             self.tNoteContent.text = @"Task content";
-        }else
+        }
+        else
         {
             return;
         }

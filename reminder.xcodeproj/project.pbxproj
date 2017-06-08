@@ -23,6 +23,7 @@
 		937C94181EE6CA480046B504 /* PopTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 937C94171EE6CA480046B504 /* PopTaskViewController.m */; };
 		937C941C1EE6CED90046B504 /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 937C941B1EE6CED90046B504 /* NoteCell.m */; };
 		939FA0561EE825300021CB5A /* Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0551EE825300021CB5A /* Colors.m */; };
+		939FA05F1EE996760021CB5A /* AttachmentsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA05E1EE996760021CB5A /* AttachmentsCollectionViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,8 @@
 		937C941B1EE6CED90046B504 /* NoteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCell.m; sourceTree = "<group>"; };
 		939FA0541EE825300021CB5A /* Colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colors.h; sourceTree = "<group>"; };
 		939FA0551EE825300021CB5A /* Colors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Colors.m; sourceTree = "<group>"; };
+		939FA05D1EE996760021CB5A /* AttachmentsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentsCollectionViewCell.h; sourceTree = "<group>"; };
+		939FA05E1EE996760021CB5A /* AttachmentsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentsCollectionViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,8 +127,9 @@
 		937C93D01EE6A1EA0046B504 /* reminder */ = {
 			isa = PBXGroup;
 			children = (
+				939FA05A1EE976700021CB5A /* Views */,
 				939FA0501EE822E70021CB5A /* aa */,
-				937C94191EE6CEB40046B504 /* New Group */,
+				937C94191EE6CEB40046B504 /* Cells */,
 				937C940F1EE6B7700046B504 /* Controllers */,
 				937C940B1EE6B34F0046B504 /* Singleton */,
 				937C94071EE6B1B00046B504 /* Model */,
@@ -200,13 +204,15 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
-		937C94191EE6CEB40046B504 /* New Group */ = {
+		937C94191EE6CEB40046B504 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				937C941A1EE6CED90046B504 /* NoteCell.h */,
 				937C941B1EE6CED90046B504 /* NoteCell.m */,
+				939FA05D1EE996760021CB5A /* AttachmentsCollectionViewCell.h */,
+				939FA05E1EE996760021CB5A /* AttachmentsCollectionViewCell.m */,
 			);
-			name = "New Group";
+			name = Cells;
 			sourceTree = "<group>";
 		};
 		939FA0501EE822E70021CB5A /* aa */ = {
@@ -216,6 +222,13 @@
 				939FA0551EE825300021CB5A /* Colors.m */,
 			);
 			name = aa;
+			sourceTree = "<group>";
+		};
+		939FA05A1EE976700021CB5A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -356,6 +369,7 @@
 				937C93D61EE6A1EA0046B504 /* AppDelegate.m in Sources */,
 				937C940E1EE6B36C0046B504 /* Singleton.m in Sources */,
 				937C94121EE6B78E0046B504 /* MainViewController.m in Sources */,
+				939FA05F1EE996760021CB5A /* AttachmentsCollectionViewCell.m in Sources */,
 				937C941C1EE6CED90046B504 /* NoteCell.m in Sources */,
 				937C93D31EE6A1EA0046B504 /* main.m in Sources */,
 				939FA0561EE825300021CB5A /* Colors.m in Sources */,
