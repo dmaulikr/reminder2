@@ -23,9 +23,8 @@
     [super viewDidLoad];
     self.tNoteTItle.delegate = self;
     self.tNoteContent.delegate = self;
+    
 }
-
-
 - (IBAction)backAdd:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -33,13 +32,24 @@
 
 - (IBAction)btnAddPressed:(id)sender
 {
+
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"dd/MM/yyyy"];
+    [formatter setLocale:[NSLocale currentLocale]];
+    [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     
     Task *task = [[Task alloc] init];
     NSString *noteTitle = self.tNoteTItle.text;
     NSString *noteContent = self.tNoteContent.text;
+    NSDate *date = [NSDate date];
+    
+    NSString *stringFromDate = [formatter stringFromDate:date];
+    NSDate *dateFromString = [formatter dateFromString:stringFromDate];
+    
     
     task.title = noteTitle;
     task.content = noteContent;
+    task.date = dateFromString;
     
     Singleton *singleton = [Singleton sharedInstance];
     [singleton addNewTask:task];
@@ -71,7 +81,6 @@
         }
     }
 }
-
 -(void)textViewDidEndEditing:(UITextView *)textView
 {
     if (textView == self.tNoteTItle )

@@ -8,12 +8,15 @@
 
 #import "Singleton.h"
 
+
 @implementation Singleton
 
 
 -(void)addNewTask:(Task *)task
 {
     [self.tasksArray addObject:task];
+    
+    [self sort];
 }
 -(NSMutableDictionary *)loadAll
 {
@@ -26,6 +29,8 @@
 }
 -(void)deleteTask:(Task *)task
 {
+    [self.tasksByDates removeAllObjects];
+    
     for (Task *task2 in self.tasksArray)
     {
         if ([task2 isEqual:task])
@@ -33,8 +38,8 @@
             [self.tasksArray removeObject:task2];
             break;
         }
+        
     }
-    
 }
 +(id)sharedInstance{
     
@@ -54,64 +59,55 @@
         self.tasksByDates = [[NSMutableDictionary alloc] init];
         
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"dd-MM-yyyy"];
-        
-//        NSDate *date = [formatter dateFromString:dateString];
-        
+        [formatter setDateFormat:@"dd/MM/yyyy"];
+        [formatter setLocale:[NSLocale currentLocale]];
+        [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
         
         Task *task1 = [[Task alloc] init];
         task1.title = @"dfsfagsfas";
         task1.content = @"sdfgaaaaaaaasdf";
         
-        task1.dateString = @"12-05-2017";
+        task1.dateString = @"08/06/2017";
         task1.date = [formatter dateFromString:task1.dateString];
-        
-        
         
         Task *task2 = [[Task alloc] init];
         task2.title = @"dfsffs";
         task2.content = @"sdfsgsfgdf";
         
-        task2.dateString = @"12-05-2017";
-        task2.date = [formatter dateFromString:task1.dateString];
+        task2.dateString = @"08/06/2017";
+        task2.date = [formatter dateFromString:task2.dateString];
 
-        
         Task *task3 = [[Task alloc] init];
         task3.title = @"asaddfsfs";
         task3.content = @"sdfasfsdf";
-        task3.dateString = @"13-05-2017";
-        task3.date = [formatter dateFromString:task1.dateString];
-
+        task3.dateString = @"07/06/2017";
+        task3.date = [formatter dateFromString:task3.dateString];
         
         Task *task4 = [[Task alloc] init];
         task4.title = @"333dfsfs";
         task4.content = @"sfgddfsdf";
         task4.isDone = YES;
-        task4.dateString = @"13-05-2017";
-        task4.date = [formatter dateFromString:task1.dateString];
-
+        task4.dateString = @"07/06/2017";
+        task4.date = [formatter dateFromString:task4.dateString];
         
         Task *task5 = [[Task alloc] init];
-        task5.title = @"3113dfsfs";
+        task5.title = @"4331123113dfsfs";
         task5.content = @"s31dfsdf";
-        task5.dateString = @"13-05-2017";
-        task5.date = [formatter dateFromString:task1.dateString];
+        task5.dateString = @"03/06/2017";
+        task5.date = [formatter dateFromString:task5.dateString];
 
-        
         Task *task6 = [[Task alloc] init];
-        task6.title = @"333s113dfsfs";
+        task6.title = @"88333s113dfsfs";
         task6.content = @"s31dfsdf";
-        task6.dateString = @"13-05-2017";
-        task6.date = [formatter dateFromString:task1.dateString];
+        task6.dateString = @"03/06/2017";
+        task6.date = [formatter dateFromString:task6.dateString];
 
-        
         Task *task7 = [[Task alloc] init];
-        task7.title = @"333s113dfsfs";
+        task7.title = @"222333s113dfsfs";
         task7.content = @"s31dfsdf";
-        task7.dateString = @"14-05-2017";
-        task7.date = [formatter dateFromString:task1.dateString];
+        task7.dateString = @"03/06/2017";
+        task7.date = [formatter dateFromString:task7.dateString];
 
-        
         [self.tasksArray addObject:task1];
         [self.tasksArray addObject:task2];
         [self.tasksArray addObject:task3];
@@ -120,19 +116,7 @@
         [self.tasksArray addObject:task6];
         [self.tasksArray addObject:task7];
         
-        for (Task *task in self.tasksArray)
-        {
-            NSString *dateStr = task.dateString;
-            NSMutableArray *array = [[NSMutableArray alloc] init];
-            for (Task *taskInner in self.tasksArray)
-            {
-                if ([dateStr isEqualToString:taskInner.dateString])
-                {
-                    [array addObject:task];
-                    [self.tasksByDates setObject:array forKey:dateStr];
-                }
-            }
-        }
+        [self sort];
     }
     return self;
 }
@@ -156,4 +140,54 @@
         }
     }
 }
+-(NSString*)timeSince:(NSDate*)date {
+    
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    NSDate *finidatum = date;
+    dateFormatter.dateFormat = @"dd-MM-yyyy";
+    NSDate *currDate = [NSDate date];
+    
+    int razlika = [currDate timeIntervalSinceReferenceDate] - [finidatum timeIntervalSinceReferenceDate];
+    NSString *rezultat = [[NSString alloc] init];
+    
+    if (razlika<86400)
+    {
+            rezultat = [NSString stringWithFormat:@"Today"];
+        
+    }
+    else
+    {
+        razlika = (razlika/86400);
+        
+        if (razlika==1)
+        {
+            rezultat = @"Yesterday";
+        }
+        else{
+            rezultat = [dateFormatter stringFromDate:finidatum];
+        }
+    }
+    return rezultat;
+}
+-(void)sort
+{
+    for (Task *task in self.tasksArray)
+    {
+        NSDate *date = task.date;
+        NSMutableArray *array = [[NSMutableArray alloc] init];
+        for (Task *taskInner in self.tasksArray)
+        {
+            if ([date isEqualToDate:taskInner.date])
+            {
+                [array addObject:taskInner];
+                [self.tasksByDates setObject:array forKey:date];
+            }
+        }
+    }
+    NSLog(@"sorted --- >%@", self.tasksByDates);
+    NSLog(@"");
+
+}
+
 @end

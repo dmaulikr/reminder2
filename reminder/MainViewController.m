@@ -19,11 +19,14 @@
 @property (strong, nonatomic) NSArray *datesKeys;
 @property (strong, nonatomic) NSMutableDictionary *arrayByDates;
 @property (strong, nonatomic) Singleton *sharedInstance;
-@property (strong, nonatomic) NSString *selectedDate;
+@property (strong, nonatomic) NSDate *selectedDate;
 @property (weak, nonatomic) IBOutlet UIButton *btnNextDate;
 @property (weak, nonatomic) IBOutlet UIButton *btnPreviousDate;
+@property (strong, nonatomic) NSDateFormatter *forrmater;
 
 @property(nonatomic, assign) int currentIndex;
+@property(nonatomic, assign) int lastIndex;
+
 
 @property (weak, nonatomic) IBOutlet UILabel *lblSelectedDate;
 - (IBAction)nextDateAction:(id)sender;
@@ -38,20 +41,21 @@
 {
     [super viewDidLoad];
     
+    self.forrmater = [[NSDateFormatter alloc] init];
+    [self.forrmater setDateFormat:@"dd/MM/yyyy"];
+    [self.forrmater setLocale:[NSLocale currentLocale]];
+    [self.forrmater setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    
     self.sharedInstance = [Singleton sharedInstance];
     
-    self.datesKeys = [self.sharedInstance.tasksByDates allKeys];
-    self.arrayByDates = self.sharedInstance.tasksByDates;
-    
-    self.datesKeys = [self sortDates:self.datesKeys];
-    
-    
+    [self load];
     
     [self loadLastDate];
     
-    self.selectedDate = @"13-05-17";
+    self.selectedDate = [self.datesKeys lastObject];
     
-    self.lblSelectedDate.text = self.selectedDate;
+    NSString *dateString = [self.sharedInstance timeSince:self.selectedDate];
+    self.lblSelectedDate.text = dateString;
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -77,6 +81,45 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSArray *arrayByDate = [self.dataSource2 objectForKey:self.selectedDate];
+    
+    self.lastIndex = (int)[self.datesKeys count];
+    
+    self.btnPreviousDate.hidden = NO;
+    self.tableView.hidden = NO;
+    
+
+    if (self.currentIndex == 0)
+    {
+        self.btnPreviousDate.hidden = YES;
+    }
+    if (self.currentIndex == self.lastIndex - 1)
+    {
+        self.btnNextDate.hidden = YES;
+    }
+    if (self.lastIndex == 1)
+    {
+        self.btnPreviousDate.hidden = YES;
+        self.btnNextDate.hidden = YES;
+    }
+    
+        switch ([arrayByDate count])
+    {
+        case 0:            
+            if (self.currentIndex < self.lastIndex)
+            {
+                [self nextDateAction:self];
+            }
+            if (self.currentIndex > 0)
+            {
+                [self previousDateAction:self];
+            }
+            break;
+    }
+    if ([self.datesKeys count] == 0)
+    {
+        self.lblSelectedDate.text = @"No tasks";
+        self.tableView.hidden = YES;
+    }
     return [arrayByDate count];
 }
 
@@ -100,18 +143,19 @@
         {
             UIImage *btnImage = [UIImage imageNamed:@"checkRed.png"];
             [checkBtn setImage:btnImage forState:UIControlStateNormal];
-        }else
+        }
+        else
         {
             UIImage *btnImage = [UIImage imageNamed:@"circle.png"];
             [checkBtn setImage:btnImage forState:UIControlStateNormal];
         }
-        
+
     }
         checkBtn.tag = indexPath.row;
         [checkBtn addTarget:self
                      action:@selector(checkDone:)
          forControlEvents:UIControlEventTouchUpInside];
-    
+
     return cell;
 }
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -148,6 +192,8 @@
 }
 -(void)reloadTable
 {
+    self.dataSource2 = [self.sharedInstance loadAll];
+    [self load];
     [self.tableView reloadData];
 }
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -158,9 +204,15 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-        Task *task = [self.dataSource objectAtIndex:indexPath.row];
+        
+        NSArray *arr = [self.dataSource2 objectForKey:self.selectedDate];
+        
+        Task *task = [arr objectAtIndex:indexPath.row];
         
         [self.sharedInstance deleteTask:task];
+        [self.sharedInstance sort];
+        [self load];
+
         [self.tableView reloadData];
     }
 }
@@ -190,76 +242,65 @@
 }
 - (IBAction)nextDateAction:(id)sender
 {
-    self.currentIndex ++;
-    self.btnPreviousDate.hidden = NO;
-    
-    if (self.currentIndex == [self.datesKeys count])
-    {
-        self.btnNextDate.hidden = YES;
+    if (self.currentIndex < [self.datesKeys count]) {
+        self.currentIndex ++;
     }
+    NSLog(@"current index -- > %i", self.currentIndex);
+
     if (self.currentIndex < [self.datesKeys count])
     {
-        NSString *selectedDate = [self.datesKeys objectAtIndex:self.currentIndex];
+        NSDate *selectedDate = [self.datesKeys objectAtIndex:self.currentIndex];
         self.selectedDate = selectedDate;
-        self.lblSelectedDate.text = selectedDate;
+        
+        NSString *dateString = [self.sharedInstance timeSince:selectedDate];
+        self.lblSelectedDate.text = dateString;
         [self.tableView reloadData];
     }
 }
 - (IBAction)previousDateAction:(id)sender
 {
-    self.currentIndex --;
-    
+    if (self.currentIndex > 0)
+    {
+        self.currentIndex --;
+        NSLog(@"current index -- > %i", self.currentIndex);
+    }
     self.btnNextDate.hidden = NO;
-    
     if (self.currentIndex >= 0)
     {
-        if (self.currentIndex == 0)
-        {
-            self.btnPreviousDate.hidden = YES;
-        }
-        NSString *selectedDate = [self.datesKeys objectAtIndex:self.currentIndex];
+
+        NSDate *selectedDate = [self.datesKeys objectAtIndex:self.currentIndex];
         self.selectedDate = selectedDate;
-        self.lblSelectedDate.text = selectedDate;
+        
+        NSString *dateString = [self.sharedInstance timeSince:selectedDate];
+        self.lblSelectedDate.text = dateString;
         [self.tableView reloadData];
     }
 }
 -(void)loadLastDate
 {
-    NSString *selectedDate = [self.datesKeys lastObject];
+    NSDate *selectedDate = [self.datesKeys lastObject];
     NSInteger index = [self.datesKeys count];
     int indexInt = (int)index;
     
     self.currentIndex = indexInt - 1;
-    
-    self.btnNextDate.hidden = YES;
-    
+    NSLog(@"current index -- > %i", self.currentIndex);
     self.selectedDate = selectedDate;
-    
-    self.lblSelectedDate.text = selectedDate;
+    NSString *dateString = [self.sharedInstance timeSince:selectedDate];
+    self.lblSelectedDate.text = dateString;
 
 }
 -(NSArray *)sortDates: (NSArray *)array
 {
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"dd-MM-yyyy"];
-    
     NSArray *sorted = [self.datesKeys sortedArrayUsingComparator:^(id obj1, id obj2){
-        
-            NSString *s1 = obj1;
-            NSString *s2 = obj2;
-        
-        NSDate *d1 = [formatter dateFromString:s1];
-        NSDate *d2 = [formatter dateFromString:s2];
-            
-//            if (s1.points > s2.points) {
-//                return (NSComparisonResult)NSOrderedAscending;
-//            } else if (s1.points < s2.points) {
-//                return (NSComparisonResult)NSOrderedDescending;
-//            }
-
-        return (NSComparisonResult)NSOrderedAscending;
+        return (NSComparisonResult)NSOrderedDescending;
     }];
     return sorted;
+}
+-(void)load
+{
+    self.datesKeys = [self.sharedInstance.tasksByDates allKeys];
+    self.arrayByDates = self.sharedInstance.tasksByDates;
+    self.datesKeys = [self sortDates:self.datesKeys];
+    
 }
 @end

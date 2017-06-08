@@ -24,6 +24,7 @@
 -(void)updateTask:(Task *)task index:(int )index;
 -(void)update:(Task *)task;
 -(NSMutableDictionary *)loadAll;
-
+-(NSString*)timeSince:(NSDate*)date;
+-(void)sort;
 
 @end
