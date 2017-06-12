@@ -9,6 +9,7 @@
 #import "Singleton.h"
 #import <UIKit/UIKit.h>
 #import "MainViewController.h"
+#import "Alarm.h"
 
 @interface Singleton ()
 
@@ -82,10 +83,7 @@
         task1.attachmentsArray = [[NSMutableArray alloc] initWithObjects:[UIImage imageNamed:@"asdf.png"],[UIImage imageNamed:@"sunny.jpg"], [UIImage imageNamed:@"redHeart.png"], nil];
         
         
-        
-        
-        
-        
+
         Task *task2 = [[Task alloc] init];
         task2.title = @"dfsffs";
         task2.content = @"sdfsgsfgdf";
@@ -137,6 +135,23 @@
         task8.content = @"s31dfsdf";
         task8.dateString = @"12/06/2017";
         task8.date = [formatter dateFromString:task8.dateString];
+        
+        Alarm *al1 = [[Alarm alloc] init];
+        al1.isSet = YES;
+        al1.alarmTitle = @"Alarm 1";
+        al1.date = [NSDate new];
+        
+        Alarm *al2 = [[Alarm alloc] init];
+        al2.isSet = NO;
+        al2.alarmTitle = @"Alarm 2";
+        al2.date = [NSDate new];
+        
+        Alarm *al3 = [[Alarm alloc] init];
+        al3.isSet = YES;
+        al3.alarmTitle = @"Alarm 3";
+        al3.date = [NSDate new];
+        
+        task8.alarmsArray = [[NSMutableArray alloc] initWithObjects:al1,al2, al3, nil];
 
         [self.tasksArray addObject:task1];
         [self.tasksArray addObject:task2];

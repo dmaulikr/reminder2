@@ -7,7 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Location.h"
 
+
+@protocol LocationViewControllerDelegate <NSObject>
+
+
+-(void)locationUpdated:(Location *)location
+             imageDraw:(UIImage *)image;
+
+
+@end
 @interface LocationViewController : UIViewController
+
+@property (weak, nonatomic) id<LocationViewControllerDelegate> delegate;
+@property (strong, nonatomic) Location *location;
 
 @end

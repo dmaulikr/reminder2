@@ -26,6 +26,13 @@
 		939FA05F1EE996760021CB5A /* AttachmentsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA05E1EE996760021CB5A /* AttachmentsCollectionViewCell.m */; };
 		939FA0621EEAE2410021CB5A /* TasksUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0611EEAE2410021CB5A /* TasksUpdater.m */; };
 		939FA0651EEEA8950021CB5A /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0641EEEA8950021CB5A /* LocationViewController.m */; };
+		939FA0681EEEAADB0021CB5A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 939FA0671EEEAADB0021CB5A /* MapKit.framework */; };
+		939FA06B1EEEAD300021CB5A /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA06A1EEEAD300021CB5A /* Location.m */; };
+		939FA06E1EEEB2970021CB5A /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA06D1EEEB2970021CB5A /* Annotation.m */; };
+		939FA0701EEEB6400021CB5A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 939FA06F1EEEB6400021CB5A /* CoreLocation.framework */; };
+		939FA0771EEED3940021CB5A /* AlarmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0721EEECBCC0021CB5A /* AlarmViewController.m */; };
+		939FA07F1EEED4730021CB5A /* AlarmTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA07E1EEED4730021CB5A /* AlarmTableViewCell.m */; };
+		939FA0821EEED8D50021CB5A /* Alarm.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0811EEED8D50021CB5A /* Alarm.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +90,18 @@
 		939FA0611EEAE2410021CB5A /* TasksUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksUpdater.m; sourceTree = "<group>"; };
 		939FA0631EEEA8950021CB5A /* LocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationViewController.h; sourceTree = "<group>"; };
 		939FA0641EEEA8950021CB5A /* LocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationViewController.m; sourceTree = "<group>"; };
+		939FA0671EEEAADB0021CB5A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		939FA0691EEEAD300021CB5A /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		939FA06A1EEEAD300021CB5A /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		939FA06C1EEEB2970021CB5A /* Annotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Annotation.h; sourceTree = "<group>"; };
+		939FA06D1EEEB2970021CB5A /* Annotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Annotation.m; sourceTree = "<group>"; };
+		939FA06F1EEEB6400021CB5A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		939FA0711EEECBCC0021CB5A /* AlarmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmViewController.h; sourceTree = "<group>"; };
+		939FA0721EEECBCC0021CB5A /* AlarmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmViewController.m; sourceTree = "<group>"; };
+		939FA07D1EEED4730021CB5A /* AlarmTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmTableViewCell.h; sourceTree = "<group>"; };
+		939FA07E1EEED4730021CB5A /* AlarmTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmTableViewCell.m; sourceTree = "<group>"; };
+		939FA0801EEED8D50021CB5A /* Alarm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alarm.h; sourceTree = "<group>"; };
+		939FA0811EEED8D50021CB5A /* Alarm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Alarm.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +109,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				939FA0701EEEB6400021CB5A /* CoreLocation.framework in Frameworks */,
+				939FA0681EEEAADB0021CB5A /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,6 +138,7 @@
 				937C93ED1EE6A1EA0046B504 /* reminderTests */,
 				937C93F81EE6A1EA0046B504 /* reminderUITests */,
 				937C93CF1EE6A1EA0046B504 /* Products */,
+				939FA0661EEEAADB0021CB5A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -186,6 +208,12 @@
 				937C94091EE6B1CB0046B504 /* Task.m */,
 				939FA0601EEAE2410021CB5A /* TasksUpdater.h */,
 				939FA0611EEAE2410021CB5A /* TasksUpdater.m */,
+				939FA0691EEEAD300021CB5A /* Location.h */,
+				939FA06A1EEEAD300021CB5A /* Location.m */,
+				939FA06C1EEEB2970021CB5A /* Annotation.h */,
+				939FA06D1EEEB2970021CB5A /* Annotation.m */,
+				939FA0801EEED8D50021CB5A /* Alarm.h */,
+				939FA0811EEED8D50021CB5A /* Alarm.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -210,6 +238,8 @@
 				937C94171EE6CA480046B504 /* PopTaskViewController.m */,
 				939FA0631EEEA8950021CB5A /* LocationViewController.h */,
 				939FA0641EEEA8950021CB5A /* LocationViewController.m */,
+				939FA0711EEECBCC0021CB5A /* AlarmViewController.h */,
+				939FA0721EEECBCC0021CB5A /* AlarmViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -221,6 +251,8 @@
 				937C941B1EE6CED90046B504 /* NoteCell.m */,
 				939FA05D1EE996760021CB5A /* AttachmentsCollectionViewCell.h */,
 				939FA05E1EE996760021CB5A /* AttachmentsCollectionViewCell.m */,
+				939FA07D1EEED4730021CB5A /* AlarmTableViewCell.h */,
+				939FA07E1EEED4730021CB5A /* AlarmTableViewCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -239,6 +271,15 @@
 			children = (
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		939FA0661EEEAADB0021CB5A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				939FA06F1EEEB6400021CB5A /* CoreLocation.framework */,
+				939FA0671EEEAADB0021CB5A /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -374,8 +415,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				939FA0771EEED3940021CB5A /* AlarmViewController.m in Sources */,
 				937C940A1EE6B1CB0046B504 /* Task.m in Sources */,
+				939FA06B1EEEAD300021CB5A /* Location.m in Sources */,
+				939FA06E1EEEB2970021CB5A /* Annotation.m in Sources */,
+				939FA0821EEED8D50021CB5A /* Alarm.m in Sources */,
 				937C93D91EE6A1EA0046B504 /* ViewController.m in Sources */,
+				939FA07F1EEED4730021CB5A /* AlarmTableViewCell.m in Sources */,
 				937C93D61EE6A1EA0046B504 /* AppDelegate.m in Sources */,
 				937C940E1EE6B36C0046B504 /* Singleton.m in Sources */,
 				937C94121EE6B78E0046B504 /* MainViewController.m in Sources */,

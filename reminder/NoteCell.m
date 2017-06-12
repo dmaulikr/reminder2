@@ -20,6 +20,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *vRed;
 
+@property (weak, nonatomic) IBOutlet UIImageView *imgAlarm;
 
 @end
 
@@ -57,6 +58,23 @@
     else
     {
         self.vRed.backgroundColor = [UIColor whiteColor];
+    }
+    int count = 0;
+    for (Alarm *alarm in task.alarmsArray)
+    {
+        
+        if (alarm.isSet == YES)
+        {
+            count ++;
+        }
+    }
+    if (count > 0)
+    {
+        self.imgAlarm.hidden = NO;
+    }
+    else
+    {
+        self.imgAlarm.hidden = YES;
     }
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];

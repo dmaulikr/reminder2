@@ -1,4 +1,4 @@
-//
+        //
 //  PopTaskViewController.m
 //  reminder
 //
@@ -11,8 +11,11 @@
 #import "Colors.h"
 #import "LocationViewController.h"
 #import "Singleton.h"
+#import "LocationViewController.h"
+#import "AlarmViewController.h"
+#import <MapKit/MapKit.h>
 
-@interface PopTaskViewController () <UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AttachmentsDelegate>
+@interface PopTaskViewController () <UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AttachmentsDelegate, LocationViewControllerDelegate, MKMapViewDelegate >
 
 @property (weak, nonatomic) IBOutlet UITextView *textViewTitle;
 @property (weak, nonatomic) IBOutlet UILabel *lblTaskDate;
@@ -42,6 +45,7 @@
 @property(nonatomic, assign) float startX;
 @property(nonatomic, assign) float startY;
 
+
 @property (weak, nonatomic) IBOutlet UIView *vMapView;
 - (IBAction)btnLocationAction:(id)sender;
 @property (weak, nonatomic) IBOutlet UIView *vMainContent;
@@ -49,6 +53,11 @@
 @property (weak, nonatomic) IBOutlet UIStackView *stackViewMainContent;
 @property (weak, nonatomic) IBOutlet UIButton *btnLike;
 - (IBAction)btnLikeAction:(id)sender;
+
+@property (weak, nonatomic) IBOutlet MKMapView *mapV;
+
+
+
 
 @property (strong, nonatomic) Singleton *instance;
 
@@ -64,6 +73,20 @@
     
     self.startX = 0;
     self.startY = 0;
+    
+    self.mapV.delegate = self;
+    self.mapV.showsUserLocation = YES;
+    self.mapV.scrollEnabled = NO;
+   
+    
+    [self loadLocation];
+    
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openLocation)];
+    tap.numberOfTapsRequired = 1;
+    
+    [self.mapV addGestureRecognizer:tap];
+    self.mapV.userInteractionEnabled = YES;
 
     self.textViewContent.delegate = self;
     self.textViewTitle.delegate = self;
@@ -78,6 +101,7 @@
     self.hiddenMap = 0;
 
     
+    self.lblTaskDate.text = self.task.dateString;
     self.vMapView.hidden = YES;
     
     UIImage *btnImage;
@@ -367,7 +391,59 @@
 }
 -(IBAction)showLocation:(id)sender
 {
+    [self openLocation];
+}
+-(void)locationUpdated:(Location *)location imageDraw:(UIImage *)image
+{
+
+    self.task.locationAttachment = location;
+
+    NSLog(@"lokcation --- > %@", location.latitude);
+//    [self.imgViewMap setImage:image];
+//    self.imgViewMap.hidden = NO;
+//    
+//    CLLocationCoordinate2D coord = {latitude: 37.423617, longitude: -122.220154};
+//    MKCoordinateSpan span = {latitudeDelta: 1, longitudeDelta: 1};
+//    MKCoordinateRegion region = {coord, span};
+//    [mapView setRegion:region];
+    
+    [self loadLocation];
+}
+-(void)openLocation
+{
     LocationViewController *vc = [self.instance.storyBoard instantiateViewControllerWithIdentifier:@"location"];
+    vc.delegate = self;
+    
+    if (self.task.locationAttachment) {
+        vc.location = self.task.locationAttachment;
+    }
+    
+    
+    [self presentViewController:vc animated:YES completion:nil];
+}
+-(void)loadLocation
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
+    {
+        double latitude = [self.task.locationAttachment.latitude doubleValue];
+        double lognitude = [self.task.locationAttachment.longnitude doubleValue];
+        
+        CLLocationCoordinate2D coord = {.latitude =  latitude, .longitude =  lognitude};
+        MKCoordinateSpan span = {.latitudeDelta =  1, .longitudeDelta =  1};
+        MKCoordinateRegion region = {coord, span};
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+             [self.mapV setRegion:region];
+        });
+    });
+    
+}
+- (IBAction)alarm:(id)sender
+{
+    AlarmViewController *vc = [self.instance.storyBoard instantiateViewControllerWithIdentifier:@"alarm"];
+    vc.taskOpened = self.task;
+    
     [self presentViewController:vc animated:YES completion:nil];
 }
 @end
