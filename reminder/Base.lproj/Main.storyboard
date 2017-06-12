@@ -462,6 +462,7 @@
                                                                         <state key="normal" title="Button" image="location"/>
                                                                         <connections>
                                                                             <action selector="btnLocationAction:" destination="qkq-6Y-3PP" eventType="touchUpInside" id="4SQ-kJ-QjF"/>
+                                                                            <action selector="showLocation:" destination="qkq-6Y-3PP" eventType="touchUpInside" id="CPH-Ba-7dp"/>
                                                                         </connections>
                                                                     </button>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FTo-V8-z44" userLabel="btnReminder">
@@ -685,7 +686,116 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DDA-kY-gCL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1716" y="110.19490254872565"/>
+            <point key="canvasLocation" x="1724" y="123"/>
+        </scene>
+        <!--Location View Controller-->
+        <scene sceneID="4HP-v2-YtC">
+            <objects>
+                <viewController storyboardIdentifier="location" id="I9K-QQ-vX7" customClass="LocationViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hH5-ke-X2R"/>
+                        <viewControllerLayoutGuide type="bottom" id="j0L-pv-CDT"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="yXk-OR-vdm">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kNg-wI-D4x" userLabel="vMain">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="pGL-KF-ich">
+                                        <rect key="frame" x="0.0" y="67" width="375" height="600"/>
+                                    </mapView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yr8-PK-z7h">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="67"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f0O-Zl-A4O">
+                                                <rect key="frame" x="14" y="18" width="34" height="30"/>
+                                                <state key="normal" title="Back">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="back:" destination="I9K-QQ-vX7" eventType="touchUpInside" id="9wo-OH-Akh"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A7e-6M-XUd">
+                                                <rect key="frame" x="326" y="17" width="37" height="30"/>
+                                                <state key="normal" title="Done">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.23921568627450981" green="0.23921568627450981" blue="0.23921568627450981" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="f0O-Zl-A4O" firstAttribute="top" secondItem="yr8-PK-z7h" secondAttribute="top" constant="18" id="0R5-Vp-pqC"/>
+                                            <constraint firstAttribute="bottom" secondItem="f0O-Zl-A4O" secondAttribute="bottom" constant="19" id="6aU-8c-sce"/>
+                                            <constraint firstAttribute="bottom" secondItem="A7e-6M-XUd" secondAttribute="bottom" constant="20" id="AOi-UZ-hRu"/>
+                                            <constraint firstAttribute="trailing" secondItem="A7e-6M-XUd" secondAttribute="trailing" constant="12" id="Ncm-Z9-yUR"/>
+                                            <constraint firstItem="f0O-Zl-A4O" firstAttribute="leading" secondItem="yr8-PK-z7h" secondAttribute="leading" constant="14" id="Qcw-U4-bxM"/>
+                                            <constraint firstAttribute="height" constant="67" id="x8r-sr-ZGM"/>
+                                            <constraint firstItem="A7e-6M-XUd" firstAttribute="top" secondItem="yr8-PK-z7h" secondAttribute="top" constant="17" id="xs7-Ax-9ai"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Td-tt-Olo" userLabel="vSearchBar">
+                                        <rect key="frame" x="70" y="89" width="234" height="41"/>
+                                        <subviews>
+                                            <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="1xs-Pr-9gW">
+                                                <rect key="frame" x="0.0" y="0.0" width="234" height="41"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="I9K-QQ-vX7" id="77x-32-9BS"/>
+                                                </connections>
+                                            </searchBar>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.23921568627450981" green="0.23921568627450981" blue="0.23921568627450981" alpha="0.66438356164383561" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="1xs-Pr-9gW" secondAttribute="trailing" id="0Wg-YW-3o6"/>
+                                            <constraint firstAttribute="height" constant="41" id="601-yR-NVh"/>
+                                            <constraint firstItem="1xs-Pr-9gW" firstAttribute="leading" secondItem="2Td-tt-Olo" secondAttribute="leading" id="A39-JZ-5yB"/>
+                                            <constraint firstItem="1xs-Pr-9gW" firstAttribute="top" secondItem="2Td-tt-Olo" secondAttribute="top" id="OB3-lq-ht5"/>
+                                            <constraint firstAttribute="bottom" secondItem="1xs-Pr-9gW" secondAttribute="bottom" id="qlg-Yp-SfS"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="2Td-tt-Olo" firstAttribute="leading" secondItem="kNg-wI-D4x" secondAttribute="leading" constant="70" id="2CD-6f-aNh"/>
+                                    <constraint firstAttribute="trailing" secondItem="pGL-KF-ich" secondAttribute="trailing" id="FVJ-6Q-MDr"/>
+                                    <constraint firstItem="2Td-tt-Olo" firstAttribute="top" secondItem="yr8-PK-z7h" secondAttribute="bottom" constant="22" id="Jup-uq-MNL"/>
+                                    <constraint firstItem="yr8-PK-z7h" firstAttribute="top" secondItem="kNg-wI-D4x" secondAttribute="top" id="VyG-C5-0kj"/>
+                                    <constraint firstAttribute="trailing" secondItem="yr8-PK-z7h" secondAttribute="trailing" id="YAJ-Cq-3od"/>
+                                    <constraint firstAttribute="bottom" secondItem="pGL-KF-ich" secondAttribute="bottom" id="ZCc-c8-ZUo"/>
+                                    <constraint firstAttribute="trailing" secondItem="2Td-tt-Olo" secondAttribute="trailing" constant="71" id="hcw-4P-gup"/>
+                                    <constraint firstItem="yr8-PK-z7h" firstAttribute="leading" secondItem="kNg-wI-D4x" secondAttribute="leading" id="iCC-nM-SOZ"/>
+                                    <constraint firstItem="pGL-KF-ich" firstAttribute="top" secondItem="yr8-PK-z7h" secondAttribute="bottom" id="nI3-fu-oLX"/>
+                                    <constraint firstItem="pGL-KF-ich" firstAttribute="leading" secondItem="kNg-wI-D4x" secondAttribute="leading" id="y5D-kv-Wia"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="kNg-wI-D4x" firstAttribute="top" secondItem="yXk-OR-vdm" secondAttribute="top" id="Gnq-OA-qQo"/>
+                            <constraint firstItem="kNg-wI-D4x" firstAttribute="leading" secondItem="yXk-OR-vdm" secondAttribute="leading" id="GrV-0n-1b3"/>
+                            <constraint firstAttribute="trailing" secondItem="kNg-wI-D4x" secondAttribute="trailing" id="Tor-Vk-aYa"/>
+                            <constraint firstItem="j0L-pv-CDT" firstAttribute="top" secondItem="kNg-wI-D4x" secondAttribute="bottom" id="tkR-Zc-dnk"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="ZBK-vg-V13" id="kMO-mp-o8T"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vwM-Lf-3fs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="ZBK-vg-V13">
+                    <connections>
+                        <outlet property="delegate" destination="I9K-QQ-vX7" id="A2P-lN-lCR"/>
+                        <outlet property="searchBar" destination="1xs-Pr-9gW" id="Mwg-OX-TAu"/>
+                        <outlet property="searchContentsController" destination="I9K-QQ-vX7" id="Cok-99-ipn"/>
+                        <outlet property="searchResultsDataSource" destination="I9K-QQ-vX7" id="uTK-et-9yS"/>
+                        <outlet property="searchResultsDelegate" destination="I9K-QQ-vX7" id="GZ2-cL-F9x"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="2525.5999999999999" y="122.78860569715144"/>
         </scene>
     </scenes>
     <resources>

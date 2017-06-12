@@ -9,6 +9,8 @@
 #import "PopTaskViewController.h"
 #import "AttachmentsCollectionViewCell.h"
 #import "Colors.h"
+#import "LocationViewController.h"
+#import "Singleton.h"
 
 @interface PopTaskViewController () <UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AttachmentsDelegate>
 
@@ -48,6 +50,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnLike;
 - (IBAction)btnLikeAction:(id)sender;
 
+@property (strong, nonatomic) Singleton *instance;
+
 @end
 
 @implementation PopTaskViewController
@@ -56,12 +60,11 @@
 {
     [super viewDidLoad];
     
+    self.instance = [Singleton sharedInstance];
+    
     self.startX = 0;
     self.startY = 0;
-    
-//    UIGestureRecognizer *gesture = [[UIGestureRecognizer alloc] init];
-//    [self.vContent addGestureRecognizer:gesture];
-    
+
     self.textViewContent.delegate = self;
     self.textViewTitle.delegate = self;
     
@@ -73,26 +76,7 @@
     
     self.hidden = 0;
     self.hiddenMap = 0;
-    
-//    if (!self.task.attachmentsArray) {
-//        self.vCollection.hidden = YES;
-//    }
-    
-//    if (self.task.attachmentsArray)
-//    {
-//        if ([self.task.attachmentsArray count] == 0)
-//        {
-//            self.stackViewMainContent.hidden = NO;
-//            self.vAddBtn.hidden = NO;
-//        }
-//        else
-//        {
-//            self.stackViewMainContent.hidden = NO;
-//            self.vCollection.hidden = NO;
-//            self.vAddBtn.hidden = YES;
-//            
-//        }
-//    }
+
     
     self.vMapView.hidden = YES;
     
@@ -380,5 +364,10 @@
 -(void)imgRemoved
 {
     [self.collectionView reloadData];
+}
+-(IBAction)showLocation:(id)sender
+{
+    LocationViewController *vc = [self.instance.storyBoard instantiateViewControllerWithIdentifier:@"location"];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 @end
