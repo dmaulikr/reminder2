@@ -8,12 +8,17 @@
 
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "Task.h"
+#import "MainViewController.h"
 
-@interface Singleton : NSObject
+@interface Singleton : NSObject 
 
 @property (strong, nonatomic) NSMutableArray *tasksArray;
 @property (strong, nonatomic) NSMutableDictionary *tasksByDates;
+@property (strong, nonatomic) UIStoryboard *storyBoard;
+@property (strong, nonatomic) MainViewController *mainVC;
+@property (strong, nonatomic) NSMutableArray *buttons;
 
 
 +(id)sharedInstance;
@@ -26,5 +31,6 @@
 -(NSMutableDictionary *)loadAll;
 -(NSString*)timeSince:(NSDate*)date;
 -(void)sort;
+-(void)taskChecked:(Task *)task;
 
 @end

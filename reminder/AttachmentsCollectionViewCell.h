@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "Task.h"
+#import "PopTaskViewController.h"
+
+
+@protocol AttachmentsDelegate <NSObject>
+
+-(void)imgRemoved;
+
+@end
 
 @interface AttachmentsCollectionViewCell : UICollectionViewCell
 
@@ -15,6 +23,14 @@
 @property (strong, nonatomic) UIButton *btnAddImg;
 @property (strong, nonatomic) UIImageView *img;
 
--(AttachmentsCollectionViewCell *)loadCell:(UITableViewCell *)cell task:(Task *)task;
+-(void )loadCell:(Task *)task
+       indexPath:(NSIndexPath *)indexPath
+  viewController:(PopTaskViewController *)viewCont;
+
+
+@property (nonatomic, copy) void(^actionRemoveNoteImage)(void);
+
+
+@property (weak, nonatomic) id<AttachmentsDelegate> delegate;
 
 @end

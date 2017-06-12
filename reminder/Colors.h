@@ -12,6 +12,9 @@
 
 + (UIColor *)gray;
 + (UIColor *)lightGray;
++ (UIColor *)darkColor;
++ (UIColor *)yellowTask;
++ (UIColor *)redColor;
 
 
 @end

@@ -7,27 +7,82 @@
 //
 
 #import "AttachmentsCollectionViewCell.h"
+#import "PopTaskViewController.h"
+#import "Singleton.h"
+
+
+
+@interface AttachmentsCollectionViewCell () <PopViewControllerDellegate>
+
+@property (weak, nonatomic) IBOutlet UIImageView *imgVCollectionCell;
+@property (weak, nonatomic) IBOutlet UIButton *btnRemoveCellImage;
+
+@end
 
 @implementation AttachmentsCollectionViewCell
 
--(AttachmentsCollectionViewCell *)loadCell:(AttachmentsCollectionViewCell *)cell task:(Task *)task;
+-(void )loadCell:(Task *)task
+                        indexPath:(NSIndexPath *)indexPath
+                                    viewController:(PopTaskViewController *)viewCont;
 {
-    self.btnAddImg = (UIButton *)[cell viewWithTag:11];
-    self.btnAddImg.hidden = YES;
     
-    self.btnRemoveImg = (UIButton *)[cell viewWithTag:14];
-    self.btnRemoveImg.hidden = YES;
-    
-    self.img = (UIImageView *)[cell viewWithTag:15];
+    Singleton *instance = [Singleton sharedInstance];
+    [instance.buttons addObject:self.btnRemoveCellImage];
 
-    [self.btnAddImg addTarget:self
+    [self.btnRemoveImg addTarget:self
                        action:@selector(removeImage:)
        forControlEvents:UIControlEventTouchUpInside];
     
-    return cell;
+    UIImage *image;
+    
+    if (task.attachmentsArray)
+    {
+        image = [task.attachmentsArray objectAtIndex:indexPath.row];
+        
+    }
+    [self.imgVCollectionCell setImage:image];
+    
+    viewCont.delegate = self;
+    
+    self.actionRemoveNoteImage = ^
+    {
+     
+        UIImage *imageToDelete = [task.attachmentsArray objectAtIndex:indexPath.row];
+        
+        for (UIImage *img in task.attachmentsArray)
+        {
+            if ([img isEqual:imageToDelete])
+            {
+                [task.attachmentsArray removeObject:img];
+                
+                break;
+            }
+        }
+        
+    };
+    
+    [instance.buttons addObject:self.btnRemoveCellImage];
+    
 }
--(void)removeImage:(UIButton *)sender
+-(IBAction)removeImage:(UIButton *)sender
 {
-    NSLog(@"btn pressed");
+    
+    if (self.actionRemoveNoteImage)
+    {
+        self.actionRemoveNoteImage();
+    }
+    
+    [self.delegate imgRemoved];
+    
 }
+-(void)attachmentsBrnPressed
+{
+   
+    Singleton *instence = [Singleton sharedInstance];
+
+    for (UIButton *button in instence.buttons) {
+        button.hidden = NO;
+    }
+}
+
 @end

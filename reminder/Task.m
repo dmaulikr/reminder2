@@ -10,4 +10,13 @@
 
 @implementation Task
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.attachmentsArray = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
 @end

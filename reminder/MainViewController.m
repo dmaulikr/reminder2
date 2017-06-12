@@ -37,6 +37,7 @@
 
 - (void)viewDidLoad
 {
+
     [super viewDidLoad];
     
     UISwipeGestureRecognizer *rightRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(leftSwipeHandle)];
@@ -55,7 +56,11 @@
     [self.forrmater setLocale:[NSLocale currentLocale]];
     [self.forrmater setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     
+    
+    
+    
     self.sharedInstance = [Singleton sharedInstance];
+    
     
     self.datesKeys = [self.sharedInstance.tasksByDates allKeys];
     self.arrayByDates = self.sharedInstance.tasksByDates;
@@ -72,7 +77,7 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
-    self.storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    self.storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
     
@@ -143,33 +148,20 @@
     static NSString *MyIdentifier = @"taskCell";
     
     NoteCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
-
-    UIButton *checkBtn =  (UIButton *)[cell viewWithTag:4];
     
-    if ([self.dataSource2 count] >0)
+    NSArray *arr = [self.dataSource2 objectForKey:self.selectedDate];
+    
+    Task *task = [arr objectAtIndex:indexPath.row];
+    cell = [cell loadCell:cell task:task];
+
+    cell.actionNoteChecked = ^
     {
-        NSArray *arr = [self.dataSource2 objectForKey:self.selectedDate];
-        
-        Task *task = [arr objectAtIndex:indexPath.row];
-        cell = [NoteCell loadCell:cell task:task];
-        
-        if (task.isDone == YES)
-        {
-            UIImage *btnImage = [UIImage imageNamed:@"checkRed.png"];
-            [checkBtn setImage:btnImage forState:UIControlStateNormal];
-        }
-        else
-        {
-            UIImage *btnImage = [UIImage imageNamed:@"circle.png"];
-            [checkBtn setImage:btnImage forState:UIControlStateNormal];
-        }
+        [self.sharedInstance taskChecked:task];
+        self.dataSource2 = [self.sharedInstance loadAll];
 
-    }
-        checkBtn.tag = indexPath.row;
-        [checkBtn addTarget:self
-                     action:@selector(checkDone:)
-         forControlEvents:UIControlEventTouchUpInside];
-
+        [self.tableView reloadData];
+    };
+    
     return cell;
 }
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -178,7 +170,7 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    PopTaskViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"popTask"];
+    PopTaskViewController *vc = [self.sharedInstance.storyBoard instantiateViewControllerWithIdentifier:@"popTask"];
     
     vc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     
@@ -347,4 +339,14 @@
 {
     [self previousDateAction:self];
 }
+//-(void)getRowIndex
+//{
+//    NSLog(@"asadf");
+//}
+
+-(void)noteCheckedAction: (NSIndexPath *)indexPath
+{
+    [self.delegate taskChecked:indexPath];
+}
+
 @end

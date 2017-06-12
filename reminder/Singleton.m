@@ -7,9 +7,18 @@
 //
 
 #import "Singleton.h"
+#import <UIKit/UIKit.h>
+#import "MainViewController.h"
+
+@interface Singleton ()
 
 
-@implementation Singleton
+
+
+
+@end
+
+@implementation Singleton 
 
 
 -(void)addNewTask:(Task *)task
@@ -54,6 +63,9 @@
     {
         self.tasksArray = [[NSMutableArray alloc] init];
         self.tasksByDates = [[NSMutableDictionary alloc] init];
+        self.buttons = [[NSMutableArray alloc] init];
+        
+        self.storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"dd/MM/yyyy"];
@@ -67,6 +79,12 @@
         task1.date = [formatter dateFromString:task1.dateString];
         task1.imageString = @"asdf.png";
         
+        task1.attachmentsArray = [[NSMutableArray alloc] initWithObjects:[UIImage imageNamed:@"asdf.png"],[UIImage imageNamed:@"sunny.jpg"], [UIImage imageNamed:@"redHeart.png"], nil];
+        
+        
+        
+        
+        
         
         Task *task2 = [[Task alloc] init];
         task2.title = @"dfsffs";
@@ -75,11 +93,18 @@
         task2.dateString = @"08/06/2017";
         task2.date = [formatter dateFromString:task2.dateString];
 
+
+        task2.attachmentsArray = [[NSMutableArray alloc] initWithObjects:[UIImage imageNamed:@"sunny.jpg"], [UIImage imageNamed:@"redHeart.png"], nil];
+
         Task *task3 = [[Task alloc] init];
         task3.title = @"asaddfsfs";
         task3.content = @"sdfasfsdf";
         task3.dateString = @"07/06/2017";
         task3.date = [formatter dateFromString:task3.dateString];
+
+
+        task3.attachmentsArray = [[NSMutableArray alloc] initWithObjects:[UIImage imageNamed:@"redHeart.png"], nil];
+
         
         Task *task4 = [[Task alloc] init];
         task4.title = @"333dfsfs";
@@ -106,6 +131,12 @@
         task7.content = @"s31dfsdf";
         task7.dateString = @"03/06/2017";
         task7.date = [formatter dateFromString:task7.dateString];
+        
+        Task *task8 = [[Task alloc] init];
+        task8.title = @"vv222333s113dfsfs";
+        task8.content = @"s31dfsdf";
+        task8.dateString = @"12/06/2017";
+        task8.date = [formatter dateFromString:task8.dateString];
 
         [self.tasksArray addObject:task1];
         [self.tasksArray addObject:task2];
@@ -114,6 +145,7 @@
         [self.tasksArray addObject:task5];
         [self.tasksArray addObject:task6];
         [self.tasksArray addObject:task7];
+        [self.tasksArray addObject:task8];
         
         [self sort];
     }
@@ -184,6 +216,25 @@
     }
     NSLog(@"sorted --- >%@", self.tasksByDates);
     NSLog(@"");
+}
+
+-(void)taskChecked:(Task *)task
+{
+    
+    for (Task *task2 in self.tasksArray) {
+        if ([task2 isEqual:task]) {
+            
+            if (task2.isDone == YES)
+            {
+                task2.isDone = NO;
+            }
+            else
+            {
+                task2.isDone = YES;
+            }
+        }
+    }
+    
 }
 
 @end

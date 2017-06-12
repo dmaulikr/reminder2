@@ -9,12 +9,26 @@
 #import "NoteCell.h"
 #import "Constants.h"
 #import "Colors.h"
+#import "MainViewController.h"
+
+@interface NoteCell () <MainViewControllerDelegate>
+
+@property (weak, nonatomic) IBOutlet UILabel *lblTaskName;
+@property (weak, nonatomic) IBOutlet UILabel *lblTaskDate;
+
+@property (weak, nonatomic) IBOutlet UIButton *btnTaskChecked;
+
+@property (weak, nonatomic) IBOutlet UIView *vRed;
+
+
+@end
 
 @implementation NoteCell
 
+
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -22,24 +36,27 @@
     [super setSelected:selected animated:animated];
 
 }
-+(NoteCell *)loadCell:(NoteCell *)cell task:(Task *)task
+-(NoteCell *)loadCell:(NoteCell *)cell task:(Task *)task
 {
-    
-    
-    UILabel *lblNoteTitle = (UILabel *)[cell viewWithTag:1];
-    UILabel *lblNoteDate = (UILabel *)[cell viewWithTag:2];
-//    UIView *vCheckMark = (UIView *)[cell viewWithTag:3];
-    
+
     if (task.isDone == YES)
     {
-        lblNoteTitle.textColor = [Colors gray];
-        lblNoteDate.textColor = [Colors gray];
+        self.lblTaskName.textColor = [Colors gray];
+        self.lblTaskDate.textColor = [Colors gray];
         cell.backgroundColor = [Colors lightGray];
-    }else
+    }
+    else
     {
-        lblNoteTitle.textColor = [UIColor blackColor];
-        lblNoteDate.textColor = [UIColor blackColor];
+        self.lblTaskName.textColor = [UIColor blackColor];
+        self.lblTaskDate.textColor = [UIColor blackColor];
         cell.backgroundColor = [UIColor whiteColor];
+    }
+    if (task.isLiked == YES) {
+        self.vRed.backgroundColor = [Colors redColor];
+    }
+    else
+    {
+        self.vRed.backgroundColor = [UIColor whiteColor];
     }
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -47,28 +64,39 @@
     NSString *stringFromDate = [formatter stringFromDate:task.date];
     
     NSString *noteTitle = task.title;
-    [lblNoteTitle setText:noteTitle];
-    [lblNoteDate setText:stringFromDate];
+    [self.lblTaskName setText:noteTitle];
+    [self.lblTaskDate setText:stringFromDate];
     
+    self.btnTaskChecked =  (UIButton *)[cell viewWithTag:4];
     
+    UIImage *btnImage = [[UIImage alloc] init];
+
+        if (task.isDone == YES)
+        {
+            btnImage = [UIImage imageNamed:@"checkRed.png"];
+            [self.btnTaskChecked setImage:btnImage forState:UIControlStateNormal];
+        }
+        else
+        {
+            btnImage = [UIImage imageNamed:@"circle.png"];
+            [self.btnTaskChecked setImage:btnImage forState:UIControlStateNormal];
+        }
     return cell;
 }
 
-
--(void)checkBtnPresserd
+-(IBAction)checkBtnPresserd
 {
     if (self.actionNoteChecked) {
         self.actionNoteChecked();
         
-        self.actionNoteChecked = ^{
-            
-            
-            
-        };
     }
     
 }
 
+-(void)taskChecked:(NSIndexPath *)indexPath
+{
+    
+}
 
 
 @end

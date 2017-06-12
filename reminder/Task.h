@@ -10,17 +10,19 @@
 
 @interface Task : NSObject
 
-
-
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *content;
 @property (strong, nonatomic) NSDate *date;
 @property (strong, nonatomic) NSString *dateString;
 
 @property (strong, nonatomic) NSString *imageString;
+@property (strong, nonatomic) NSMutableArray *attachmentsArray;
+
+@property (strong, nonatomic) NSDate *alertDate;
 
 @property (assign) BOOL isLiked;
 @property (assign) BOOL isDone;
-//-(instancetype)init;
+@property (assign) BOOL hasAlert;
+
 
 @end
