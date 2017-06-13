@@ -38,6 +38,11 @@
 		939FA08A1EEFE2AE0021CB5A /* CoreData.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0891EEFE2AE0021CB5A /* CoreData.m */; };
 		939FA08C1EEFE3870021CB5A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 939FA08B1EEFE3870021CB5A /* CoreData.framework */; };
 		939FA0A41EEFECC80021CB5A /* Tasks+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0A21EEFECC80021CB5A /* Tasks+CoreDataProperties.m */; };
+		939FA0A71EEFFDA50021CB5A /* AppModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0A51EEFFDA50021CB5A /* AppModel.xcdatamodeld */; };
+		939FA0B91EF006510021CB5A /* TaskC+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0AB1EF006510021CB5A /* TaskC+CoreDataProperties.m */; };
+		939FA0BB1EF006510021CB5A /* AttachmentsC+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0AF1EF006510021CB5A /* AttachmentsC+CoreDataProperties.m */; };
+		939FA0BD1EF006510021CB5A /* LocationC+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0B31EF006510021CB5A /* LocationC+CoreDataProperties.m */; };
+		939FA0BF1EF006510021CB5A /* AlarmC+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0B71EF006510021CB5A /* AlarmC+CoreDataProperties.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +121,23 @@
 		939FA0A01EEFECC80021CB5A /* Tasks+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Tasks+CoreDataClass.m"; path = "../Tasks+CoreDataClass.m"; sourceTree = "<group>"; };
 		939FA0A11EEFECC80021CB5A /* Tasks+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Tasks+CoreDataProperties.h"; path = "../Tasks+CoreDataProperties.h"; sourceTree = "<group>"; };
 		939FA0A21EEFECC80021CB5A /* Tasks+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Tasks+CoreDataProperties.m"; path = "../Tasks+CoreDataProperties.m"; sourceTree = "<group>"; };
+		939FA0A61EEFFDA50021CB5A /* AppModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AppModel.xcdatamodel; sourceTree = "<group>"; };
+		939FA0A81EF006510021CB5A /* TaskC+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TaskC+CoreDataClass.h"; path = "../TaskC+CoreDataClass.h"; sourceTree = "<group>"; };
+		939FA0A91EF006510021CB5A /* TaskC+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "TaskC+CoreDataClass.m"; path = "../TaskC+CoreDataClass.m"; sourceTree = "<group>"; };
+		939FA0AA1EF006510021CB5A /* TaskC+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TaskC+CoreDataProperties.h"; path = "../TaskC+CoreDataProperties.h"; sourceTree = "<group>"; };
+		939FA0AB1EF006510021CB5A /* TaskC+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "TaskC+CoreDataProperties.m"; path = "../TaskC+CoreDataProperties.m"; sourceTree = "<group>"; };
+		939FA0AC1EF006510021CB5A /* AttachmentsC+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AttachmentsC+CoreDataClass.h"; path = "../AttachmentsC+CoreDataClass.h"; sourceTree = "<group>"; };
+		939FA0AD1EF006510021CB5A /* AttachmentsC+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AttachmentsC+CoreDataClass.m"; path = "../AttachmentsC+CoreDataClass.m"; sourceTree = "<group>"; };
+		939FA0AE1EF006510021CB5A /* AttachmentsC+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AttachmentsC+CoreDataProperties.h"; path = "../AttachmentsC+CoreDataProperties.h"; sourceTree = "<group>"; };
+		939FA0AF1EF006510021CB5A /* AttachmentsC+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AttachmentsC+CoreDataProperties.m"; path = "../AttachmentsC+CoreDataProperties.m"; sourceTree = "<group>"; };
+		939FA0B01EF006510021CB5A /* LocationC+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "LocationC+CoreDataClass.h"; path = "../LocationC+CoreDataClass.h"; sourceTree = "<group>"; };
+		939FA0B11EF006510021CB5A /* LocationC+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "LocationC+CoreDataClass.m"; path = "../LocationC+CoreDataClass.m"; sourceTree = "<group>"; };
+		939FA0B21EF006510021CB5A /* LocationC+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "LocationC+CoreDataProperties.h"; path = "../LocationC+CoreDataProperties.h"; sourceTree = "<group>"; };
+		939FA0B31EF006510021CB5A /* LocationC+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "LocationC+CoreDataProperties.m"; path = "../LocationC+CoreDataProperties.m"; sourceTree = "<group>"; };
+		939FA0B41EF006510021CB5A /* AlarmC+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AlarmC+CoreDataClass.h"; path = "../AlarmC+CoreDataClass.h"; sourceTree = "<group>"; };
+		939FA0B51EF006510021CB5A /* AlarmC+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AlarmC+CoreDataClass.m"; path = "../AlarmC+CoreDataClass.m"; sourceTree = "<group>"; };
+		939FA0B61EF006510021CB5A /* AlarmC+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AlarmC+CoreDataProperties.h"; path = "../AlarmC+CoreDataProperties.h"; sourceTree = "<group>"; };
+		939FA0B71EF006510021CB5A /* AlarmC+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AlarmC+CoreDataProperties.m"; path = "../AlarmC+CoreDataProperties.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +211,7 @@
 				937C93E51EE6A1EA0046B504 /* Info.plist */,
 				937C93DD1EE6A1EA0046B504 /* reminder.xcdatamodeld */,
 				937C93D11EE6A1EA0046B504 /* Supporting Files */,
+				939FA0A51EEFFDA50021CB5A /* AppModel.xcdatamodeld */,
 			);
 			path = reminder;
 			sourceTree = "<group>";
@@ -308,6 +331,22 @@
 		939FA08D1EEFE7D40021CB5A /* CoreData classes */ = {
 			isa = PBXGroup;
 			children = (
+				939FA0A81EF006510021CB5A /* TaskC+CoreDataClass.h */,
+				939FA0A91EF006510021CB5A /* TaskC+CoreDataClass.m */,
+				939FA0AA1EF006510021CB5A /* TaskC+CoreDataProperties.h */,
+				939FA0AB1EF006510021CB5A /* TaskC+CoreDataProperties.m */,
+				939FA0AC1EF006510021CB5A /* AttachmentsC+CoreDataClass.h */,
+				939FA0AD1EF006510021CB5A /* AttachmentsC+CoreDataClass.m */,
+				939FA0AE1EF006510021CB5A /* AttachmentsC+CoreDataProperties.h */,
+				939FA0AF1EF006510021CB5A /* AttachmentsC+CoreDataProperties.m */,
+				939FA0B01EF006510021CB5A /* LocationC+CoreDataClass.h */,
+				939FA0B11EF006510021CB5A /* LocationC+CoreDataClass.m */,
+				939FA0B21EF006510021CB5A /* LocationC+CoreDataProperties.h */,
+				939FA0B31EF006510021CB5A /* LocationC+CoreDataProperties.m */,
+				939FA0B41EF006510021CB5A /* AlarmC+CoreDataClass.h */,
+				939FA0B51EF006510021CB5A /* AlarmC+CoreDataClass.m */,
+				939FA0B61EF006510021CB5A /* AlarmC+CoreDataProperties.h */,
+				939FA0B71EF006510021CB5A /* AlarmC+CoreDataProperties.m */,
 				939FA09F1EEFECC80021CB5A /* Tasks+CoreDataClass.h */,
 				939FA0A01EEFECC80021CB5A /* Tasks+CoreDataClass.m */,
 				939FA0A11EEFECC80021CB5A /* Tasks+CoreDataProperties.h */,
@@ -454,8 +493,12 @@
 				939FA06B1EEEAD300021CB5A /* Location.m in Sources */,
 				939FA06E1EEEB2970021CB5A /* Annotation.m in Sources */,
 				939FA0821EEED8D50021CB5A /* Alarm.m in Sources */,
+				939FA0BB1EF006510021CB5A /* AttachmentsC+CoreDataProperties.m in Sources */,
+				939FA0BD1EF006510021CB5A /* LocationC+CoreDataProperties.m in Sources */,
+				939FA0BF1EF006510021CB5A /* AlarmC+CoreDataProperties.m in Sources */,
 				937C93D91EE6A1EA0046B504 /* ViewController.m in Sources */,
 				939FA07F1EEED4730021CB5A /* AlarmTableViewCell.m in Sources */,
+				939FA0A71EEFFDA50021CB5A /* AppModel.xcdatamodeld in Sources */,
 				937C93D61EE6A1EA0046B504 /* AppDelegate.m in Sources */,
 				939FA08A1EEFE2AE0021CB5A /* CoreData.m in Sources */,
 				939FA0A41EEFECC80021CB5A /* Tasks+CoreDataProperties.m in Sources */,
@@ -469,6 +512,7 @@
 				939FA0561EE825300021CB5A /* Colors.m in Sources */,
 				937C94151EE6C7F10046B504 /* AddViewController.m in Sources */,
 				937C94181EE6CA480046B504 /* PopTaskViewController.m in Sources */,
+				939FA0B91EF006510021CB5A /* TaskC+CoreDataProperties.m in Sources */,
 				937C93DF1EE6A1EA0046B504 /* reminder.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -733,6 +777,16 @@
 			);
 			currentVersion = 937C93DE1EE6A1EA0046B504 /* reminder.xcdatamodel */;
 			path = reminder.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		939FA0A51EEFFDA50021CB5A /* AppModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				939FA0A61EEFFDA50021CB5A /* AppModel.xcdatamodel */,
+			);
+			currentVersion = 939FA0A61EEFFDA50021CB5A /* AppModel.xcdatamodel */;
+			path = AppModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16F73" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="AlarmC" representedClassName="AlarmC" syncable="YES" codeGenerationType="class">
+        <attribute name="alarmDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="alarmID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="alarmTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isSet" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TaskC" inverseName="alarms" inverseEntity="TaskC" syncable="YES"/>
+    </entity>
+    <entity name="AttachmentsC" representedClassName="AttachmentsC" syncable="YES" codeGenerationType="class">
+        <attribute name="attachmentID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imgName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="taskk" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TaskC" inverseName="attachments" inverseEntity="TaskC" syncable="YES"/>
+    </entity>
+    <entity name="LocationC" representedClassName="LocationC" syncable="YES" codeGenerationType="class">
+        <attribute name="latitude" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="longnitude" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="task" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TaskC" inverseName="locations" inverseEntity="TaskC" syncable="YES"/>
+    </entity>
+    <entity name="TaskC" representedClassName="TaskC" syncable="YES" codeGenerationType="class">
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="hasAlert" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="idTak" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isDone" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isLiked" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="alarms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AlarmC" inverseName="relationship" inverseEntity="AlarmC" syncable="YES"/>
+        <relationship name="attachments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AttachmentsC" inverseName="taskk" inverseEntity="AttachmentsC" syncable="YES"/>
+        <relationship name="locations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="LocationC" inverseName="task" inverseEntity="LocationC" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="TaskC" positionX="-6284" positionY="-13144" width="128" height="193"/>
+        <element name="AlarmC" positionX="-6005" positionY="-12879" width="128" height="118"/>
+        <element name="LocationC" positionX="-5978" positionY="-13221" width="128" height="88"/>
+        <element name="AttachmentsC" positionX="-6534" positionY="-13300" width="128" height="88"/>
+    </elements>
+</model>
