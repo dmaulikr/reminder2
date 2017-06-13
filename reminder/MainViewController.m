@@ -12,6 +12,7 @@
 #import "PopTaskViewController.h"
 #import "NoteCell.h"
 #include "IndexPath.h"
+#import "TaskC+CoreDataClass.h"
 
 @interface MainViewController ()  <UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate>
 @property (strong, nonatomic) UIStoryboard *storyBoard;
@@ -151,7 +152,7 @@
     
     NSArray *arr = [self.dataSource2 objectForKey:self.selectedDate];
     
-    Task *task = [arr objectAtIndex:indexPath.row];
+    TaskC *task = [arr objectAtIndex:indexPath.row];
     cell = [cell loadCell:cell task:task];
 
     cell.actionNoteChecked = ^
@@ -176,9 +177,10 @@
     
     NSArray *arr = [self.dataSource2 objectForKey:self.selectedDate];
     
-    Task *task = [arr objectAtIndex:indexPath.row];
+    TaskC *task = [arr objectAtIndex:indexPath.row];
     
-    vc.task = task;
+    
+    vc.taskC = task;
 
     [self presentViewController:vc animated:YES completion:NULL];
     

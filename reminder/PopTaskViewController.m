@@ -94,8 +94,8 @@
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     
-    [self.textViewTitle setText:self.task.title];
-    [self.textViewContent setText:self.task.content];
+    [self.textViewTitle setText:self.taskC.title];
+    [self.textViewContent setText:self.taskC.content];
     
     self.hidden = 0;
     self.hiddenMap = 0;
@@ -106,7 +106,7 @@
     
     UIImage *btnImage;
     
-    if (self.task.isLiked == YES)
+    if (self.taskC.isLiked == YES)
     {
         btnImage = [UIImage imageNamed:@"heartRed.png"];
         [self.btnLike setImage:btnImage forState:UIControlStateNormal];
@@ -125,12 +125,13 @@
 - (IBAction)doneBtn:(id)sender
 {
     
-    [self editTask:self.task];
+    [self editTask:self.task]; // ex
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)editTask:(Task *)task
 {
+    //ex
     
     NSString *taskTitle = self.textViewTitle.text;
     NSString *taskContnent = self.textViewContent.text;
@@ -149,10 +150,12 @@
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    if (self.task.attachmentsArray) {
-        return [self.task.attachmentsArray count];
-    }
-    return 0;
+//    if (self.task.attachmentsArray) {
+//        return [self.task.attachmentsArray count];
+//    }
+//    return 0;
+    
+    return 2;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -443,6 +446,7 @@
 {
     AlarmViewController *vc = [self.instance.storyBoard instantiateViewControllerWithIdentifier:@"alarm"];
     vc.taskOpened = self.task;
+    vc.taskCOpened = self.taskC;
     
     [self presentViewController:vc animated:YES completion:nil];
 }

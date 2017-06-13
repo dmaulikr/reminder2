@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Task.h"
+#import "TaskC+CoreDataClass.h"
 
 
 @protocol PopViewControllerDellegate <NSObject>
@@ -22,5 +23,6 @@
 
 @property (strong, nonatomic) Task *task;
 @property (weak, nonatomic) id<PopViewControllerDellegate> delegate;
+@property (strong, nonatomic) TaskC *taskC;
 
 @end

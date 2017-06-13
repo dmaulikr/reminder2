@@ -12,6 +12,7 @@
 #import "Task.h"
 #import "MainViewController.h"
 #import "CoreData.h"
+#import "TaskC+CoreDataClass.h"
 
 @interface Singleton : NSObject 
 
@@ -33,6 +34,6 @@
 -(NSMutableDictionary *)loadAll;
 -(NSString*)timeSince:(NSDate*)date;
 -(void)sort;
--(void)taskChecked:(Task *)task;
+-(void)taskChecked:(TaskC *)task;
 
 @end

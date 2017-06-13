@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "Task.h"
+#import "TaskC+CoreDataClass.h"
 
 
 
 
 @interface NoteCell : UITableViewCell
 
--(NoteCell *)loadCell:(UITableViewCell *)cell task:(Task *)task;
+-(NoteCell *)loadCell:(UITableViewCell *)cell task:(TaskC *)task;
 
 @property (nonatomic, copy) void(^actionNoteChecked)(void);
 @property (copy) void (^blockProperty)(void);

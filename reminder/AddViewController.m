@@ -10,7 +10,10 @@
 #import "Singleton.h"
 #import <CoreData/CoreData.h>
 
-#import "Tasks+CoreDataClass.h"
+#import "TaskC+CoreDataClass.h"
+#import "AttachmentsC+CoreDataClass.h"
+#import "LocationC+CoreDataClass.h"
+#import "AlarmC+CoreDataClass.h"
 
 @interface AddViewController () <UITextViewDelegate>
 
@@ -114,18 +117,31 @@
     
     Singleton *instance = [Singleton sharedInstance];
     
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"dd/MM/yyyy"];
+    [formatter setLocale:[NSLocale currentLocale]];
+    [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    
+    
+    NSString *dateString = [formatter stringFromDate:[NSDate new]];
+    
+    
+    NSDate *date = [formatter dateFromString:dateString];
+
     
     
     NSManagedObjectContext *context = instance.coreData.managedObjectContext;
     NSManagedObject *entiry;
     
-    entiry = [NSEntityDescription insertNewObjectForEntityForName:@"Tasks" inManagedObjectContext:context];
+    entiry = [NSEntityDescription insertNewObjectForEntityForName:@"TaskC" inManagedObjectContext:context];
     [entiry setValue:self.tNoteTItle.text forKey:@"title"];
     [entiry setValue:self.tNoteContent.text forKey:@"content"];
+    [entiry setValue:date forKey:@"date"];
     
     [entiry setValue:0 forKey:@"isLiked"];
     [entiry setValue:0 forKey:@"hasAlert"];
-    [entiry setValue:0 forKey:@"idDone"];
+    [entiry setValue:0 forKey:@"isDone"];
+    
     
     [instance.coreData saveContext];
     
@@ -137,20 +153,34 @@
     
     NSManagedObjectContext *context = [instance.coreData managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Tasks" inManagedObjectContext:context];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskC" inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     NSError *error;
     NSArray *objects = [context executeFetchRequest:fetchRequest error:&error];
     NSLog(@"notes   --- > %@", objects);
     
-    for (int i = 0 ; i<[objects count]; i++) {
-        Tasks *task = (Tasks *)objects[i];
+    for (int i = 0; i<[objects count]; i++) {
+        TaskC *task = (TaskC *)objects[i];
         
         NSLog(@"%@", task.title);
         NSLog(@"%@", task.content);
-
+        NSLog(@"%@", task.date);
         
     }
+    
+    
+}
+- (IBAction)deleteAll:(id)sender {
+    
+    Singleton *instance = [Singleton sharedInstance];
+    
+    NSManagedObjectContext *context = [instance.coreData managedObjectContext];
+
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"TaskC"];
+    NSBatchDeleteRequest *delete = [[NSBatchDeleteRequest alloc] initWithFetchRequest:request];
+    
+    NSError *deleteError = nil;
+    [context executeRequest:delete error:&deleteError];
     
     
 }

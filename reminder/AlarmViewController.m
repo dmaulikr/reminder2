@@ -10,8 +10,10 @@
 #import "AlarmTableViewCell.h"
 #import "Task.h"
 #import <UserNotifications/UserNotifications.h>
-
+#import "Singleton.h"
 #import <UserNotificationsUI/UserNotificationsUI.h>
+#import "AlarmC+CoreDataClass.h"
+#import "PopTaskViewController.h"
 
 @interface AlarmViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewAlarm;
@@ -23,6 +25,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     self.tableViewAlarm.delegate = self;
     self.tableViewAlarm.dataSource = self;
 }
@@ -32,6 +35,35 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)addAlarm:(id)sender {
+    
+    Singleton *instance = [Singleton sharedInstance];
+    
+    NSManagedObjectContext *context = [instance.coreData managedObjectContext];
+    
+    NSManagedObject *taskObject = self.taskCOpened;
+    
+    NSEntityDescription *entityAlarm = [NSEntityDescription entityForName:@"AlarmC" inManagedObjectContext:context];
+    NSManagedObject *newAlarm = [[NSManagedObject alloc] initWithEntity:entityAlarm insertIntoManagedObjectContext:context];
+    
+//izmeni
+    
+    [newAlarm setValue:@"proba alarm 222" forKey:@"alarmTitle"];
+    [newAlarm setValue:[NSDate new] forKey:@"alarmDate"];
+    
+    NSNumber *isSet = [[NSNumber alloc] initWithBool:YES];
+    
+    [newAlarm setValue:isSet forKey:@"isSet"];
+    
+    NSMutableSet *alarms = [taskObject mutableSetValueForKey:@"alarms"];
+    [alarms addObject:newAlarm];
+    
+    
+//
+    [self.tableViewAlarm reloadData];
+    
+    [instance.coreData saveContext];
+    
+    
     
 }
 -(UIStatusBarStyle)preferredStatusBarStyle
@@ -43,14 +75,14 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.taskOpened.alarmsArray count];
-    
+    NSArray *myArray = [self.taskCOpened.alarms allObjects];
+    return [myArray count];
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifire = @"alarmCell";
     AlarmTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifire];
-    cell = [cell loadCell:cell task:self.taskOpened indexPath:indexPath];
+    cell = [cell loadCell:cell task:self.taskCOpened indexPath:indexPath];
     
     
     
@@ -132,5 +164,9 @@
             NSLog(@"Something went wrong: %@",error);
         }
     }];
-    }
+}
+-(void)alarmAdded
+{
+    
+}
 @end

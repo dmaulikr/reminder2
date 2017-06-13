@@ -9,6 +9,8 @@
 #import "AlarmTableViewCell.h"
 #import "Alarm.h"
 #import "Colors.h"
+#import "TaskC+CoreDataClass.h"
+#import "AlarmC+CoreDataClass.h"
 
 @interface AlarmTableViewCell()
 @property (weak, nonatomic) IBOutlet UILabel *lblAlarmDat;
@@ -35,10 +37,12 @@
     
 }
 -(AlarmTableViewCell *)loadCell:(AlarmTableViewCell *)cell
-                           task:(Task *)task
+                           task:(TaskC *)task
                       indexPath:(NSIndexPath *)indexPath
 {
-    Alarm *alarm = [task.alarmsArray objectAtIndex:indexPath.row];
+    
+    NSArray *alarmsArray = [task.alarms allObjects];
+    AlarmC *alarm = [alarmsArray objectAtIndex:indexPath.row];
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"HH:mm"];
@@ -46,7 +50,7 @@
     
     self.lblAlarmType.text = alarm.alarmTitle;
     
-    self.lblAlarmDat.text = [formatter stringFromDate:alarm.date];
+    self.lblAlarmDat.text = [formatter stringFromDate:alarm.alarmDate];
     
     if (alarm.isSet == YES) {
         [self.alarmSwitch setOn:YES];

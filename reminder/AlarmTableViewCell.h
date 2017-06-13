@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "Task.h"
 #import "Task.h"
+#import "TaskC+CoreDataClass.h"
 
 
 @interface AlarmTableViewCell : UITableViewCell
 -(AlarmTableViewCell *)loadCell:(AlarmTableViewCell *)cell
-                           task:(Task *)task
+                           task:(TaskC *)task
                       indexPath:(NSIndexPath *)indexPath;
 
 @property (nonatomic, copy) void(^actionAlarmOn)(void);

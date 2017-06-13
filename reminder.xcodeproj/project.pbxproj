@@ -194,6 +194,7 @@
 		937C93D01EE6A1EA0046B504 /* reminder */ = {
 			isa = PBXGroup;
 			children = (
+				939FA0C01EF006C90021CB5A /* CoreData models */,
 				939FA08D1EEFE7D40021CB5A /* CoreData classes */,
 				939FA0871EEFE2690021CB5A /* coreDataConnection */,
 				939FA0501EE822E70021CB5A /* aa */,
@@ -209,9 +210,7 @@
 				937C93E01EE6A1EA0046B504 /* Assets.xcassets */,
 				937C93E21EE6A1EA0046B504 /* LaunchScreen.storyboard */,
 				937C93E51EE6A1EA0046B504 /* Info.plist */,
-				937C93DD1EE6A1EA0046B504 /* reminder.xcdatamodeld */,
 				937C93D11EE6A1EA0046B504 /* Supporting Files */,
-				939FA0A51EEFFDA50021CB5A /* AppModel.xcdatamodeld */,
 			);
 			path = reminder;
 			sourceTree = "<group>";
@@ -353,6 +352,15 @@
 				939FA0A21EEFECC80021CB5A /* Tasks+CoreDataProperties.m */,
 			);
 			name = "CoreData classes";
+			sourceTree = "<group>";
+		};
+		939FA0C01EF006C90021CB5A /* CoreData models */ = {
+			isa = PBXGroup;
+			children = (
+				939FA0A51EEFFDA50021CB5A /* AppModel.xcdatamodeld */,
+				937C93DD1EE6A1EA0046B504 /* reminder.xcdatamodeld */,
+			);
+			name = "CoreData models";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

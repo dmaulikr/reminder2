@@ -10,6 +10,7 @@
 #import "Constants.h"
 #import "Colors.h"
 #import "MainViewController.h"
+#import "AlarmC+CoreDataClass.h"
 
 @interface NoteCell () <MainViewControllerDelegate>
 
@@ -37,7 +38,7 @@
     [super setSelected:selected animated:animated];
 
 }
--(NoteCell *)loadCell:(NoteCell *)cell task:(Task *)task
+-(NoteCell *)loadCell:(NoteCell *)cell task:(TaskC *)task
 {
 
     if (task.isDone == YES)
@@ -60,7 +61,9 @@
         self.vRed.backgroundColor = [UIColor whiteColor];
     }
     int count = 0;
-    for (Alarm *alarm in task.alarmsArray)
+    
+    NSArray *alarmsArray = [task.alarms allObjects];
+    for (AlarmC *alarm in alarmsArray)
     {
         
         if (alarm.isSet == YES)
