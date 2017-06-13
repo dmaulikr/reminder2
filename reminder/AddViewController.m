@@ -8,6 +8,9 @@
 
 #import "AddViewController.h"
 #import "Singleton.h"
+#import <CoreData/CoreData.h>
+
+#import "Tasks+CoreDataClass.h"
 
 @interface AddViewController () <UITextViewDelegate>
 
@@ -105,5 +108,50 @@
             return;
         }
     }
+}
+- (IBAction)addCoreData:(id)sender {
+    
+    
+    Singleton *instance = [Singleton sharedInstance];
+    
+    
+    
+    NSManagedObjectContext *context = instance.coreData.managedObjectContext;
+    NSManagedObject *entiry;
+    
+    entiry = [NSEntityDescription insertNewObjectForEntityForName:@"Tasks" inManagedObjectContext:context];
+    [entiry setValue:self.tNoteTItle.text forKey:@"title"];
+    [entiry setValue:self.tNoteContent.text forKey:@"content"];
+    
+    [entiry setValue:0 forKey:@"isLiked"];
+    [entiry setValue:0 forKey:@"hasAlert"];
+    [entiry setValue:0 forKey:@"idDone"];
+    
+    [instance.coreData saveContext];
+    
+    
+}
+- (IBAction)loadCoreData:(id)sender {
+    
+    Singleton *instance = [Singleton sharedInstance];
+    
+    NSManagedObjectContext *context = [instance.coreData managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Tasks" inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    NSError *error;
+    NSArray *objects = [context executeFetchRequest:fetchRequest error:&error];
+    NSLog(@"notes   --- > %@", objects);
+    
+    for (int i = 0 ; i<[objects count]; i++) {
+        Tasks *task = (Tasks *)objects[i];
+        
+        NSLog(@"%@", task.title);
+        NSLog(@"%@", task.content);
+
+        
+    }
+    
+    
 }
 @end

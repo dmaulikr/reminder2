@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 #import "Task.h"
 #import "MainViewController.h"
+#import "CoreData.h"
 
 @interface Singleton : NSObject 
 
@@ -19,6 +20,7 @@
 @property (strong, nonatomic) UIStoryboard *storyBoard;
 @property (strong, nonatomic) MainViewController *mainVC;
 @property (strong, nonatomic) NSMutableArray *buttons;
+@property (strong, nonatomic) CoreData *coreData;
 
 
 +(id)sharedInstance;

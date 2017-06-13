@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Location : NSObject
+@interface Location : NSObject <NSCoding>
 
 @property (strong, nonatomic) NSString *latitude;
 @property (strong, nonatomic) NSString *longnitude;

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Alarm : NSObject
+@interface Alarm : NSObject <NSCoding>
 
 @property (strong, nonatomic) NSString *alarmTitle;
 @property (strong, nonatomic) NSDate *date;

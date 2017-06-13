@@ -33,6 +33,11 @@
 		939FA0771EEED3940021CB5A /* AlarmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0721EEECBCC0021CB5A /* AlarmViewController.m */; };
 		939FA07F1EEED4730021CB5A /* AlarmTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA07E1EEED4730021CB5A /* AlarmTableViewCell.m */; };
 		939FA0821EEED8D50021CB5A /* Alarm.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0811EEED8D50021CB5A /* Alarm.m */; };
+		939FA0851EEFCEBD0021CB5A /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 939FA0831EEFCEBD0021CB5A /* UserNotifications.framework */; };
+		939FA0861EEFCEBD0021CB5A /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 939FA0841EEFCEBD0021CB5A /* UserNotificationsUI.framework */; };
+		939FA08A1EEFE2AE0021CB5A /* CoreData.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0891EEFE2AE0021CB5A /* CoreData.m */; };
+		939FA08C1EEFE3870021CB5A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 939FA08B1EEFE3870021CB5A /* CoreData.framework */; };
+		939FA0A41EEFECC80021CB5A /* Tasks+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0A21EEFECC80021CB5A /* Tasks+CoreDataProperties.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +107,15 @@
 		939FA07E1EEED4730021CB5A /* AlarmTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmTableViewCell.m; sourceTree = "<group>"; };
 		939FA0801EEED8D50021CB5A /* Alarm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alarm.h; sourceTree = "<group>"; };
 		939FA0811EEED8D50021CB5A /* Alarm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Alarm.m; sourceTree = "<group>"; };
+		939FA0831EEFCEBD0021CB5A /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		939FA0841EEFCEBD0021CB5A /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
+		939FA0881EEFE2AE0021CB5A /* CoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreData.h; sourceTree = "<group>"; };
+		939FA0891EEFE2AE0021CB5A /* CoreData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreData.m; sourceTree = "<group>"; };
+		939FA08B1EEFE3870021CB5A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		939FA09F1EEFECC80021CB5A /* Tasks+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Tasks+CoreDataClass.h"; path = "../Tasks+CoreDataClass.h"; sourceTree = "<group>"; };
+		939FA0A01EEFECC80021CB5A /* Tasks+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Tasks+CoreDataClass.m"; path = "../Tasks+CoreDataClass.m"; sourceTree = "<group>"; };
+		939FA0A11EEFECC80021CB5A /* Tasks+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Tasks+CoreDataProperties.h"; path = "../Tasks+CoreDataProperties.h"; sourceTree = "<group>"; };
+		939FA0A21EEFECC80021CB5A /* Tasks+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Tasks+CoreDataProperties.m"; path = "../Tasks+CoreDataProperties.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +123,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				939FA08C1EEFE3870021CB5A /* CoreData.framework in Frameworks */,
+				939FA0851EEFCEBD0021CB5A /* UserNotifications.framework in Frameworks */,
+				939FA0861EEFCEBD0021CB5A /* UserNotificationsUI.framework in Frameworks */,
 				939FA0701EEEB6400021CB5A /* CoreLocation.framework in Frameworks */,
 				939FA0681EEEAADB0021CB5A /* MapKit.framework in Frameworks */,
 			);
@@ -155,7 +172,8 @@
 		937C93D01EE6A1EA0046B504 /* reminder */ = {
 			isa = PBXGroup;
 			children = (
-				939FA05A1EE976700021CB5A /* Views */,
+				939FA08D1EEFE7D40021CB5A /* CoreData classes */,
+				939FA0871EEFE2690021CB5A /* coreDataConnection */,
 				939FA0501EE822E70021CB5A /* aa */,
 				937C94191EE6CEB40046B504 /* Cells */,
 				937C940F1EE6B7700046B504 /* Controllers */,
@@ -266,20 +284,36 @@
 			name = aa;
 			sourceTree = "<group>";
 		};
-		939FA05A1EE976700021CB5A /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Views;
-			sourceTree = "<group>";
-		};
 		939FA0661EEEAADB0021CB5A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				939FA08B1EEFE3870021CB5A /* CoreData.framework */,
+				939FA0831EEFCEBD0021CB5A /* UserNotifications.framework */,
+				939FA0841EEFCEBD0021CB5A /* UserNotificationsUI.framework */,
 				939FA06F1EEEB6400021CB5A /* CoreLocation.framework */,
 				939FA0671EEEAADB0021CB5A /* MapKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		939FA0871EEFE2690021CB5A /* coreDataConnection */ = {
+			isa = PBXGroup;
+			children = (
+				939FA0881EEFE2AE0021CB5A /* CoreData.h */,
+				939FA0891EEFE2AE0021CB5A /* CoreData.m */,
+			);
+			name = coreDataConnection;
+			sourceTree = "<group>";
+		};
+		939FA08D1EEFE7D40021CB5A /* CoreData classes */ = {
+			isa = PBXGroup;
+			children = (
+				939FA09F1EEFECC80021CB5A /* Tasks+CoreDataClass.h */,
+				939FA0A01EEFECC80021CB5A /* Tasks+CoreDataClass.m */,
+				939FA0A11EEFECC80021CB5A /* Tasks+CoreDataProperties.h */,
+				939FA0A21EEFECC80021CB5A /* Tasks+CoreDataProperties.m */,
+			);
+			name = "CoreData classes";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -423,6 +457,8 @@
 				937C93D91EE6A1EA0046B504 /* ViewController.m in Sources */,
 				939FA07F1EEED4730021CB5A /* AlarmTableViewCell.m in Sources */,
 				937C93D61EE6A1EA0046B504 /* AppDelegate.m in Sources */,
+				939FA08A1EEFE2AE0021CB5A /* CoreData.m in Sources */,
+				939FA0A41EEFECC80021CB5A /* Tasks+CoreDataProperties.m in Sources */,
 				937C940E1EE6B36C0046B504 /* Singleton.m in Sources */,
 				937C94121EE6B78E0046B504 /* MainViewController.m in Sources */,
 				939FA0621EEAE2410021CB5A /* TasksUpdater.m in Sources */,

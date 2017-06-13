@@ -10,8 +10,10 @@
 #import "Location.h"
 #import "Alarm.h"
 
-@interface Task : NSObject
+@interface Task : NSObject <NSCoding>
 
+
+@property (strong, nonatomic) NSString *idTask;
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *content;
 @property (strong, nonatomic) NSDate *date;
@@ -29,6 +31,5 @@
 @property (assign) BOOL isLiked;
 @property (assign) BOOL isDone;
 @property (assign) BOOL hasAlert;
-
 
 @end

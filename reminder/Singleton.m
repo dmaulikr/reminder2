@@ -13,10 +13,6 @@
 
 @interface Singleton ()
 
-
-
-
-
 @end
 
 @implementation Singleton 
@@ -65,6 +61,8 @@
         self.tasksArray = [[NSMutableArray alloc] init];
         self.tasksByDates = [[NSMutableDictionary alloc] init];
         self.buttons = [[NSMutableArray alloc] init];
+        
+        self.coreData = [CoreData sharedInstance];
         
         self.storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
