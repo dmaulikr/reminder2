@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import <UIKit/UIKit.h>
+#import "TaskC+CoreDataClass.h"
 
 @interface CoreData : NSObject
 
@@ -19,5 +21,7 @@
 +(id)sharedInstance;
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
+- (void)saveNewImageWithPath:(NSString *)imagePath
+                     forTask:(TaskC *)task;
 
 @end

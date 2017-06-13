@@ -70,42 +70,30 @@
     [super viewDidLoad];
     
     self.instance = [Singleton sharedInstance];
-    
     self.startX = 0;
     self.startY = 0;
-    
     self.mapV.delegate = self;
     self.mapV.showsUserLocation = YES;
     self.mapV.scrollEnabled = NO;
-   
-    
     [self loadLocation];
-    
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openLocation)];
     tap.numberOfTapsRequired = 1;
     
     [self.mapV addGestureRecognizer:tap];
     self.mapV.userInteractionEnabled = YES;
-
     self.textViewContent.delegate = self;
     self.textViewTitle.delegate = self;
-    
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
-    
     [self.textViewTitle setText:self.taskC.title];
     [self.textViewContent setText:self.taskC.content];
     
     self.hidden = 0;
     self.hiddenMap = 0;
-
-    
     self.lblTaskDate.text = self.task.dateString;
     self.vMapView.hidden = YES;
-    
     UIImage *btnImage;
-    
     if (self.taskC.isLiked == YES)
     {
         btnImage = [UIImage imageNamed:@"heartRed.png"];
@@ -115,9 +103,7 @@
     {
         btnImage = [UIImage imageNamed:@"heartWhite.png"];
         [self.btnLike setImage:btnImage forState:UIControlStateNormal];
-        
     }
-
     [self resizeTextView];
     [self showAttachments];
     
@@ -132,14 +118,11 @@
 -(void)editTask:(Task *)task
 {
     //ex
-    
     NSString *taskTitle = self.textViewTitle.text;
     NSString *taskContnent = self.textViewContent.text;
-    
     task.title = taskTitle;
     task.content = taskContnent;
     task.date = [self getDate];
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTable" object:nil];
     
 }
@@ -154,8 +137,10 @@
 //        return [self.task.attachmentsArray count];
 //    }
 //    return 0;
+    NSArray *array = [self.taskC.attachments allObjects];
+    return [array count];
     
-    return 2;
+    
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -165,7 +150,7 @@
 
     cell.delegate = self;
     
-    [cell loadCell:self.task indexPath:indexPath viewController:self];
+    [cell loadCell:self.taskC indexPath:indexPath viewController:self];
     
     self.btnRemoveImg = (UIButton *)[cell viewWithTag:15];
     self.btnRemoveImg.hidden = YES;
@@ -188,32 +173,26 @@
     if (self.hidden == 0)
     {
         self.hidden = 1;
-
         self.vCollection.backgroundColor = [Colors darkColor];
         self.collectionView.backgroundColor = [Colors darkColor];
         self.vAddBtn.backgroundColor = [Colors darkColor];
         self.vAddBtn.hidden = NO;
         self.vCollection.hidden = NO;
-        
-        
         [self resizeTextView];
         return;
     }
     else
     {
-
         self.hidden = 0;
         self.vCollection.backgroundColor = [Colors yellowTask];
         self.collectionView.backgroundColor = [Colors yellowTask];
         self.vAddBtn.backgroundColor = [Colors yellowTask];
         self.vAddBtn.hidden = YES;
         self.vCollection.hidden = YES;
-        
         [self resizeTextView];
         return;
     }
     //    [self.collectionView reloadData];
-
 }
 -(void)dismiss
 {
@@ -285,7 +264,12 @@
 }
 -(void)addNewImageAction:(UIImage *)image
 {
-    [self.task.attachmentsArray addObject:image];
+//    [self.task.attachmentsArray addObject:image];
+    
+    
+    [self.instance addNewImage:image forTask:self.taskC];
+    
+
     [self.collectionView reloadData];
 }
 - (IBAction)btnLocationAction:(id)sender

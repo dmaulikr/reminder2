@@ -92,4 +92,35 @@
         }
     }
 }
+-(void)saveNewImageWithPath:(NSString *)imagePath
+                    forTask:(TaskC *)task
+{
+
+    
+    NSManagedObjectContext *context = [self managedObjectContext];
+    
+    NSManagedObject *taskObject = task;
+    
+
+        
+        NSEntityDescription *entityAttachment = [NSEntityDescription entityForName:@"AttachmentsC" inManagedObjectContext:context];
+        NSManagedObject *newImage = [[NSManagedObject alloc] initWithEntity:entityAttachment insertIntoManagedObjectContext:context];
+        
+//        [newImage setValue:@"datePicker" forKey:@"attachmentID"];
+        [newImage setValue:imagePath forKey:@"imgName"];
+        
+    
+        NSMutableSet *attachments = [taskObject mutableSetValueForKey:@"attachments"];
+        [attachments addObject:newImage];
+        
+        [self saveContext];
+    
+        //test
+   
+    
+    
+    UIImage *img = [UIImage imageWithContentsOfFile:imagePath];
+  
+    NSLog(@"");
+}
 @end

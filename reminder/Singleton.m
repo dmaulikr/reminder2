@@ -278,5 +278,36 @@
     // sredi
     
 }
+-(void)addNewImage:(UIImage *)image
+           forTask:(TaskC *)task
+{
+    NSString *imagePath = [self generateImagePath:image];
+    
+    [self.coreData saveNewImageWithPath:imagePath forTask:task];
+    
+}
+-(NSString *)generateImagePath:(UIImage *)image
+{
+    NSData *imageData = UIImagePNGRepresentation(image);
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    
+    NSString *randomString = [[NSUUID UUID] UUIDString];
+    
+    NSString *imagePath =[documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",randomString]];
+    
+    NSLog(@"pre writing to file");
+    if (![imageData writeToFile:imagePath atomically:NO])
+    {
+        NSLog(@"Failed to cache image data to disk");
+    }
+    else
+    {
+        NSLog(@"the cachedImagedPath is %@",imagePath);
+    }
+    return imagePath;
+}
 
 @end

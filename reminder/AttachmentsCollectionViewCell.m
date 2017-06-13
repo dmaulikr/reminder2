@@ -9,7 +9,8 @@
 #import "AttachmentsCollectionViewCell.h"
 #import "PopTaskViewController.h"
 #import "Singleton.h"
-
+#import "TaskC+CoreDataClass.h"
+#import "AttachmentsC+CoreDataClass.h"
 
 
 @interface AttachmentsCollectionViewCell () <PopViewControllerDellegate>
@@ -21,7 +22,7 @@
 
 @implementation AttachmentsCollectionViewCell
 
--(void )loadCell:(Task *)task
+-(void )loadCell:(TaskC *)task
                         indexPath:(NSIndexPath *)indexPath
                                     viewController:(PopTaskViewController *)viewCont;
 {
@@ -33,13 +34,18 @@
                        action:@selector(removeImage:)
        forControlEvents:UIControlEventTouchUpInside];
     
-    UIImage *image;
-    
-    if (task.attachmentsArray)
-    {
-        image = [task.attachmentsArray objectAtIndex:indexPath.row];
-        
-    }
+    UIImage *image = [[UIImage alloc] init];
+    NSArray *array = [task.attachments allObjects];
+    AttachmentsC *attachment = [array objectAtIndex:indexPath.row];
+    NSString *imagePath = attachment.imgName;
+
+    image = [UIImage imageWithContentsOfFile:imagePath];
+
+//    if (task.attachmentsArray)
+//    {
+//        image = [task.attachmentsArray objectAtIndex:indexPath.row];
+//        
+//    }
     [self.imgVCollectionCell setImage:image];
     
     viewCont.delegate = self;
@@ -47,17 +53,17 @@
     self.actionRemoveNoteImage = ^
     {
      
-        UIImage *imageToDelete = [task.attachmentsArray objectAtIndex:indexPath.row];
-        
-        for (UIImage *img in task.attachmentsArray)
-        {
-            if ([img isEqual:imageToDelete])
-            {
-                [task.attachmentsArray removeObject:img];
-                
-                break;
-            }
-        }
+//        UIImage *imageToDelete = [task.attachmentsArray objectAtIndex:indexPath.row];
+//        
+//        for (UIImage *img in task.attachmentsArray)
+//        {
+//            if ([img isEqual:imageToDelete])
+//            {
+//                [task.attachmentsArray removeObject:img];
+//                
+//                break;
+//            }
+//        }
         
     };
     

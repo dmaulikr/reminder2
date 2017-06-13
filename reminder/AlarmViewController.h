@@ -17,8 +17,8 @@
 @property (strong, nonatomic) Task *taskOpened;
 @property (strong, nonatomic) TaskC *taskCOpened;
 
-
-
+@property (nonatomic, copy) void(^actionDatePicked)(NSDate *);
+@property (nonatomic, copy) void(^actionDateDone)(void);
 
 
 @end

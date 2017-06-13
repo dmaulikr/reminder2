@@ -35,5 +35,8 @@
 -(NSString*)timeSince:(NSDate*)date;
 -(void)sort;
 -(void)taskChecked:(TaskC *)task;
+-(void)addNewImage:(UIImage *)image
+           forTask:(TaskC *)task;
+
 
 @end

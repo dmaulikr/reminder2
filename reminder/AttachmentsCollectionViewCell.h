@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Task.h"
 #import "PopTaskViewController.h"
+#import "TaskC+CoreDataClass.h"
 
 
 @protocol AttachmentsDelegate <NSObject>
@@ -23,7 +24,7 @@
 @property (strong, nonatomic) UIButton *btnAddImg;
 @property (strong, nonatomic) UIImageView *img;
 
--(void )loadCell:(Task *)task
+-(void )loadCell:(TaskC *)task
        indexPath:(NSIndexPath *)indexPath
   viewController:(PopTaskViewController *)viewCont;
 
