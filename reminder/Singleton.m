@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "MainViewController.h"
 #import "Alarm.h"
-
+#import "Date.h"
 #import "TaskC+CoreDataClass.h"
 #import "AlarmC+CoreDataClass.h"
 #import "AttachmentsC+CoreDataClass.h"
@@ -23,37 +23,13 @@
 @implementation Singleton 
 
 
--(void)addNewTask:(Task *)task
+
++(id)sharedInstance
 {
-    [self.tasksArray addObject:task];
-    [self sort];
-}
--(NSMutableDictionary *)loadAll
-{
-    return self.tasksByDates;
-}
--(NSMutableArray *)loadAllTasks
-{
-    return self.tasksArray;
-}
--(void)deleteTask:(Task *)task
-{
-    [self.tasksByDates removeAllObjects];
-    for (Task *task2 in self.tasksArray)
-    {
-        if ([task2 isEqual:task])
-        {
-            [self.tasksArray removeObject:task2];
-            break;
-        }
-        
-    }
-}
-+(id)sharedInstance{
-    
     static Singleton *sharedMyManager = nil;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    dispatch_once(&onceToken, ^
+    {
         sharedMyManager = [[self alloc] init];
     });
     return sharedMyManager;
@@ -66,239 +42,119 @@
         self.tasksArray = [[NSMutableArray alloc] init];
         self.tasksByDates = [[NSMutableDictionary alloc] init];
         self.buttons = [[NSMutableArray alloc] init];
-        
         self.coreData = [CoreData sharedInstance];
-        
         self.storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"dd/MM/yyyy"];
-        [formatter setLocale:[NSLocale currentLocale]];
-        [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-        
-//        Task *task1 = [[Task alloc] init];
-//        task1.title = @"dfsfagsfas";
-//        task1.content = @"sdfgaaaaaaaasdf";
-//        task1.dateString = @"08/06/2017";
-//        task1.date = [formatter dateFromString:task1.dateString];
-//        task1.imageString = @"asdf.png";
-//        
-//        task1.attachmentsArray = [[NSMutableArray alloc] initWithObjects:[UIImage imageNamed:@"asdf.png"],[UIImage imageNamed:@"sunny.jpg"], [UIImage imageNamed:@"redHeart.png"], nil];
-//        
-//        
-//
-//        Task *task2 = [[Task alloc] init];
-//        task2.title = @"dfsffs";
-//        task2.content = @"sdfsgsfgdf";
-//        
-//        task2.dateString = @"08/06/2017";
-//        task2.date = [formatter dateFromString:task2.dateString];
-//
-//
-//        task2.attachmentsArray = [[NSMutableArray alloc] initWithObjects:[UIImage imageNamed:@"sunny.jpg"], [UIImage imageNamed:@"redHeart.png"], nil];
-//
-//        Task *task3 = [[Task alloc] init];
-//        task3.title = @"asaddfsfs";
-//        task3.content = @"sdfasfsdf";
-//        task3.dateString = @"07/06/2017";
-//        task3.date = [formatter dateFromString:task3.dateString];
-//
-//
-//        task3.attachmentsArray = [[NSMutableArray alloc] initWithObjects:[UIImage imageNamed:@"redHeart.png"], nil];
-//
-//        
-//        Task *task4 = [[Task alloc] init];
-//        task4.title = @"333dfsfs";
-//        task4.content = @"sfgddfsdf";
-//        task4.isDone = YES;
-//        task4.dateString = @"07/06/2017";
-//        task4.date = [formatter dateFromString:task4.dateString];
-//        task4.imageString = @"asdf.png";
-//        
-//        Task *task5 = [[Task alloc] init];
-//        task5.title = @"4331123113dfsfs";
-//        task5.content = @"s31dfsdf";
-//        task5.dateString = @"03/06/2017";
-//        task5.date = [formatter dateFromString:task5.dateString];
-//
-//        Task *task6 = [[Task alloc] init];
-//        task6.title = @"88333s113dfsfs";
-//        task6.content = @"s31dfsdf";
-//        task6.dateString = @"03/06/2017";
-//        task6.date = [formatter dateFromString:task6.dateString];
-//
-//        Task *task7 = [[Task alloc] init];
-//        task7.title = @"222333s113dfsfs";
-//        task7.content = @"s31dfsdf";
-//        task7.dateString = @"03/06/2017";
-//        task7.date = [formatter dateFromString:task7.dateString];
-//        
-//        Task *task8 = [[Task alloc] init];
-//        task8.title = @"vv222333s113dfsfs";
-//        task8.content = @"s31dfsdf";
-//        task8.dateString = @"12/06/2017";
-//        task8.date = [formatter dateFromString:task8.dateString];
-//        
-//        Alarm *al1 = [[Alarm alloc] init];
-//        al1.isSet = YES;
-//        al1.alarmTitle = @"Alarm 1";
-//        al1.date = [NSDate new];
-//        
-//        Alarm *al2 = [[Alarm alloc] init];
-//        al2.isSet = NO;
-//        al2.alarmTitle = @"Alarm 2";
-//        al2.date = [NSDate new];
-//        
-//        Alarm *al3 = [[Alarm alloc] init];
-//        al3.isSet = YES;
-//        al3.alarmTitle = @"Alarm 3";
-//        al3.date = [NSDate new];
-//        
-//        task8.alarmsArray = [[NSMutableArray alloc] initWithObjects:al1,al2, al3, nil];
-//
-//        [self.tasksArray addObject:task1];
-//        [self.tasksArray addObject:task2];
-//        [self.tasksArray addObject:task3];
-//        [self.tasksArray addObject:task4];
-//        [self.tasksArray addObject:task5];
-//        [self.tasksArray addObject:task6];
-//        [self.tasksArray addObject:task7];
-//        [self.tasksArray addObject:task8];
-        
-        
-        
-        NSManagedObjectContext *context = [self.coreData managedObjectContext];
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskC" inManagedObjectContext:context];
-        [fetchRequest setEntity:entity];
-        NSError *error;
-        NSArray *objects = [context executeFetchRequest:fetchRequest error:&error];
-        NSLog(@"notes   --- > %@", objects);
-        
-        for (int i = 0; i<[objects count]; i++) {
-            TaskC *task = (TaskC *)objects[i];
-            
-            NSLog(@"%@", task.title);
-            NSLog(@"%@", task.content);
-            NSLog(@"%@", task.date);
-            
-            
-            [self.tasksArray addObject:task];
-        }
-
-        
-        [self sort];
+        [self loadCoreData];
     }
     return self;
 }
--(void)updateTask:(Task *)task index:(int)index
+//-(void)addNewTask:(Task *)task
+//{
+//    [self.tasksArray addObject:task];
+//    [self sort];
+//}
+-(NSMutableDictionary *)loadAll
 {
-    [self.tasksArray replaceObjectAtIndex:index withObject:task];
+    return self.tasksByDates;
 }
--(void)setCompleted:(Task *)task index:(int )index
+-(NSMutableArray *)loadAllTasks
 {
-    
+    return self.tasksArray;
 }
--(void)update:(Task *)task
-{
-    Task *updatedTask = task;
-    
-    for(int i = 0; i<[self.tasksArray count]; i++)
-    {
-        if ([task isEqual:[self.tasksArray objectAtIndex:i]])
-        {
-            [self.tasksArray replaceObjectAtIndex:i withObject:updatedTask];
-        }
-    }
-}
--(NSString*)timeSince:(NSDate*)date {
-    
-    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-    NSDate *newDate = date;
-    dateFormatter.dateFormat = @"dd-MM-yyyy";
-    NSDate *currDate = [NSDate date];
-    
-    int dif = [currDate timeIntervalSinceReferenceDate] - [newDate timeIntervalSinceReferenceDate];
-    NSString *timeSinceString = [[NSString alloc] init];
-    
-    if (dif<86400)
-    {
-            timeSinceString = [NSString stringWithFormat:@"Today"];
-    }
-    else
-    {
-        dif = (dif/86400);
-        if (dif==1)
-        {
-            timeSinceString = @"Yesterday";
-        }
-        else{
-            timeSinceString = [dateFormatter stringFromDate:newDate];
-        }
-    }
-    return timeSinceString;
-}
+//-(void)deleteTask:(Task *)task
+//{
+//    [self.tasksByDates removeAllObjects];
+//    for (Task *task2 in self.tasksArray)
+//    {
+//        if ([task2 isEqual:task])
+//        {
+//            [self.tasksArray removeObject:task2];
+//            break;
+//        }
+//    }
+//}
+
+
+//-(void)updateTask:(Task *)task index:(int)index
+//{
+//    [self.tasksArray replaceObjectAtIndex:index withObject:task];
+//}
+//-(void)setCompleted:(Task *)task index:(int )index
+//{
+//    
+//}
+//-(void)update:(Task *)task
+//{
+//    Task *updatedTask = task;
+//    for(int i = 0; i<[self.tasksArray count]; i++)
+//    {
+//        if ([task isEqual:[self.tasksArray objectAtIndex:i]])
+//        {
+//            [self.tasksArray replaceObjectAtIndex:i withObject:updatedTask];
+//        }
+//    }
+//}
+#pragma coreData
+
 -(void)sort
 {
-    for (Task *task in self.tasksArray)
+    NSDateFormatter *formatter = [Date getDateForrmater:@"sort"];
+
+    for (TaskC *task in self.tasksArray)
     {
-        NSDate *date = task.date;
+        NSString *dateString = [formatter stringFromDate:task.date];
+        NSDate *date = [formatter dateFromString:dateString];
         NSMutableArray *array = [[NSMutableArray alloc] init];
-        for (Task *taskInner in self.tasksArray)
+        for (TaskC *taskInner in self.tasksArray)
         {
-            if ([date isEqualToDate:taskInner.date])
+            NSString *dateStringInner = [formatter stringFromDate:taskInner.date];
+            NSDate *dateInner = [formatter dateFromString:dateStringInner];
+            
+            if ([date isEqualToDate:dateInner])
             {
                 [array addObject:taskInner];
                 [self.tasksByDates setObject:array forKey:date];
             }
         }
     }
-    NSLog(@"sorted --- >%@", self.tasksByDates);
-    NSLog(@"");
 }
 
 -(void)taskChecked:(TaskC *)task
 {
-    
-//    for (TaskC *task2 in self.tasksArray) {
-//        if ([task2 isEqual:task]) {
-//            
-//            if (task2.isDone == YES)
-//            {
-//                task2.isDone = NO;
-//            }
-//            else
-//            {
-//                task2.isDone = YES;
-//            }
-//        }
-//    }
-    
-    // sredi
-    
+    for (TaskC *task2 in self.tasksArray)
+    {
+        if ([task.idTak isEqualToString:task2.idTak])
+        {
+            if (task2.isDone == YES)
+            {
+                [self.coreData taskUnchecked:task2];
+                [self coreDataUpdated];
+                break;
+            }
+            else
+            {
+                [self.coreData taskChecked:task2];
+                [self coreDataUpdated];
+                break;
+            }
+        }
+    }
 }
 -(void)addNewImage:(UIImage *)image
            forTask:(TaskC *)task
 {
     NSString *imagePath = [self generateImagePath:image];
-    
     [self.coreData saveNewImageWithPath:imagePath forTask:task];
     
 }
 -(NSString *)generateImagePath:(UIImage *)image
 {
     NSData *imageData = UIImagePNGRepresentation(image);
-    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    
-    
     NSString *randomString = [[NSUUID UUID] UUIDString];
-    
-    NSString *imagePath =[documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",randomString]];
-    
-    NSLog(@"pre writing to file");
+    NSString *imagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",randomString]];
+
     if (![imageData writeToFile:imagePath atomically:NO])
     {
         NSLog(@"Failed to cache image data to disk");
@@ -309,5 +165,108 @@
     }
     return imagePath;
 }
+-(void)loadCoreData
+{
+    NSManagedObjectContext *context = [self.coreData managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskC" inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    NSError *error;
+    NSArray *objects = [context executeFetchRequest:fetchRequest error:&error];
 
+    for (int i = 0; i<[objects count]; i++)
+    {
+        TaskC *task = (TaskC *)objects[i];
+        [self.tasksArray addObject:task];
+        NSLog(@"%@", task.date);
+    }
+    self.tasksArray = [self sortCoreDataByDate];
+    [self sort];
+}
+-(void)coreDataUpdated
+{
+    [self.tasksArray removeAllObjects];
+    NSManagedObjectContext *context = [self.coreData managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskC" inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    NSError *error;
+    NSArray *objects = [context executeFetchRequest:fetchRequest error:&error];
+
+    for (int i = 0; i<[objects count]; i++)
+    {
+        TaskC *task = (TaskC *)objects[i];
+        [self.tasksArray addObject:task];
+        NSLog(@"%@", task);
+    }
+    self.tasksArray = [self sortCoreDataByDate];
+    [self sort];
+}
+-(NSMutableArray *)sortCoreDataByDate
+{
+    NSArray *sorted = [self.tasksArray sortedArrayUsingComparator:^(id obj1, id obj2)
+                            {
+                           TaskC *t1 = (TaskC *)obj1;
+                           TaskC *t2 = (TaskC *)obj2;
+                           
+                           NSDate *d1 = t1.date;
+                           NSDate *d2 = t2.date;
+                           if (d1>d2)
+                           {
+                               return (NSComparisonResult)NSOrderedAscending;
+                           }
+                           else
+                           {
+                               return (NSComparisonResult)NSOrderedDescending;
+                           }
+
+                       }];
+    NSMutableArray *sortedM = [sorted mutableCopy];
+    
+    for (int i = 0; i<[sortedM count]; i++)
+    {
+        TaskC *task = (TaskC *)sortedM[i];
+        NSLog(@"%@", task.date);
+    }
+    return sortedM;
+}
+-(TaskC *)like:(TaskC *)task
+{
+    NSManagedObjectContext *context = [self.coreData managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskC" inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    TaskC *taskUpdated = [self.coreData like:task];
+    [self coreDataUpdated];
+    return taskUpdated;
+}
+-(TaskC *)unlike:(TaskC *)task
+{
+    
+    NSManagedObjectContext *context = [self.coreData managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskC" inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    TaskC *taskUpdated = [self.coreData unlike:task];
+    [self coreDataUpdated];
+    return taskUpdated;
+}
+-(NSMutableArray *)getAllTasks
+{
+    return [self sortCoreDataByDate];
+}
+-(NSMutableArray *)getAllFavoritedDate
+{
+    NSMutableArray *array = [self sortCoreDataByDate];
+    NSMutableArray *arrayFavorites = [[NSMutableArray alloc] init];
+    
+    for (TaskC *task in array)
+    {
+        if (task.isLiked == YES)
+        {
+            [arrayFavorites addObject:task];
+        }
+    }
+    return arrayFavorites;
+}
 @end

@@ -11,8 +11,10 @@
 #import "AddViewController.h"
 #import "PopTaskViewController.h"
 #import "NoteCell.h"
-#include "IndexPath.h"
 #import "TaskC+CoreDataClass.h"
+#import "NoteCustomCell.h"
+#import "DataSource.h"
+#import "Date.h"
 
 @interface MainViewController ()  <UITableViewDelegate, UITableViewDataSource,UIGestureRecognizerDelegate>
 @property (strong, nonatomic) UIStoryboard *storyBoard;
@@ -22,11 +24,8 @@
 @property (strong, nonatomic) NSDate *selectedDate;
 @property (weak, nonatomic) IBOutlet UIButton *btnNextDate;
 @property (weak, nonatomic) IBOutlet UIButton *btnPreviousDate;
-@property (strong, nonatomic) NSDateFormatter *forrmater;
-
 @property(nonatomic, assign) int currentIndex;
 @property(nonatomic, assign) int lastIndex;
-
 @property (weak, nonatomic) IBOutlet UILabel *lblSelectedDate;
 - (IBAction)nextDateAction:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *previousDateAction;
@@ -52,61 +51,35 @@
     [self.view addGestureRecognizer:rightRecognizer];
     [self.view addGestureRecognizer:leftRecognizer];
     
-    self.forrmater = [[NSDateFormatter alloc] init];
-    [self.forrmater setDateFormat:@"dd/MM/yyyy"];
-    [self.forrmater setLocale:[NSLocale currentLocale]];
-    [self.forrmater setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-    
-    
-    
-    
     self.sharedInstance = [Singleton sharedInstance];
     
+    NSMutableDictionary *byDates = [DataSource getDataSourceByDates];
     
-    self.datesKeys = [self.sharedInstance.tasksByDates allKeys];
-    self.arrayByDates = self.sharedInstance.tasksByDates;
+    self.datesKeys = [byDates allKeys];
+    self.arrayByDates = byDates;
     self.datesKeys = [self sortDates:self.datesKeys];
-
-    
     [self loadLastDate];
-    
     self.selectedDate = [self.datesKeys lastObject];
-    
-    NSString *dateString = [self.sharedInstance timeSince:self.selectedDate];
+    NSString *dateString = [Date timeSince:self.selectedDate];
     self.lblSelectedDate.text = dateString;
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    
-//    self.storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
     
-    self.dataSource = [[NSMutableArray alloc] init];
+    self.dataSource2 = [DataSource getDataSourceByDates];
     
-    self.dataSource2 = [self.sharedInstance loadAll];
-    
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addNewScreen)];
-    
-    tapGesture.numberOfTapsRequired = 1;
-    self.imgAdd.userInteractionEnabled = YES;
-    [self.imgAdd addGestureRecognizer:tapGesture];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTable) name:@"reloadTable" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskUpdated) name:@"dataSourceUpdated" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateChecked) name:@"taskChecked" object:nil];
     
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSArray *arrayByDate = [self.dataSource2 objectForKey:self.selectedDate];
-    
     self.lastIndex = (int)[self.datesKeys count];
-    
     self.btnPreviousDate.hidden = NO;
     self.tableView.hidden = NO;
-    
-    NSLog(@"%@", self.dataSource2);
-    
 
     if (self.currentIndex == 0)
     {
@@ -121,7 +94,6 @@
         self.btnPreviousDate.hidden = YES;
         self.btnNextDate.hidden = YES;
     }
-    
         switch ([arrayByDate count])
     {
         case 0:            
@@ -146,88 +118,75 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *MyIdentifier = @"taskCell";
-    
-    NoteCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
-    
-    NSArray *arr = [self.dataSource2 objectForKey:self.selectedDate];
-    
-    TaskC *task = [arr objectAtIndex:indexPath.row];
-    cell = [cell loadCell:cell task:task];
+    static NSString *MyIdentifier = @"noteCustomCell";
 
+    NSArray *arr = [self.dataSource2 objectForKey:self.selectedDate];
+    TaskC *task = [arr objectAtIndex:indexPath.row];
+
+    NoteCustomCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+    if (!cell) {
+        [tableView registerNib:[UINib nibWithNibName:@"CustomNoteCell" bundle:nil] forCellReuseIdentifier:MyIdentifier];
+        cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+    }
+    cell = [cell loadCell:cell task:task];
     cell.actionNoteChecked = ^
     {
-        [self.sharedInstance taskChecked:task];
-        self.dataSource2 = [self.sharedInstance loadAll];
-
+        [DataSource updateDataSourceWithOperation:@"taskDone"
+                                             task:task
+                                            alarm:nil attachment:nil location:nil];
+        self.dataSource2 = [DataSource getDataSourceByDates];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"dataSourceUpdated" object:nil];
         [self.tableView reloadData];
     };
-    
     return cell;
 }
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
 }
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)tableView:(UITableView *)tableView
+                didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PopTaskViewController *vc = [self.sharedInstance.storyBoard instantiateViewControllerWithIdentifier:@"popTask"];
-    
     vc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-    
     NSArray *arr = [self.dataSource2 objectForKey:self.selectedDate];
-    
     TaskC *task = [arr objectAtIndex:indexPath.row];
-    
-    
     vc.taskC = task;
-
-    [self presentViewController:vc animated:YES completion:NULL];
-    
-}
--(void)addNewScreen
-{
-    AddViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"addNewController"];
-    
-    vc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-    
     [self presentViewController:vc animated:YES completion:NULL];
 }
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+-(CGFloat)tableView:(UITableView *)tableView
+                    heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 100.0f;
 }
--(void)reloadTable
-{
-    self.dataSource2 = [self.sharedInstance loadAll];
-    [self loadAdd];
-
-}
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+- (BOOL)tableView:(UITableView *)tableView
+                    canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return YES;
 }
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView
+                    commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+                                forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         NSArray *arr = [self.dataSource2 objectForKey:self.selectedDate];
-        Task *task = [arr objectAtIndex:indexPath.row];
-        
-        [self.sharedInstance deleteTask:task];
-        [self.sharedInstance sort];
-        [self loadDelete];
+        TaskC *task = [arr objectAtIndex:indexPath.row];
+        [DataSource updateDataSourceWithOperation:@"deleteTask" task:task
+                                            alarm:nil
+                                       attachment:nil
+                                         location:nil];
+        [DataSource getDataSourceByDates];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"dataSourceUpdated" object:nil];
         [self.tableView reloadData];
+        
     }
 }
 -(void)checkDone:(UIButton *)btn
 {
     int tag = (int)btn.tag;
-    
     NSArray *arr = [self.dataSource2 objectForKey:self.selectedDate];
-    
     Task *task = [arr objectAtIndex:tag];
-    
     if (task.isDone == YES)
     {
         task.isDone = NO;
@@ -235,13 +194,9 @@
     {
         task.isDone = YES;
     }
-    
     [self.sharedInstance update:task];
-    
     self.dataSource = [self.sharedInstance loadAllTasks];
-
     btn.tag = 4;
-    
     [self.tableView reloadData];
 }
 - (IBAction)nextDateAction:(id)sender
@@ -251,13 +206,11 @@
         self.currentIndex ++;
     }
     NSLog(@"current index -- > %i", self.currentIndex);
-
     if (self.currentIndex < [self.datesKeys count])
     {
         NSDate *selectedDate = [self.datesKeys objectAtIndex:self.currentIndex];
         self.selectedDate = selectedDate;
-        
-        NSString *dateString = [self.sharedInstance timeSince:selectedDate];
+        NSString *dateString = [Date timeSince:self.selectedDate];
         self.lblSelectedDate.text = dateString;
         [self.tableView reloadData];
     }
@@ -274,8 +227,7 @@
     {
         NSDate *selectedDate = [self.datesKeys objectAtIndex:self.currentIndex];
         self.selectedDate = selectedDate;
-        
-        NSString *dateString = [self.sharedInstance timeSince:selectedDate];
+        NSString *dateString = [Date timeSince:self.selectedDate];
         self.lblSelectedDate.text = dateString;
         [self.tableView reloadData];
     }
@@ -285,11 +237,10 @@
     NSDate *selectedDate = [self.datesKeys lastObject];
     NSInteger index = [self.datesKeys count];
     int indexInt = (int)index;
-    
     self.currentIndex = indexInt - 1;
     NSLog(@"current index -- > %i", self.currentIndex);
     self.selectedDate = selectedDate;
-    NSString *dateString = [self.sharedInstance timeSince:selectedDate];
+    NSString *dateString = [Date timeSince:self.selectedDate];
     self.lblSelectedDate.text = dateString;
 
 }
@@ -299,7 +250,6 @@
     {
         NSDate *d1 = obj1;
         NSDate *d2 = obj2;
-        
         if (d1>d2)
         {
             return (NSComparisonResult)NSOrderedDescending;
@@ -314,19 +264,19 @@
 }
 -(void)loadDelete
 {
-    self.datesKeys = [self.sharedInstance.tasksByDates allKeys];
-    self.arrayByDates = self.sharedInstance.tasksByDates;
+    NSMutableDictionary *byDates = [DataSource getDataSourceByDates];
+    self.datesKeys = [byDates allKeys];
+    self.arrayByDates = [DataSource getDataSourceByDates];
     self.datesKeys = [self sortDates:self.datesKeys];
-    
     self.currentIndex = (int)[self.datesKeys count];
     [self.tableView reloadData];
 }
 -(void)loadAdd
 {
-    self.datesKeys = [self.sharedInstance.tasksByDates allKeys];
-    self.arrayByDates = self.sharedInstance.tasksByDates;
+    NSMutableDictionary *byDates = [DataSource getDataSourceByDates];
+    self.datesKeys = [byDates allKeys];
+    self.arrayByDates = [DataSource getDataSourceByDates];
     self.datesKeys = [self sortDates:self.datesKeys];
-
     if (self.currentIndex < [self.datesKeys count] -1)
     {
         [self nextDateAction:self];
@@ -341,14 +291,21 @@
 {
     [self previousDateAction:self];
 }
-//-(void)getRowIndex
-//{
-//    NSLog(@"asadf");
-//}
-
 -(void)noteCheckedAction: (NSIndexPath *)indexPath
 {
     [self.delegate taskChecked:indexPath];
 }
-
+-(void)taskUpdated
+{
+    Singleton *instance = [Singleton sharedInstance];
+    [instance coreDataUpdated];
+    self.dataSource2 = [DataSource getDataSourceByDates];
+    NSLog(@"main triggerd");
+    [self loadAdd];
+}
+-(void)updateChecked
+{
+    self.dataSource2 = [DataSource getDataSourceByDates];
+    [self loadAdd];
+}
 @end

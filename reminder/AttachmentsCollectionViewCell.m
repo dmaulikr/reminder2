@@ -13,7 +13,7 @@
 #import "AttachmentsC+CoreDataClass.h"
 
 
-@interface AttachmentsCollectionViewCell () <PopViewControllerDellegate>
+@interface AttachmentsCollectionViewCell ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *imgVCollectionCell;
 @property (weak, nonatomic) IBOutlet UIButton *btnRemoveCellImage;
@@ -26,19 +26,16 @@
                         indexPath:(NSIndexPath *)indexPath
                                     viewController:(PopTaskViewController *)viewCont;
 {
-    
     Singleton *instance = [Singleton sharedInstance];
     [instance.buttons addObject:self.btnRemoveCellImage];
 
     [self.btnRemoveImg addTarget:self
                        action:@selector(removeImage:)
        forControlEvents:UIControlEventTouchUpInside];
-    
     UIImage *image = [[UIImage alloc] init];
     NSArray *array = [task.attachments allObjects];
     AttachmentsC *attachment = [array objectAtIndex:indexPath.row];
     NSString *imagePath = attachment.imgName;
-
     image = [UIImage imageWithContentsOfFile:imagePath];
 
 //    if (task.attachmentsArray)
@@ -47,9 +44,6 @@
 //        
 //    }
     [self.imgVCollectionCell setImage:image];
-    
-    viewCont.delegate = self;
-    
     self.actionRemoveNoteImage = ^
     {
      
@@ -64,15 +58,11 @@
 //                break;
 //            }
 //        }
-        
     };
-    
     [instance.buttons addObject:self.btnRemoveCellImage];
-    
 }
 -(IBAction)removeImage:(UIButton *)sender
 {
-    
     if (self.actionRemoveNoteImage)
     {
         self.actionRemoveNoteImage();
@@ -83,10 +73,9 @@
 }
 -(void)attachmentsBrnPressed
 {
-   
     Singleton *instence = [Singleton sharedInstance];
-
-    for (UIButton *button in instence.buttons) {
+    for (UIButton *button in instence.buttons)
+    {
         button.hidden = NO;
     }
 }

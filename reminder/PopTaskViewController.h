@@ -13,7 +13,9 @@
 
 @protocol PopViewControllerDellegate <NSObject>
 
+@optional
 -(void)attachmentsBrnPressed;
+-(void)taskUpdated;
 
 
 @end

@@ -15,7 +15,7 @@
 #import "AlarmViewController.h"
 #import <MapKit/MapKit.h>
 
-@interface PopTaskViewController () <UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AttachmentsDelegate, LocationViewControllerDelegate, MKMapViewDelegate >
+@interface PopTaskViewController () <UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AttachmentsDelegate, LocationViewControllerDelegate, MKMapViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextView *textViewTitle;
 @property (weak, nonatomic) IBOutlet UILabel *lblTaskDate;
@@ -107,30 +107,38 @@
     [self resizeTextView];
     [self showAttachments];
     
+    
 }
 - (IBAction)doneBtn:(id)sender
 {
     
-    [self editTask:self.task]; // ex
-    
+    [self editTask:self.taskC]; 
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"dataSourceUpdated" object:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
--(void)editTask:(Task *)task
+-(void)editTask:(TaskC *)task
 {
-    //ex
     NSString *taskTitle = self.textViewTitle.text;
     NSString *taskContnent = self.textViewContent.text;
     task.title = taskTitle;
     task.content = taskContnent;
-    task.date = [self getDate];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTable" object:nil];
+    task.date = task.date;
+    
+    Singleton *instance = [Singleton sharedInstance];
+    [instance.coreData updateTask:task
+                        withTitle:taskTitle
+                          content:taskContnent
+                             date:task.date
+                          isLiked:task.isLiked
+                           isDone:task.isDone
+                           withID:task.idTak];
     
 }
--(NSDate *)getDate
-{
-    NSDate *now = [[NSDate alloc] init];
-    return now;
-}
+//-(NSDate *)getDate
+//{
+//    NSDate *now = [[NSDate alloc] init];
+//    return now;
+//}
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
 //    if (self.task.attachmentsArray) {
@@ -265,17 +273,12 @@
 -(void)addNewImageAction:(UIImage *)image
 {
 //    [self.task.attachmentsArray addObject:image];
-    
-    
     [self.instance addNewImage:image forTask:self.taskC];
-    
-
     [self.collectionView reloadData];
 }
 - (IBAction)btnLocationAction:(id)sender
 {
     self.vMapView.hidden = NO;
-
     if (self.hiddenMap == 0)
     {
         self.hiddenMap = 1;
@@ -286,8 +289,6 @@
         self.vCollection.backgroundColor = [Colors darkColor];
         self.collectionView.backgroundColor = [Colors darkColor];
         self.vAddBtn.backgroundColor = [Colors darkColor];
-        
-        
         [self resizeTextView];
     }
     else
@@ -300,17 +301,14 @@
         self.collectionView.backgroundColor = [Colors yellowTask];
         self.vAddBtn.backgroundColor = [Colors yellowTask];
         self.vMapView.hidden = YES;
-        
         [self resizeTextView];
     }
-    
     [self resizeTextView];
 }
 -(void)resizeTextView
 {
     ;
     CGFloat width = CGRectGetWidth(self.textViewContent.frame);
-
     if (self.stackViewMainContent.hidden)
     {
         CGFloat vMainContentHaight = CGRectGetHeight(self.vMainContent.frame) - CGRectGetHeight(self.vBtn.frame) - 20;
@@ -322,14 +320,12 @@
         CGFloat vMainContentHaight = CGRectGetHeight(self.vMainContent.frame) - CGRectGetHeight(self.vBtn.frame) - CGRectGetHeight(self.vCollection.frame)  - 20;
         CGRect fixedFrame = CGRectMake(8.0f, 43.0f, width, vMainContentHaight);
         self.textViewContent.frame = fixedFrame;
-
     }
     else if (!self.vCollection.hidden & self.vMapView.hidden)
     {
         CGFloat vMainContentHaight = CGRectGetHeight(self.vMainContent.frame) - CGRectGetHeight(self.vBtn.frame) - CGRectGetHeight(self.vMapView.frame)  - 20;
         CGRect fixedFrame = CGRectMake(8.0f, 43.0f, width, vMainContentHaight);
         self.textViewContent.frame = fixedFrame;
-
     }
     else if (self.vCollection.hidden & self.vMapView.hidden)
     {
@@ -349,28 +345,26 @@
         CGFloat fixedHeight = 80.0f;;
         CGRect fixedFrame = CGRectMake(8.0f, 43.0f, width, fixedHeight);
         self.textViewContent.frame = fixedFrame;
-        
     }
-
-
 }
 - (IBAction)btnLikeAction:(id)sender
 {
     UIImage *btnImage;
-    
-    if (self.task.isLiked == YES)
+    if (self.taskC.isLiked == YES)
     {
+        self.taskC = [self.instance unlike:self.taskC];
         btnImage = [UIImage imageNamed:@"heartWhite.png"];
         [self.btnLike setImage:btnImage forState:UIControlStateNormal];
-        self.task.isLiked = NO;
+        [self updateCurrentTask];
     }
     else
     {
+        
+        self.taskC = [self.instance like:self.taskC];
         btnImage = [UIImage imageNamed:@"heartRed.png"];
         [self.btnLike setImage:btnImage forState:UIControlStateNormal];
-        self.task.isLiked = YES;
+        [self updateCurrentTask];
     }
-
 }
 -(void)imgRemoved
 {
@@ -382,18 +376,8 @@
 }
 -(void)locationUpdated:(Location *)location imageDraw:(UIImage *)image
 {
-
     self.task.locationAttachment = location;
-
     NSLog(@"lokcation --- > %@", location.latitude);
-//    [self.imgViewMap setImage:image];
-//    self.imgViewMap.hidden = NO;
-//    
-//    CLLocationCoordinate2D coord = {latitude: 37.423617, longitude: -122.220154};
-//    MKCoordinateSpan span = {latitudeDelta: 1, longitudeDelta: 1};
-//    MKCoordinateRegion region = {coord, span};
-//    [mapView setRegion:region];
-    
     [self loadLocation];
 }
 -(void)openLocation
@@ -404,8 +388,6 @@
     if (self.task.locationAttachment) {
         vc.location = self.task.locationAttachment;
     }
-    
-    
     [self presentViewController:vc animated:YES completion:nil];
 }
 -(void)loadLocation
@@ -424,14 +406,16 @@
              [self.mapV setRegion:region];
         });
     });
-    
 }
 - (IBAction)alarm:(id)sender
 {
     AlarmViewController *vc = [self.instance.storyBoard instantiateViewControllerWithIdentifier:@"alarm"];
     vc.taskOpened = self.task;
     vc.taskCOpened = self.taskC;
-    
     [self presentViewController:vc animated:YES completion:nil];
+}
+-(void)updateCurrentTask
+{
+    
 }
 @end

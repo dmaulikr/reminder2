@@ -11,24 +11,22 @@
 #import "Colors.h"
 #import "MainViewController.h"
 #import "AlarmC+CoreDataClass.h"
+#import "Date.h"
 
 @interface NoteCell () <MainViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *lblTaskName;
 @property (weak, nonatomic) IBOutlet UILabel *lblTaskDate;
-
 @property (weak, nonatomic) IBOutlet UIButton *btnTaskChecked;
-
 @property (weak, nonatomic) IBOutlet UIView *vRed;
-
 @property (weak, nonatomic) IBOutlet UIImageView *imgAlarm;
+@property (weak, nonatomic) IBOutlet UIImageView *imgAttachment;
 
 @end
-
 @implementation NoteCell
 
-
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     [super awakeFromNib];
 
 }
@@ -36,11 +34,9 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
 }
 -(NoteCell *)loadCell:(NoteCell *)cell task:(TaskC *)task
 {
-
     if (task.isDone == YES)
     {
         self.lblTaskName.textColor = [Colors gray];
@@ -79,9 +75,15 @@
     {
         self.imgAlarm.hidden = YES;
     }
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"MM-dd-yyyy HH:mm"];
+    if ([task.attachments count] > 0)
+    {
+        self.imgAttachment.hidden = NO;
+    }
+    else
+    {
+        self.imgAttachment.hidden = YES;
+    }
+    NSDateFormatter *formatter = [Date getDateForrmater:@"allNotesCell"];
     NSString *stringFromDate = [formatter stringFromDate:task.date];
     
     NSString *noteTitle = task.title;
@@ -94,7 +96,7 @@
 
         if (task.isDone == YES)
         {
-            btnImage = [UIImage imageNamed:@"checkRed.png"];
+            btnImage = [UIImage imageNamed:@"checkRedGreen.png"];
             [self.btnTaskChecked setImage:btnImage forState:UIControlStateNormal];
         }
         else
@@ -107,17 +109,16 @@
 
 -(IBAction)checkBtnPresserd
 {
-    if (self.actionNoteChecked) {
+    if (self.actionNoteChecked)
+    {
         self.actionNoteChecked();
         
     }
-    
 }
 
 -(void)taskChecked:(NSIndexPath *)indexPath
 {
     
 }
-
 
 @end

@@ -37,7 +37,6 @@
 - (IBAction)addAlarm:(id)sender
 {
     [self datePicker:self];
-    
 }
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
@@ -69,7 +68,6 @@
             }
         }
         [self.tableViewAlarm reloadData];
-        
     };
     cell.actionAlarmOff = ^
     {
@@ -83,9 +81,7 @@
         }
         [self.tableViewAlarm reloadData];
     };
-    
     return cell;
-    
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -115,7 +111,8 @@
     [center requestAuthorizationWithOptions:options
                           completionHandler:^(BOOL granted, NSError * _Nullable error)
     {
-                              if (!granted) {
+                              if (!granted)
+                              {
                                   NSLog(@"Something went wrong");
                               }
                           }];
@@ -167,7 +164,6 @@
     if (self.actionDateDone)
     {
         self.actionDateDone();
-        
     }
 }
 -(void)dismissDatePickerTap
@@ -204,7 +200,7 @@
     datePicker.tag = 10;
     [datePicker addTarget:self action:@selector(changeDate:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:datePicker];
-    
+
     UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height, 320, 44)];
     toolBar.tag = 11;
     toolBar.barStyle = UIBarStyleDefault;
@@ -222,34 +218,16 @@
     [UIView commitAnimations];
     
     Singleton *instance = [Singleton sharedInstance];
-    
-    NSManagedObjectContext *context = [instance.coreData managedObjectContext];
-    
     NSManagedObject *taskObject = self.taskCOpened;
-    
     UITableView *tableView = self.tableViewAlarm;
     
     self.actionDateDone = ^
     {
-        
-        NSEntityDescription *entityAlarm = [NSEntityDescription entityForName:@"AlarmC" inManagedObjectContext:context];
-        NSManagedObject *newAlarm = [[NSManagedObject alloc] initWithEntity:entityAlarm insertIntoManagedObjectContext:context];
-        
-        [newAlarm setValue:@"datePicker" forKey:@"alarmTitle"];
-        [newAlarm setValue:datePicker.date forKey:@"alarmDate"];
-        
-        NSNumber *isSet = [[NSNumber alloc] initWithBool:YES];
-        
-        [newAlarm setValue:isSet forKey:@"isSet"];
-        
-        NSMutableSet *alarms = [taskObject mutableSetValueForKey:@"alarms"];
-        [alarms addObject:newAlarm];
-
-        [instance.coreData saveContext];
+        [instance.coreData
+         addAlarmWithTitle:@"alarm" time:datePicker.date
+                                         set:YES managedObject:taskObject];
         [tableView reloadData];
-
     };
-    
 }
 
 @end

@@ -11,6 +11,7 @@
 #import "Colors.h"
 #import "TaskC+CoreDataClass.h"
 #import "AlarmC+CoreDataClass.h"
+#import "Date.h"
 
 @interface AlarmTableViewCell()
 @property (weak, nonatomic) IBOutlet UILabel *lblAlarmDat;
@@ -22,12 +23,14 @@
 
 @implementation AlarmTableViewCell
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     [super awakeFromNib];
     // Initialization code
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
@@ -43,16 +46,13 @@
     
     NSArray *alarmsArray = [task.alarms allObjects];
     AlarmC *alarm = [alarmsArray objectAtIndex:indexPath.row];
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"HH:mm"];
-    
+    NSDateFormatter *formatter = [Date getDateForrmater:@"alarm"];
     
     self.lblAlarmType.text = alarm.alarmTitle;
-    
     self.lblAlarmDat.text = [formatter stringFromDate:alarm.alarmDate];
     
-    if (alarm.isSet == YES) {
+    if (alarm.isSet == YES)
+    {
         [self.alarmSwitch setOn:YES];
         self.lblAlarmDat.textColor = [UIColor blackColor];
         self.lblAlarmType.textColor = [UIColor blackColor];
@@ -63,7 +63,6 @@
         self.lblAlarmDat.textColor = [Colors lightGray];
         self.lblAlarmType.textColor = [Colors lightGray];
     }
-
     return cell;
 }
 - (IBAction)alarmSwitchAction:(id)sender
@@ -73,7 +72,6 @@
         if (self.actionAlarmOff)
         {
             self.actionAlarmOff();
-            
         }
     }
     else
@@ -81,7 +79,6 @@
         if (self.actionAlarmOn)
         {
             self.actionAlarmOn();
-            
         }
     }
 }

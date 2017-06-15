@@ -9,7 +9,7 @@
 #import "AddViewController.h"
 #import "Singleton.h"
 #import <CoreData/CoreData.h>
-
+#import "Date.h"
 #import "TaskC+CoreDataClass.h"
 #import "AttachmentsC+CoreDataClass.h"
 #import "LocationC+CoreDataClass.h"
@@ -35,34 +35,30 @@
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
 - (IBAction)btnAddPressed:(id)sender
 {
-
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"dd/MM/yyyy"];
-    [formatter setLocale:[NSLocale currentLocale]];
-    [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-    
-    Task *task = [[Task alloc] init];
+    NSDateFormatter *formatter = [Date getDateForrmater:@"addToCoreData"];
     NSString *noteTitle = self.tNoteTItle.text;
     NSString *noteContent = self.tNoteContent.text;
     NSDate *date = [NSDate date];
     
     NSString *stringFromDate = [formatter stringFromDate:date];
     NSDate *dateFromString = [formatter dateFromString:stringFromDate];
+
+    NSString *generatedRandomID = [[NSUUID UUID] UUIDString];
     
-    
-    task.title = noteTitle;
-    task.content = noteContent;
-    task.date = dateFromString;
-    
-    Singleton *singleton = [Singleton sharedInstance];
-    [singleton addNewTask:task];
-    
+    Singleton *instance = [Singleton sharedInstance];
+    [instance.coreData addNewTaskWithTitle:noteTitle
+                                   content:noteContent
+                                      date:dateFromString isLiked:NO
+                                    isDone:NO
+                                    withID:generatedRandomID];
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTable" object:nil];
-    [self dismissViewControllerAnimated:YES completion:nil];
     
+    [self.delegate newTaskAdded];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
@@ -112,76 +108,49 @@
         }
     }
 }
-- (IBAction)addCoreData:(id)sender {
-    
-    
+- (IBAction)addCoreData:(id)sender
+{
     Singleton *instance = [Singleton sharedInstance];
     
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"dd/MM/yyyy"];
-    [formatter setLocale:[NSLocale currentLocale]];
-    [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-    
-    
+    NSDateFormatter *formatter = [Date getDateForrmater:@"addToCoreData"];
     NSString *dateString = [formatter stringFromDate:[NSDate new]];
-    
-    
     NSDate *date = [formatter dateFromString:dateString];
-
+    NSString *generatedRandomID = [[NSUUID UUID] UUIDString];
     
-    
-    NSManagedObjectContext *context = instance.coreData.managedObjectContext;
-    NSManagedObject *entiry;
-    
-    entiry = [NSEntityDescription insertNewObjectForEntityForName:@"TaskC" inManagedObjectContext:context];
-    [entiry setValue:self.tNoteTItle.text forKey:@"title"];
-    [entiry setValue:self.tNoteContent.text forKey:@"content"];
-    [entiry setValue:date forKey:@"date"];
-    
-    [entiry setValue:0 forKey:@"isLiked"];
-    [entiry setValue:0 forKey:@"hasAlert"];
-    [entiry setValue:0 forKey:@"isDone"];
-    
-    
-    [instance.coreData saveContext];
-    
+    [instance.coreData addNewTaskWithTitle:self.tNoteTItle.text
+                                   content:self.tNoteContent.text
+                                      date:date
+                                   isLiked:NO isDone:NO withID:generatedRandomID];
     
 }
-- (IBAction)loadCoreData:(id)sender {
-    
+- (IBAction)loadCoreData:(id)sender
+{
     Singleton *instance = [Singleton sharedInstance];
-    
     NSManagedObjectContext *context = [instance.coreData managedObjectContext];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskC" inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     NSError *error;
     NSArray *objects = [context executeFetchRequest:fetchRequest error:&error];
-    NSLog(@"notes   --- > %@", objects);
-    
-    for (int i = 0; i<[objects count]; i++) {
+
+    for (int i = 0; i<[objects count]; i++)
+    {
         TaskC *task = (TaskC *)objects[i];
-        
         NSLog(@"%@", task.title);
         NSLog(@"%@", task.content);
         NSLog(@"%@", task.date);
-        
+        NSLog(@"%@", task.idTak);
     }
     
-    
 }
-- (IBAction)deleteAll:(id)sender {
-    
+- (IBAction)deleteAll:(id)sender
+{
     Singleton *instance = [Singleton sharedInstance];
-    
     NSManagedObjectContext *context = [instance.coreData managedObjectContext];
-
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"TaskC"];
     NSBatchDeleteRequest *delete = [[NSBatchDeleteRequest alloc] initWithFetchRequest:request];
-    
     NSError *deleteError = nil;
     [context executeRequest:delete error:&deleteError];
-    
-    
+ 
 }
 @end

@@ -7,9 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+@protocol AddNewControllerDelegate <NSObject>
+
+-(void)newTaskAdded;
+
+@end
+
 
 @interface AddViewController : UIViewController
 - (IBAction)backAdd:(id)sender;
 - (IBAction)btnAddPressed:(id)sender;
+
+@property (weak, nonatomic) id<AddNewControllerDelegate> delegate;
 
 @end

@@ -43,6 +43,14 @@
 		939FA0BB1EF006510021CB5A /* AttachmentsC+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0AF1EF006510021CB5A /* AttachmentsC+CoreDataProperties.m */; };
 		939FA0BD1EF006510021CB5A /* LocationC+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0B31EF006510021CB5A /* LocationC+CoreDataProperties.m */; };
 		939FA0BF1EF006510021CB5A /* AlarmC+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0B71EF006510021CB5A /* AlarmC+CoreDataProperties.m */; };
+		939FA0C31EF152810021CB5A /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0C21EF152810021CB5A /* StartViewController.m */; };
+		939FA0C61EF162B50021CB5A /* AllTasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0C51EF162B50021CB5A /* AllTasksViewController.m */; };
+		939FA0CC1EF17BE20021CB5A /* AllNotesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0CB1EF17BE20021CB5A /* AllNotesCell.m */; };
+		939FA0CF1EF17FFF0021CB5A /* CustomNoteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 939FA0CE1EF17FFF0021CB5A /* CustomNoteCell.xib */; };
+		939FA0D21EF1825C0021CB5A /* NoteCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0D11EF1825C0021CB5A /* NoteCustomCell.m */; };
+		939FA0D51EF18B400021CB5A /* FavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0D41EF18B400021CB5A /* FavoritesViewController.m */; };
+		939FA0DA1EF273650021CB5A /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0D91EF273650021CB5A /* DataSource.m */; };
+		939FA0DE1EF27CBF0021CB5A /* Date.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0DD1EF27CBF0021CB5A /* Date.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +146,21 @@
 		939FA0B51EF006510021CB5A /* AlarmC+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AlarmC+CoreDataClass.m"; path = "../AlarmC+CoreDataClass.m"; sourceTree = "<group>"; };
 		939FA0B61EF006510021CB5A /* AlarmC+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AlarmC+CoreDataProperties.h"; path = "../AlarmC+CoreDataProperties.h"; sourceTree = "<group>"; };
 		939FA0B71EF006510021CB5A /* AlarmC+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AlarmC+CoreDataProperties.m"; path = "../AlarmC+CoreDataProperties.m"; sourceTree = "<group>"; };
+		939FA0C11EF152810021CB5A /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
+		939FA0C21EF152810021CB5A /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
+		939FA0C41EF162B50021CB5A /* AllTasksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllTasksViewController.h; sourceTree = "<group>"; };
+		939FA0C51EF162B50021CB5A /* AllTasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllTasksViewController.m; sourceTree = "<group>"; };
+		939FA0CA1EF17BE20021CB5A /* AllNotesCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllNotesCell.h; sourceTree = "<group>"; };
+		939FA0CB1EF17BE20021CB5A /* AllNotesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllNotesCell.m; sourceTree = "<group>"; };
+		939FA0CE1EF17FFF0021CB5A /* CustomNoteCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomNoteCell.xib; sourceTree = "<group>"; };
+		939FA0D01EF1825C0021CB5A /* NoteCustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCustomCell.h; sourceTree = "<group>"; };
+		939FA0D11EF1825C0021CB5A /* NoteCustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCustomCell.m; sourceTree = "<group>"; };
+		939FA0D31EF18B400021CB5A /* FavoritesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritesViewController.h; sourceTree = "<group>"; };
+		939FA0D41EF18B400021CB5A /* FavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesViewController.m; sourceTree = "<group>"; };
+		939FA0D81EF273650021CB5A /* DataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSource.h; sourceTree = "<group>"; };
+		939FA0D91EF273650021CB5A /* DataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSource.m; sourceTree = "<group>"; };
+		939FA0DC1EF27CBF0021CB5A /* Date.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Date.h; sourceTree = "<group>"; };
+		939FA0DD1EF27CBF0021CB5A /* Date.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Date.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +217,9 @@
 		937C93D01EE6A1EA0046B504 /* reminder */ = {
 			isa = PBXGroup;
 			children = (
+				939FA0DB1EF27C9C0021CB5A /* date formatting */,
+				939FA0D71EF2733E0021CB5A /* DataSource */,
+				939FA0CD1EF17FE70021CB5A /* xibs */,
 				939FA0C01EF006C90021CB5A /* CoreData models */,
 				939FA08D1EEFE7D40021CB5A /* CoreData classes */,
 				939FA0871EEFE2690021CB5A /* coreDataConnection */,
@@ -280,6 +306,12 @@
 				939FA0641EEEA8950021CB5A /* LocationViewController.m */,
 				939FA0711EEECBCC0021CB5A /* AlarmViewController.h */,
 				939FA0721EEECBCC0021CB5A /* AlarmViewController.m */,
+				939FA0C11EF152810021CB5A /* StartViewController.h */,
+				939FA0C21EF152810021CB5A /* StartViewController.m */,
+				939FA0C41EF162B50021CB5A /* AllTasksViewController.h */,
+				939FA0C51EF162B50021CB5A /* AllTasksViewController.m */,
+				939FA0D31EF18B400021CB5A /* FavoritesViewController.h */,
+				939FA0D41EF18B400021CB5A /* FavoritesViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -293,6 +325,10 @@
 				939FA05E1EE996760021CB5A /* AttachmentsCollectionViewCell.m */,
 				939FA07D1EEED4730021CB5A /* AlarmTableViewCell.h */,
 				939FA07E1EEED4730021CB5A /* AlarmTableViewCell.m */,
+				939FA0CA1EF17BE20021CB5A /* AllNotesCell.h */,
+				939FA0CB1EF17BE20021CB5A /* AllNotesCell.m */,
+				939FA0D01EF1825C0021CB5A /* NoteCustomCell.h */,
+				939FA0D11EF1825C0021CB5A /* NoteCustomCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -361,6 +397,32 @@
 				937C93DD1EE6A1EA0046B504 /* reminder.xcdatamodeld */,
 			);
 			name = "CoreData models";
+			sourceTree = "<group>";
+		};
+		939FA0CD1EF17FE70021CB5A /* xibs */ = {
+			isa = PBXGroup;
+			children = (
+				939FA0CE1EF17FFF0021CB5A /* CustomNoteCell.xib */,
+			);
+			name = xibs;
+			sourceTree = "<group>";
+		};
+		939FA0D71EF2733E0021CB5A /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				939FA0D81EF273650021CB5A /* DataSource.h */,
+				939FA0D91EF273650021CB5A /* DataSource.m */,
+			);
+			name = DataSource;
+			sourceTree = "<group>";
+		};
+		939FA0DB1EF27C9C0021CB5A /* date formatting */ = {
+			isa = PBXGroup;
+			children = (
+				939FA0DC1EF27CBF0021CB5A /* Date.h */,
+				939FA0DD1EF27CBF0021CB5A /* Date.m */,
+			);
+			name = "date formatting";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -469,6 +531,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				939FA0CF1EF17FFF0021CB5A /* CustomNoteCell.xib in Resources */,
 				937C93E41EE6A1EA0046B504 /* LaunchScreen.storyboard in Resources */,
 				937C93E11EE6A1EA0046B504 /* Assets.xcassets in Resources */,
 				937C93DC1EE6A1EA0046B504 /* Main.storyboard in Resources */,
@@ -499,18 +562,25 @@
 				939FA0771EEED3940021CB5A /* AlarmViewController.m in Sources */,
 				937C940A1EE6B1CB0046B504 /* Task.m in Sources */,
 				939FA06B1EEEAD300021CB5A /* Location.m in Sources */,
+				939FA0D51EF18B400021CB5A /* FavoritesViewController.m in Sources */,
+				939FA0C31EF152810021CB5A /* StartViewController.m in Sources */,
 				939FA06E1EEEB2970021CB5A /* Annotation.m in Sources */,
 				939FA0821EEED8D50021CB5A /* Alarm.m in Sources */,
+				939FA0DE1EF27CBF0021CB5A /* Date.m in Sources */,
 				939FA0BB1EF006510021CB5A /* AttachmentsC+CoreDataProperties.m in Sources */,
 				939FA0BD1EF006510021CB5A /* LocationC+CoreDataProperties.m in Sources */,
 				939FA0BF1EF006510021CB5A /* AlarmC+CoreDataProperties.m in Sources */,
+				939FA0C61EF162B50021CB5A /* AllTasksViewController.m in Sources */,
 				937C93D91EE6A1EA0046B504 /* ViewController.m in Sources */,
+				939FA0CC1EF17BE20021CB5A /* AllNotesCell.m in Sources */,
 				939FA07F1EEED4730021CB5A /* AlarmTableViewCell.m in Sources */,
 				939FA0A71EEFFDA50021CB5A /* AppModel.xcdatamodeld in Sources */,
 				937C93D61EE6A1EA0046B504 /* AppDelegate.m in Sources */,
 				939FA08A1EEFE2AE0021CB5A /* CoreData.m in Sources */,
 				939FA0A41EEFECC80021CB5A /* Tasks+CoreDataProperties.m in Sources */,
+				939FA0DA1EF273650021CB5A /* DataSource.m in Sources */,
 				937C940E1EE6B36C0046B504 /* Singleton.m in Sources */,
+				939FA0D21EF1825C0021CB5A /* NoteCustomCell.m in Sources */,
 				937C94121EE6B78E0046B504 /* MainViewController.m in Sources */,
 				939FA0621EEAE2410021CB5A /* TasksUpdater.m in Sources */,
 				939FA05F1EE996760021CB5A /* AttachmentsCollectionViewCell.m in Sources */,

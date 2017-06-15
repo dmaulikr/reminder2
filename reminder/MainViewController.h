@@ -9,13 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "NoteCell.h"
 #import "TasksUpdater.h"
+#import "PopTaskViewController.h"
 
 
-@protocol MainViewControllerDelegate <NSObject>
+@protocol MainViewControllerDelegate <NSObject, PopViewControllerDellegate>
 
 @optional
 -(void)attachmentsBrnPressed;
 -(void)taskChecked: (NSIndexPath *)indexPath;
+//-(void)taskUpdated;
 
 @end
 
@@ -24,10 +26,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *dataSource;
-@property (weak, nonatomic) IBOutlet UIImageView *imgAdd;
-
 @property (strong, nonatomic) NSMutableDictionary *dataSource2;
-
 
 @property (weak, nonatomic) id<MainViewControllerDelegate> delegate;
 

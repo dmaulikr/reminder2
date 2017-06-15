@@ -25,6 +25,11 @@
 
 
 +(id)sharedInstance;
+
+
+
+
+
 -(void)addNewTask:(Task *)task;
 -(NSMutableArray *)loadAllTasks;
 -(void)deleteTask:(Task *)task;
@@ -32,11 +37,17 @@
 -(void)updateTask:(Task *)task index:(int )index;
 -(void)update:(Task *)task;
 -(NSMutableDictionary *)loadAll;
--(NSString*)timeSince:(NSDate*)date;
+
 -(void)sort;
 -(void)taskChecked:(TaskC *)task;
 -(void)addNewImage:(UIImage *)image
            forTask:(TaskC *)task;
+-(TaskC *)like:(TaskC *)task;
+-(TaskC *)unlike:(TaskC *)task;
+-(NSMutableArray *)getAllTasks;
+-(NSMutableArray *)getAllFavoritedDate;
+-(void)loadCoreData;
+-(void)coreDataUpdated;
 
 
 @end

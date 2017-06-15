@@ -23,5 +23,25 @@
 - (NSURL *)applicationDocumentsDirectory;
 - (void)saveNewImageWithPath:(NSString *)imagePath
                      forTask:(TaskC *)task;
-
+- (void)taskChecked:(TaskC *)task;
+- (void)taskUnchecked:(TaskC *)task;
+- (TaskC *)like:(TaskC *)task;
+- (TaskC *)unlike:(TaskC *)task;
+- (void)addNewTaskWithTitle: (NSString *)title
+                    content:(NSString *)content
+                       date: (NSDate *)date
+                    isLiked:(bool)liked
+                     isDone: (bool)isDone
+                     withID:(NSString *)generatedID;
+- (void)updateTask:(TaskC *)task withTitle: (NSString *)title
+                    content:(NSString *)content
+                       date: (NSDate *)date
+                    isLiked:(bool)liked
+                     isDone: (bool)isDone
+                     withID:(NSString *)generatedID;
+- (void)deleteTask: (TaskC *)task;
+- (void)addAlarmWithTitle: (NSString *)title
+                     time:(NSDate *)time
+                      set:(bool)set managedObject:(NSManagedObject *)object;
+- (void)deleteAlarm:(NSManagedObject *)object;
 @end
