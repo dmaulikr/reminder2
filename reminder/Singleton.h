@@ -48,6 +48,8 @@
 -(NSMutableArray *)getAllFavoritedDate;
 -(void)loadCoreData;
 -(void)coreDataUpdated;
+-(TaskC *)removeImage:(AttachmentsC *)attachment
+           forTask:(TaskC *)task;
 
 
 @end

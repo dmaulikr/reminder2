@@ -16,6 +16,7 @@
 @optional
 -(void)attachmentsBrnPressed;
 -(void)taskUpdated;
+-(void)showImageRemoveButtons:(int )hidden;
 
 
 @end

@@ -153,7 +153,8 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *randomString = [[NSUUID UUID] UUIDString];
-    NSString *imagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",randomString]];
+    NSString *path = [randomString substringToIndex:10];
+    NSString *imagePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png",path]];
 
     if (![imageData writeToFile:imagePath atomically:NO])
     {
@@ -163,7 +164,7 @@
     {
         NSLog(@"the cachedImagedPath is %@",imagePath);
     }
-    return imagePath;
+    return path;
 }
 -(void)loadCoreData
 {
@@ -268,5 +269,12 @@
         }
     }
     return arrayFavorites;
+}
+-(TaskC *)removeImage:(AttachmentsC *)attachment
+           forTask:(TaskC *)task
+{
+    TaskC *taskUpdated = [self.coreData deleteImage:attachment forTask:task];
+    [self coreDataUpdated];
+    return taskUpdated;
 }
 @end

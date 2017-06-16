@@ -44,4 +44,6 @@
                      time:(NSDate *)time
                       set:(bool)set managedObject:(NSManagedObject *)object;
 - (void)deleteAlarm:(NSManagedObject *)object;
+- (TaskC *)deleteImage:(AttachmentsC *)object
+            forTask:(TaskC *)task;
 @end

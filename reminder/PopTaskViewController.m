@@ -14,6 +14,7 @@
 #import "LocationViewController.h"
 #import "AlarmViewController.h"
 #import <MapKit/MapKit.h>
+#import "Date.h"
 
 @interface PopTaskViewController () <UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AttachmentsDelegate, LocationViewControllerDelegate, MKMapViewDelegate>
 
@@ -30,7 +31,7 @@
 - (IBAction)showAttachments:(id)sender;
 @property (weak, nonatomic) IBOutlet UIView *vAttachBtn;
 
-@property (strong, nonatomic) UIButton *btnRemoveImg;
+//@property (strong, nonatomic) UIButton *btnRemoveImg;
 @property (strong, nonatomic) UIButton *btnAddImg;
 @property (strong, nonatomic) UIImageView *img;
 @property (weak, nonatomic) IBOutlet UIView *vAddBtn;
@@ -41,6 +42,7 @@
 
 @property(nonatomic, assign) int hidden;
 @property(nonatomic, assign) int hiddenMap;
+@property(nonatomic, assign) int number;
 
 @property(nonatomic, assign) float startX;
 @property(nonatomic, assign) float startY;
@@ -105,9 +107,13 @@
         [self.btnLike setImage:btnImage forState:UIControlStateNormal];
     }
     [self resizeTextView];
-    [self showAttachments];
     
     
+    NSString *dateString = [Date timeSince:self.taskC.date];
+    self.lblTaskDate.text = dateString;
+    
+    
+    NSLog(@"opened task -- > %@", self.taskC);
 }
 - (IBAction)doneBtn:(id)sender
 {
@@ -134,20 +140,12 @@
                            withID:task.idTak];
     
 }
-//-(NSDate *)getDate
-//{
-//    NSDate *now = [[NSDate alloc] init];
-//    return now;
-//}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-//    if (self.task.attachmentsArray) {
-//        return [self.task.attachmentsArray count];
-//    }
-//    return 0;
     NSArray *array = [self.taskC.attachments allObjects];
+    NSLog(@"number of images --> %lu",(unsigned long)[array count]);
     return [array count];
-    
     
 }
 
@@ -158,10 +156,11 @@
 
     cell.delegate = self;
     
+    
     [cell loadCell:self.taskC indexPath:indexPath viewController:self];
     
-    self.btnRemoveImg = (UIButton *)[cell viewWithTag:15];
-    self.btnRemoveImg.hidden = YES;
+//    self.btnRemoveImg = (UIButton *)[cell viewWithTag:15];
+//    self.btnRemoveImg.hidden = YES;
     
     self.img = (UIImageView *)[cell viewWithTag:16];
     
@@ -171,7 +170,6 @@
 - (IBAction)showAttachments:(id)sender
 {
     
-    [self.delegate attachmentsBrnPressed];
     
     [self showAttachments];
     
@@ -180,26 +178,56 @@
 {
     if (self.hidden == 0)
     {
+        
         self.hidden = 1;
-        self.vCollection.backgroundColor = [Colors darkColor];
-        self.collectionView.backgroundColor = [Colors darkColor];
-        self.vAddBtn.backgroundColor = [Colors darkColor];
-        self.vAddBtn.hidden = NO;
-        self.vCollection.hidden = NO;
-        [self resizeTextView];
+//        self.vCollection.backgroundColor = [Colors darkColor];
+//        self.collectionView.backgroundColor = [Colors darkColor];
+//        self.vAddBtn.backgroundColor = [Colors darkColor];
+//        self.vAddBtn.hidden = NO;
+//        self.vCollection.hidden = NO;
+//        [self resizeTextView];
+        [self.delegate showImageRemoveButtons:self.hidden];
         return;
     }
     else
     {
         self.hidden = 0;
-        self.vCollection.backgroundColor = [Colors yellowTask];
-        self.collectionView.backgroundColor = [Colors yellowTask];
-        self.vAddBtn.backgroundColor = [Colors yellowTask];
-        self.vAddBtn.hidden = YES;
-        self.vCollection.hidden = YES;
-        [self resizeTextView];
+//        self.vCollection.backgroundColor = [Colors yellowTask];
+//        self.collectionView.backgroundColor = [Colors yellowTask];
+//        self.vAddBtn.backgroundColor = [Colors yellowTask];
+//        self.vAddBtn.hidden = YES;
+//        self.vCollection.hidden = YES;
+//        [self resizeTextView];
+        [self.delegate showImageRemoveButtons:self.hidden];
         return;
     }
+    
+//    if (self.vCollection.hidden == NO)
+//    {
+//        self.number = (int)[self.taskC.attachments count];
+//        while (self.number > 0)
+//        {
+//            NSArray *ar = [self.taskC.attachments allObjects];
+////            self.btnRemoveImg.hidden = NO;
+//            NSLog(@"current number %i", self.number);
+//            for (int i = 0; i<[ar count]; i++) {
+//                
+//                AttachmentsC *atta = ar[i];
+//                
+//                NSLog(@"images --- > %@", atta);
+//                
+//            }
+//            break;
+//        }
+//        
+//        
+//        
+//        
+//    }
+    
+    
+    
+    
     //    [self.collectionView reloadData];
 }
 -(void)dismiss
@@ -211,6 +239,7 @@
     NSLog(@"remove");
     
     [self.task.attachmentsArray removeObjectAtIndex:1];
+    self.number = (int)[self.taskC.attachments count];
     [self.collectionView reloadData];
 
 }
@@ -285,7 +314,7 @@
         self.stackViewMainContent.hidden = NO;
         self.vMapView.hidden = NO;
         self.vAddBtn.hidden = NO;
-        self.btnRemoveImg.hidden = NO;
+//        self.btnRemoveImg.hidden = NO;
         self.vCollection.backgroundColor = [Colors darkColor];
         self.collectionView.backgroundColor = [Colors darkColor];
         self.vAddBtn.backgroundColor = [Colors darkColor];
@@ -295,7 +324,7 @@
     {
         self.stackViewMainContent.hidden = NO;
         self.vAddBtn.hidden = YES;
-        self.btnRemoveImg.hidden = YES;
+//        self.btnRemoveImg.hidden = YES;
         self.hiddenMap = 0;
         self.vCollection.backgroundColor = [Colors yellowTask];
         self.collectionView.backgroundColor = [Colors yellowTask];
@@ -366,10 +395,6 @@
         [self updateCurrentTask];
     }
 }
--(void)imgRemoved
-{
-    [self.collectionView reloadData];
-}
 -(IBAction)showLocation:(id)sender
 {
     [self openLocation];
@@ -417,5 +442,10 @@
 -(void)updateCurrentTask
 {
     
+}
+-(void)imgRemovedForTask:(TaskC *)task
+{
+    self.taskC = task;
+    [self.collectionView reloadData];
 }
 @end

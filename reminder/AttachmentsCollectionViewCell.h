@@ -14,7 +14,7 @@
 
 @protocol AttachmentsDelegate <NSObject>
 
--(void)imgRemoved;
+-(void)imgRemovedForTask:(TaskC *)task;
 
 @end
 

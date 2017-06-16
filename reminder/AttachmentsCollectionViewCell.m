@@ -13,62 +13,72 @@
 #import "AttachmentsC+CoreDataClass.h"
 
 
-@interface AttachmentsCollectionViewCell ()
+@interface AttachmentsCollectionViewCell () <PopViewControllerDellegate>
+{
+    __weak TaskC *taskPop;
+}
 
 @property (weak, nonatomic) IBOutlet UIImageView *imgVCollectionCell;
 @property (weak, nonatomic) IBOutlet UIButton *btnRemoveCellImage;
+@property (atomic, assign) BOOL hiddenBtn;
+
+
 
 @end
 
 @implementation AttachmentsCollectionViewCell
 
--(void )loadCell:(TaskC *)task
+-(void )loadCell:(TaskC *)taskc
                         indexPath:(NSIndexPath *)indexPath
                                     viewController:(PopTaskViewController *)viewCont;
 {
     Singleton *instance = [Singleton sharedInstance];
-    [instance.buttons addObject:self.btnRemoveCellImage];
+    [instance.buttons addObject:self.btnRemoveCellImage]; // mozda ovde pravi problem
 
     [self.btnRemoveImg addTarget:self
                        action:@selector(removeImage:)
        forControlEvents:UIControlEventTouchUpInside];
-    UIImage *image = [[UIImage alloc] init];
-    NSArray *array = [task.attachments allObjects];
+    
+    viewCont.delegate = self;
+    
+    
+    self.btnRemoveCellImage.hidden = YES;
+    if (self.hidden == YES)
+    {
+        self.btnRemoveCellImage.hidden = NO;
+    }
+  
+    NSArray *array = [taskc.attachments allObjects];
     AttachmentsC *attachment = [array objectAtIndex:indexPath.row];
-    NSString *imagePath = attachment.imgName;
-    image = [UIImage imageWithContentsOfFile:imagePath];
-
-//    if (task.attachmentsArray)
-//    {
-//        image = [task.attachmentsArray objectAtIndex:indexPath.row];
-//        
-//    }
-    [self.imgVCollectionCell setImage:image];
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+    dispatch_async(queue, ^{
+        
+        
+        NSString *imagePath = attachment.imgName;
+        UIImage *image = [UIImage imageWithContentsOfFile:[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
+                                                           stringByAppendingPathComponent:imagePath]];
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self.imgVCollectionCell setImage:image];
+        });
+    });
+    
     self.actionRemoveNoteImage = ^
     {
-     
-//        UIImage *imageToDelete = [task.attachmentsArray objectAtIndex:indexPath.row];
-//        
-//        for (UIImage *img in task.attachmentsArray)
-//        {
-//            if ([img isEqual:imageToDelete])
-//            {
-//                [task.attachmentsArray removeObject:img];
-//                
-//                break;
-//            }
-//        }
+        TaskC *task = [instance removeImage:attachment forTask:taskc];
+        taskPop = task;
     };
-    [instance.buttons addObject:self.btnRemoveCellImage];
+
 }
 -(IBAction)removeImage:(UIButton *)sender
 {
     if (self.actionRemoveNoteImage)
     {
         self.actionRemoveNoteImage();
+        [self.delegate imgRemovedForTask:taskPop];
     }
     
-    [self.delegate imgRemoved];
+    
     
 }
 -(void)attachmentsBrnPressed
@@ -77,6 +87,25 @@
     for (UIButton *button in instence.buttons)
     {
         button.hidden = NO;
+    }
+}
+
+-(void)showImageRemoveButtons:(int)hidden
+{
+    Singleton *instence = [Singleton sharedInstance];
+    NSLog(@"showing btns ");
+    for (UIButton *button in instence.buttons)
+    {
+        if (hidden == 1)
+        {
+            button.hidden = NO;
+            self.hidden = NO;
+        }
+        else if (hidden == 0)
+        {
+            button.hidden = YES;
+            self.hidden = YES;
+        }
     }
 }
 
