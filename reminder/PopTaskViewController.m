@@ -82,6 +82,10 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openLocation)];
     tap.numberOfTapsRequired = 1;
     
+    UITapGestureRecognizer *tapDismissKeyboard = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(textViewShouldEndEditing:)];
+    tap.numberOfTapsRequired = 1;
+    
+    [self.view addGestureRecognizer:tapDismissKeyboard];
     [self.mapV addGestureRecognizer:tap];
     self.mapV.userInteractionEnabled = YES;
     self.textViewContent.delegate = self;
@@ -107,13 +111,8 @@
         [self.btnLike setImage:btnImage forState:UIControlStateNormal];
     }
     [self resizeTextView];
-    
-    
     NSString *dateString = [Date timeSince:self.taskC.date];
     self.lblTaskDate.text = dateString;
-    
-    
-    NSLog(@"opened task -- > %@", self.taskC);
 }
 - (IBAction)doneBtn:(id)sender
 {
@@ -146,33 +145,19 @@
     NSArray *array = [self.taskC.attachments allObjects];
     NSLog(@"number of images --> %lu",(unsigned long)[array count]);
     return [array count];
-    
 }
-
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     AttachmentsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imgCell" forIndexPath:indexPath];
-
     cell.delegate = self;
-    
-    
     [cell loadCell:self.taskC indexPath:indexPath viewController:self];
-    
-//    self.btnRemoveImg = (UIButton *)[cell viewWithTag:15];
-//    self.btnRemoveImg.hidden = YES;
-    
     self.img = (UIImageView *)[cell viewWithTag:16];
-    
     return cell;
 }
 
 - (IBAction)showAttachments:(id)sender
 {
-    
-    
     [self showAttachments];
-    
 }
 -(void)showAttachments
 {
@@ -245,21 +230,20 @@
 }
 -(IBAction)addImage:(UIButton *)sender
 {
-    
-    NSLog(@"adding img");
+
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Attach image" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction* pickFromGallery =
     [UIAlertAction actionWithTitle:@"Take a photo"
                              style:UIAlertActionStyleDefault
                            handler:^(UIAlertAction * action)
      {
-                               if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+                               if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+                               {
                                    UIImagePickerController* picker = [[UIImagePickerController alloc] init];
                                    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
                                    picker.delegate = self;
                                    [self presentViewController:picker animated:YES completion:NULL];
                                }
-                               
                            }];
     UIAlertAction* takeAPicture =
     [UIAlertAction actionWithTitle:@"Choose from gallery"
@@ -275,7 +259,6 @@
                                                    handler:^(UIAlertAction * action)
     {
                                                    }];
-    
     [alertController addAction:pickFromGallery];
     [alertController addAction:takeAPicture];
     [alertController addAction:cancel];
@@ -301,7 +284,6 @@
 }
 -(void)addNewImageAction:(UIImage *)image
 {
-//    [self.task.attachmentsArray addObject:image];
     [self.instance addNewImage:image forTask:self.taskC];
     [self.collectionView reloadData];
 }
@@ -447,5 +429,12 @@
 {
     self.taskC = task;
     [self.collectionView reloadData];
+}
+-(BOOL)textViewShouldEndEditing:(UITextView *)textView
+{
+    [self.textViewTitle resignFirstResponder];
+    [self.textViewContent resignFirstResponder];
+    [self resignFirstResponder];
+    return YES;
 }
 @end

@@ -29,6 +29,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskUpdated) name:@"dataSourceUpdated" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateChecked) name:@"taskChecked" object:nil];
+    self.tableViewFavorites.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

@@ -14,10 +14,12 @@
 #import <UserNotificationsUI/UserNotificationsUI.h>
 #import "AlarmC+CoreDataClass.h"
 #import "PopTaskViewController.h"
+#import "Date.h"
 
-@interface AlarmViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface AlarmViewController () <UITableViewDelegate, UITableViewDataSource, UNUserNotificationCenterDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewAlarm;
-
+@property (strong, nonatomic) UNUserNotificationCenter *center;
+@property (nonatomic, assign) NSTimeInterval countDownInterval;
 @end
 
 @implementation AlarmViewController
@@ -28,6 +30,8 @@
     
     self.tableViewAlarm.delegate = self;
     self.tableViewAlarm.dataSource = self;
+    self.tableViewAlarm.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.center.delegate = self;
 }
 
 - (IBAction)back:(id)sender
@@ -105,10 +109,10 @@
     
     NSString *identifier = @"UYLLocalNotification";
     
-    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    self.center = [UNUserNotificationCenter currentNotificationCenter];
     UNAuthorizationOptions options = UNAuthorizationOptionAlert + UNAuthorizationOptionSound;
     
-    [center requestAuthorizationWithOptions:options
+    [self.center requestAuthorizationWithOptions:options
                           completionHandler:^(BOOL granted, NSError * _Nullable error)
     {
                               if (!granted)
@@ -117,7 +121,7 @@
                               }
                           }];
     
-    [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings)
+    [self.center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings)
     {
         if (settings.authorizationStatus != UNAuthorizationStatusAuthorized)
         {
@@ -128,7 +132,7 @@
     UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:identifier
                                                                           content:content trigger:trigger];
     
-    [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error)
+    [self.center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error)
     {
         if (error != nil)
         {
@@ -204,6 +208,7 @@
     UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height, 320, 44)];
     toolBar.tag = 11;
     toolBar.barStyle = UIBarStyleDefault;
+    
     UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissDatePicker:)];
     doneButton.tintColor = [UIColor blackColor];
@@ -220,14 +225,71 @@
     Singleton *instance = [Singleton sharedInstance];
     NSManagedObject *taskObject = self.taskCOpened;
     UITableView *tableView = self.tableViewAlarm;
+    NSDate *currentDate = [NSDate new];
+
+    NSDate *someDateInUTC = currentDate;
+    NSTimeInterval timeZoneSeconds = [[NSTimeZone localTimeZone] secondsFromGMT];
+    NSDate *dateInLocalTimezone = [someDateInUTC dateByAddingTimeInterval:timeZoneSeconds];
+    datePicker.date = [datePicker.date dateByAddingTimeInterval:timeZoneSeconds];
     
     self.actionDateDone = ^
     {
         [instance.coreData
          addAlarmWithTitle:@"alarm" time:datePicker.date
                                          set:YES managedObject:taskObject];
+        NSTimeInterval interval = [datePicker.date timeIntervalSinceDate:dateInLocalTimezone];
+        NSLog(@"picekr date : %@", datePicker.date);
+        UNMutableNotificationContent *localNotification = [UNMutableNotificationContent new];
+        localNotification.title = [NSString localizedUserNotificationStringForKey:@"Time for a run!" arguments:nil];
+        localNotification.body = [NSString localizedUserNotificationStringForKey:@"BTW, running late to happy hour does not count as workout" arguments:nil];
+        UNNotificationSound *sound = [UNNotificationSound soundNamed:@"sound.aiff"];
+        localNotification.sound = sound;
+        UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:interval repeats:NO];
+        UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"Time for a run!" content:localNotification trigger:trigger];
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
+            NSLog(@"Notification created");
+            NSLog(@"for time interval : %f", interval);
+        }];
         [tableView reloadData];
     };
 }
 
+- (void)takeActionWithLocalNotification:(UNNotification *)localNotification
+{
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:localNotification.request.content.title message:localNotification.request.content.body preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"ok");
+    }];
+    [alertController addAction:ok];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self presentViewController:alertController animated:YES completion:^{
+        }];
+    });
+}
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler
+{
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Notification alert" message:@"This app just sent you a notification, do you want to see it?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ignore = [UIAlertAction actionWithTitle:@"IGNORE" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"ignore");
+    }];
+    UIAlertAction *see = [UIAlertAction actionWithTitle:@"SEE" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        [self takeActionWithLocalNotification:notification];
+    }];
+    
+    [alertController addAction:ignore];
+    [alertController addAction:see];
+    
+    [self presentViewController:alertController animated:YES completion:^{
+    }];
+}
+- (void)userSelectTime:(UIDatePicker *)sender
+{
+    
+    self.countDownInterval = (NSTimeInterval )sender.countDownDuration;
+    
+}
 @end

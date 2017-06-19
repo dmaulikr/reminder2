@@ -53,6 +53,7 @@
 		939FA0DE1EF27CBF0021CB5A /* Date.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0DD1EF27CBF0021CB5A /* Date.m */; };
 		939FA0E31EF7B7070021CB5A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0E21EF7B7070021CB5A /* SearchViewController.m */; };
 		939FA0E61EF7D98B0021CB5A /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0E51EF7D98B0021CB5A /* SearchTableViewCell.m */; };
+		939FA0E81EF825DC0021CB5A /* sound.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 939FA0E71EF825DC0021CB5A /* sound.aiff */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -167,6 +168,7 @@
 		939FA0E21EF7B7070021CB5A /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		939FA0E41EF7D98B0021CB5A /* SearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewCell.h; sourceTree = "<group>"; };
 		939FA0E51EF7D98B0021CB5A /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
+		939FA0E71EF825DC0021CB5A /* sound.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = sound.aiff; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +252,7 @@
 		937C93D11EE6A1EA0046B504 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				939FA0E71EF825DC0021CB5A /* sound.aiff */,
 				937C93D21EE6A1EA0046B504 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -541,6 +544,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				939FA0E81EF825DC0021CB5A /* sound.aiff in Resources */,
 				939FA0CF1EF17FFF0021CB5A /* CustomNoteCell.xib in Resources */,
 				937C93E41EE6A1EA0046B504 /* LaunchScreen.storyboard in Resources */,
 				937C93E11EE6A1EA0046B504 /* Assets.xcassets in Resources */,

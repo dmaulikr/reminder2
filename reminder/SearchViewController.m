@@ -11,9 +11,7 @@
 #import "SearchTableViewCell.h"
 #import "PopTaskViewController.h"
 
-@interface SearchViewController () <UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating,UISearchBarDelegate, UIScrollViewDelegate, UISearchDisplayDelegate, UISearchControllerDelegate>
-
-
+@interface SearchViewController () <UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating,UISearchBarDelegate, UIScrollViewDelegate, UISearchDisplayDelegate, UISearchControllerDelegate, UIGestureRecognizerDelegate, SearchCellDelegate>
 
 @property (strong, nonatomic) NSArray *searchResults;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewSearch;
@@ -21,6 +19,8 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *srchBar;
 @property (weak, nonatomic) IBOutlet UIView *vResults;
 @property (weak, nonatomic) IBOutlet UILabel *lblResultsFound;
+@property (weak, nonatomic) IBOutlet UIImageView *imgSearchScope;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintYPosotion;
 
 @end
 
@@ -28,8 +28,23 @@
 
 - (void)viewDidLoad
 {
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchBarShouldEndEditing:)];
+    tap.numberOfTapsRequired = 1;
+    [self.view addGestureRecognizer:tap];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidHide:)
+                                                 name:UIKeyboardDidHideNotification
+                                               object:nil];
+    tap.cancelsTouchesInView = NO;
+    self.tableViewSearch.layer.zPosition = 1;
+    
     self.srchBar.delegate = self;
-
     self.tableViewSearch.delegate = self;
     self.tableViewSearch.dataSource = self;
     self.searchResults = [[NSArray alloc] init];
@@ -42,6 +57,9 @@
     self.tableViewSearch.dataSource = self;
     self.tableViewSearch.hidden = YES;
     self.vResults.hidden = YES;
+    self.imgSearchScope.center = self.view.center;
+    [self.srchBar becomeFirstResponder];
+    self.tableViewSearch.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
    }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -55,6 +73,7 @@
     SearchTableViewCell *cell = [self.tableViewSearch dequeueReusableCellWithIdentifier:@"cellSerach" forIndexPath:indexPath];
     TaskC *task = (TaskC *)[self.searchResults objectAtIndex:indexPath.row];
     [cell loadCell:cell task:task];
+    cell.delegate = self;
     return cell;
 }
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
@@ -62,6 +81,7 @@
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+ 
     if(searchText.length > 0)
     {
         NSString *searchString = searchText;
@@ -99,14 +119,59 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 60.0f;
 }
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+
+-(BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
 {
-        Singleton *instance = [Singleton sharedInstance];
-        PopTaskViewController *vc = [instance.storyBoard instantiateViewControllerWithIdentifier:@"popTask"];
-        vc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-        TaskC *task = [self.searchResults objectAtIndex:indexPath.row];
-        vc.taskC = task;
-        [self presentViewController:vc animated:YES completion:NULL];
+    [self.srchBar resignFirstResponder];
+    self.srchBar.text = @"";
+    self.searchResults = nil;
+    self.tableViewSearch.hidden = YES;
+    self.vResults.hidden = YES;
+    
+    return YES;
 }
 
+-(void)moveSearchScopeUp
+{
+    [self.view layoutIfNeeded];
+    self.constraintYPosotion.constant += -40;
+    [UIView animateWithDuration:0.4 animations:^
+    {
+        [self.view layoutIfNeeded]; }
+     ];
+}
+-(void)moveSearchScopeDown
+{
+    [self.view layoutIfNeeded];
+    self.constraintYPosotion.constant = 0;
+    [UIView animateWithDuration:0.4 animations:^
+    {
+        [self.view layoutIfNeeded]; }
+     ];
+}
+- (void)keyboardDidShow: (NSNotification *) notif
+{
+    [self moveSearchScopeUp];
+}
+
+- (void)keyboardDidHide: (NSNotification *) notif
+{
+    [self moveSearchScopeDown];
+}
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
+       shouldReceiveTouch:(UITouch *)touch
+{
+    if([touch.view class] == [UIButton class])
+    {
+        return NO;
+    }
+    return YES;
+}
+-(void)openTask:(TaskC *)task
+{
+    Singleton *instance = [Singleton sharedInstance];
+    PopTaskViewController *vc = [instance.storyBoard instantiateViewControllerWithIdentifier:@"popTask"];
+    vc.taskC = task;
+    [self presentViewController:vc animated:YES completion:NULL];
+}
 @end

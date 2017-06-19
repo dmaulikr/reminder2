@@ -18,27 +18,37 @@
 @implementation AppDelegate
 
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
     
-    
-
-    
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionSound + UNAuthorizationOptionBadge)
+                          completionHandler:^(BOOL granted, NSError * _Nullable error)
+    {
+        if (!granted) {
+            //Show alert asking to go to settings and allow permission
+        }
+    }];
+    application.applicationIconBadgeNumber = 3;
     return YES;
 }
 
 
-- (void)applicationWillResignActive:(UIApplication *)application {
+- (void)applicationWillResignActive:(UIApplication *)application
+{
 
 }
 
 
-- (void)applicationDidEnterBackground:(UIApplication *)application {
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
 
 }
 
 
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    application.applicationIconBadgeNumber = 0;
 }
 
 

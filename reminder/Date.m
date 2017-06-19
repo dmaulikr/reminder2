@@ -66,6 +66,12 @@
         [formatter setLocale:[NSLocale currentLocale]];
         [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     }
+    else if ([name isEqualToString:@"alarm"])
+    {
+        [formatter setDateFormat:@"dd/MM/yyyy HH:mm"];
+        [formatter setLocale:[NSLocale currentLocale]];
+        [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    }
     return formatter;
     
 }

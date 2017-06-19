@@ -31,7 +31,7 @@
     self.dataSourceAll = [DataSource getDataSourceWithName:@"allTasks"];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskUpdated) name:@"dataSourceUpdated" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateChecked) name:@"taskChecked" object:nil];
-    
+    self.tableViewAllTasks.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 -(NSInteger)tableView:(UITableView *)tableView
 numberOfRowsInSection:(NSInteger)section
