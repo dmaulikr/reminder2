@@ -41,7 +41,6 @@
     
     viewCont.delegate = self;
     
-    
     self.btnRemoveCellImage.hidden = YES;
     if (self.hidden == YES)
     {
@@ -77,9 +76,6 @@
         self.actionRemoveNoteImage();
         [self.delegate imgRemovedForTask:taskPop];
     }
-    
-    
-    
 }
 -(void)attachmentsBrnPressed
 {
@@ -89,7 +85,6 @@
         button.hidden = NO;
     }
 }
-
 -(void)showImageRemoveButtons:(int)hidden
 {
     Singleton *instence = [Singleton sharedInstance];
