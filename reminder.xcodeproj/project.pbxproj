@@ -54,6 +54,8 @@
 		939FA0E31EF7B7070021CB5A /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0E21EF7B7070021CB5A /* SearchViewController.m */; };
 		939FA0E61EF7D98B0021CB5A /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0E51EF7D98B0021CB5A /* SearchTableViewCell.m */; };
 		939FA0E81EF825DC0021CB5A /* sound.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 939FA0E71EF825DC0021CB5A /* sound.aiff */; };
+		939FA0EC1EF966CC0021CB5A /* AnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 939FA0EB1EF966CC0021CB5A /* AnnotationView.m */; };
+		939FA0EE1EF969E10021CB5A /* AnnotationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 939FA0ED1EF969E10021CB5A /* AnnotationView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -169,6 +171,9 @@
 		939FA0E41EF7D98B0021CB5A /* SearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewCell.h; sourceTree = "<group>"; };
 		939FA0E51EF7D98B0021CB5A /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
 		939FA0E71EF825DC0021CB5A /* sound.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = sound.aiff; sourceTree = "<group>"; };
+		939FA0EA1EF966CC0021CB5A /* AnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationView.h; sourceTree = "<group>"; };
+		939FA0EB1EF966CC0021CB5A /* AnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationView.m; sourceTree = "<group>"; };
+		939FA0ED1EF969E10021CB5A /* AnnotationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AnnotationView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,6 +230,7 @@
 		937C93D01EE6A1EA0046B504 /* reminder */ = {
 			isa = PBXGroup;
 			children = (
+				939FA0E91EF966AB0021CB5A /* views */,
 				939FA0DB1EF27C9C0021CB5A /* date formatting */,
 				939FA0D71EF2733E0021CB5A /* DataSource */,
 				939FA0CD1EF17FE70021CB5A /* xibs */,
@@ -416,6 +422,7 @@
 			isa = PBXGroup;
 			children = (
 				939FA0CE1EF17FFF0021CB5A /* CustomNoteCell.xib */,
+				939FA0ED1EF969E10021CB5A /* AnnotationView.xib */,
 			);
 			name = xibs;
 			sourceTree = "<group>";
@@ -436,6 +443,15 @@
 				939FA0DD1EF27CBF0021CB5A /* Date.m */,
 			);
 			name = "date formatting";
+			sourceTree = "<group>";
+		};
+		939FA0E91EF966AB0021CB5A /* views */ = {
+			isa = PBXGroup;
+			children = (
+				939FA0EA1EF966CC0021CB5A /* AnnotationView.h */,
+				939FA0EB1EF966CC0021CB5A /* AnnotationView.m */,
+			);
+			name = views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -505,6 +521,7 @@
 				TargetAttributes = {
 					937C93CD1EE6A1EA0046B504 = {
 						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = 4KH98UY9CJ;
 						ProvisioningStyle = Automatic;
 					};
 					937C93E91EE6A1EA0046B504 = {
@@ -545,6 +562,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				939FA0E81EF825DC0021CB5A /* sound.aiff in Resources */,
+				939FA0EE1EF969E10021CB5A /* AnnotationView.xib in Resources */,
 				939FA0CF1EF17FFF0021CB5A /* CustomNoteCell.xib in Resources */,
 				937C93E41EE6A1EA0046B504 /* LaunchScreen.storyboard in Resources */,
 				937C93E11EE6A1EA0046B504 /* Assets.xcassets in Resources */,
@@ -598,6 +616,7 @@
 				939FA0D21EF1825C0021CB5A /* NoteCustomCell.m in Sources */,
 				939FA0E31EF7B7070021CB5A /* SearchViewController.m in Sources */,
 				937C94121EE6B78E0046B504 /* MainViewController.m in Sources */,
+				939FA0EC1EF966CC0021CB5A /* AnnotationView.m in Sources */,
 				939FA0621EEAE2410021CB5A /* TasksUpdater.m in Sources */,
 				939FA05F1EE996760021CB5A /* AttachmentsCollectionViewCell.m in Sources */,
 				937C941C1EE6CED90046B504 /* NoteCell.m in Sources */,
@@ -758,6 +777,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 4KH98UY9CJ;
 				INFOPLIST_FILE = reminder/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "engineers-nikolaDejic.reminder";
@@ -769,6 +789,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 4KH98UY9CJ;
 				INFOPLIST_FILE = reminder/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "engineers-nikolaDejic.reminder";

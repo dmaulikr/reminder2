@@ -68,7 +68,7 @@
             if ([alarmSwitched isEqual:alarm])
             {
                 alarmSwitched.isSet = NO;
-                [self setNotification];
+
             }
         }
         [self.tableViewAlarm reloadData];
@@ -91,55 +91,7 @@
 {
     return 80.0f;
 }
--(void)setNotification
-{
-    UNMutableNotificationContent *content = [UNMutableNotificationContent new];
-    content.title = @"Don't forget";
-    content.body = @"Buy some milk";
-    content.sound = [UNNotificationSound defaultSound];
-    
-    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:30];
-    NSDateComponents *triggerDate = [[NSCalendar currentCalendar]
-                                     components:NSCalendarUnitYear +
-                                     NSCalendarUnitMonth + NSCalendarUnitDay +
-                                     NSCalendarUnitHour + NSCalendarUnitMinute +
-                                     NSCalendarUnitSecond fromDate:date];
-    
-    UNCalendarNotificationTrigger *trigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:triggerDate repeats:NO];
-    
-    NSString *identifier = @"UYLLocalNotification";
-    
-    self.center = [UNUserNotificationCenter currentNotificationCenter];
-    UNAuthorizationOptions options = UNAuthorizationOptionAlert + UNAuthorizationOptionSound;
-    
-    [self.center requestAuthorizationWithOptions:options
-                          completionHandler:^(BOOL granted, NSError * _Nullable error)
-    {
-                              if (!granted)
-                              {
-                                  NSLog(@"Something went wrong");
-                              }
-                          }];
-    
-    [self.center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings)
-    {
-        if (settings.authorizationStatus != UNAuthorizationStatusAuthorized)
-        {
-            // Notifications not allowed
-        }
-    }];
-    
-    UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:identifier
-                                                                          content:content trigger:trigger];
-    
-    [self.center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error)
-    {
-        if (error != nil)
-        {
-            NSLog(@"Something went wrong: %@",error);
-        }
-    }];
-}
+
 - (void)changeDate:(UIDatePicker *)sender
 {
     NSLog(@"New Date: %@", sender.date);

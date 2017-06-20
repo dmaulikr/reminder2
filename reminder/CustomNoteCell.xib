@@ -50,7 +50,7 @@
                                 <rect key="frame" x="4" y="0.0" width="30" height="15"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="Vc6-yp-zp5">
-                                        <rect key="frame" x="0.0" y="0.0" width="30" height="15"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="45" height="15"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bell" translatesAutoresizingMaskIntoConstraints="NO" id="BKh-i5-brO">
                                                 <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
@@ -62,18 +62,27 @@
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="attachment" translatesAutoresizingMaskIntoConstraints="NO" id="2Ko-Ub-xhz">
                                                 <rect key="frame" x="15" y="0.0" width="15" height="15"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="15" id="2xz-HI-GzZ"/>
-                                                    <constraint firstAttribute="height" constant="15" id="87D-8K-0wH"/>
+                                                    <constraint firstAttribute="height" constant="15" id="der-pZ-KGX"/>
+                                                    <constraint firstAttribute="width" constant="15" id="vr8-D1-TQv"/>
+                                                </constraints>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="location" translatesAutoresizingMaskIntoConstraints="NO" id="gXN-AT-oyF">
+                                                <rect key="frame" x="30" y="0.0" width="15" height="15"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="15" id="S4Y-JA-rVR"/>
+                                                    <constraint firstAttribute="height" constant="15" id="cTl-3n-umD"/>
                                                 </constraints>
                                             </imageView>
                                         </subviews>
                                         <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="2Ko-Ub-xhz" secondAttribute="bottom" id="91z-v4-eRP"/>
                                             <constraint firstItem="BKh-i5-brO" firstAttribute="leading" secondItem="Vc6-yp-zp5" secondAttribute="leading" id="D4M-cf-uus"/>
-                                            <constraint firstAttribute="bottom" secondItem="2Ko-Ub-xhz" secondAttribute="bottom" id="Ify-H1-IYw"/>
                                             <constraint firstAttribute="height" constant="15" id="aEX-6m-i8I"/>
-                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="30" id="c0R-GW-f5c"/>
+                                            <constraint firstItem="gXN-AT-oyF" firstAttribute="leading" secondItem="2Ko-Ub-xhz" secondAttribute="trailing" id="bpa-59-bQo"/>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="45" id="c0R-GW-f5c"/>
+                                            <constraint firstItem="2Ko-Ub-xhz" firstAttribute="leading" secondItem="BKh-i5-brO" secondAttribute="trailing" id="d3O-YR-ZCj"/>
                                             <constraint firstItem="BKh-i5-brO" firstAttribute="top" secondItem="Vc6-yp-zp5" secondAttribute="top" id="ee6-gC-EgX"/>
-                                            <constraint firstAttribute="trailing" secondItem="2Ko-Ub-xhz" secondAttribute="trailing" id="xLg-k8-OmE"/>
+                                            <constraint firstItem="2Ko-Ub-xhz" firstAttribute="top" secondItem="Vc6-yp-zp5" secondAttribute="top" id="uhv-PV-w3l"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
@@ -137,6 +146,7 @@
                 <outlet property="btnChecked" destination="hed-1b-4Xm" id="fHZ-qp-ECo"/>
                 <outlet property="imgAlarm" destination="BKh-i5-brO" id="mQY-kh-8a3"/>
                 <outlet property="imgAttachmment" destination="2Ko-Ub-xhz" id="aPs-PK-p0l"/>
+                <outlet property="imgLoccation" destination="gXN-AT-oyF" id="M6H-SP-LsA"/>
                 <outlet property="lblNoteDate" destination="g7Q-Tg-6ea" id="HEX-bX-MMO"/>
                 <outlet property="lblNoteTitle" destination="FjR-bz-KFm" id="PZa-ZN-oA8"/>
                 <outlet property="vRed" destination="TxT-pL-Oox" id="1dO-Oz-PyB"/>
@@ -148,5 +158,6 @@
         <image name="attachment" width="256" height="256"/>
         <image name="bell" width="192" height="192"/>
         <image name="circle" width="1600" height="1600"/>
+        <image name="location" width="512" height="512"/>
     </resources>
 </document>

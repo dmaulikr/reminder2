@@ -11,4 +11,5 @@
 @interface Date : NSObject
 +(NSString*)timeSince:(NSDate*)date;;
 +(NSDateFormatter *)getDateForrmater:(NSString *)name;
++(NSInteger)daysBetweenDate:(NSDate*)fromDateTime andDate:(NSDate*)toDateTime;
 @end

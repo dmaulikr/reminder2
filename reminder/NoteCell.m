@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIView *vRed;
 @property (weak, nonatomic) IBOutlet UIImageView *imgAlarm;
 @property (weak, nonatomic) IBOutlet UIImageView *imgAttachment;
+@property (weak, nonatomic) IBOutlet UILabel *imgLocation;
 
 @end
 @implementation NoteCell
@@ -57,6 +58,7 @@
         self.vRed.backgroundColor = [UIColor whiteColor];
     }
     int count = 0;
+    int locationCount = 0;
     
     NSArray *alarmsArray = [task.alarms allObjects];
     for (AlarmC *alarm in alarmsArray)
@@ -74,6 +76,17 @@
     else
     {
         self.imgAlarm.hidden = YES;
+    }
+    NSArray *locationsArray = [task.locations allObjects];
+    
+    locationCount = (int)[locationsArray count];
+    if (locationCount > 0)
+    {
+        self.imgLocation.hidden = NO;
+    }
+    else
+    {
+        self.imgLocation.hidden = YES;
     }
     if ([task.attachments count] > 0)
     {

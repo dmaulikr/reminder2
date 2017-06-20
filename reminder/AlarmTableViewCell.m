@@ -51,11 +51,25 @@
     self.lblAlarmType.text = alarm.alarmTitle;
     self.lblAlarmDat.text = [formatter stringFromDate:alarm.alarmDate];
     
+    NSDate *currentDate = [NSDate new];
+    NSDate *someDateInUTC = currentDate;
+    NSTimeInterval timeZoneSeconds = [[NSTimeZone localTimeZone] secondsFromGMT];
+    NSDate *dateInLocalTimezone = [someDateInUTC dateByAddingTimeInterval:timeZoneSeconds];
+    
     if (alarm.isSet == YES)
     {
-        [self.alarmSwitch setOn:YES];
-        self.lblAlarmDat.textColor = [UIColor blackColor];
-        self.lblAlarmType.textColor = [UIColor blackColor];
+        if ([alarm.alarmDate compare:dateInLocalTimezone] == NSOrderedAscending)
+        {
+            [self.alarmSwitch setOn:NO];
+            self.lblAlarmDat.textColor = [Colors lightGray];
+            self.lblAlarmType.textColor = [Colors lightGray];
+        }
+        else
+        {
+            [self.alarmSwitch setOn:YES];
+            self.lblAlarmDat.textColor = [UIColor blackColor];
+            self.lblAlarmType.textColor = [UIColor blackColor];
+        }
     }
     else
     {

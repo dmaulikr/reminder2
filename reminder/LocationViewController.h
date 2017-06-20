@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Location.h"
+#import "PopTaskViewController.h"
 
 
 @protocol LocationViewControllerDelegate <NSObject>
@@ -22,5 +23,8 @@
 
 @property (weak, nonatomic) id<LocationViewControllerDelegate> delegate;
 @property (strong, nonatomic) Location *location;
+@property (nonatomic, copy) void(^actionLocationAdded)(void);
+@property (strong, nonatomic) TaskC *taskForLocation;
+
 
 @end

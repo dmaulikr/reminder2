@@ -13,10 +13,10 @@
 #import "AddViewController.h"
 #import "DataSource.h"
 
+
 NSInteger selectedIndexBtn = 0;
 
 @interface StartViewController () <AddNewControllerDelegate>
-
 
 @property (strong, nonatomic) UIViewController *byDatesViewController;
 @property (strong, nonatomic) UIViewController *allTasksViewController;
@@ -70,10 +70,11 @@ NSInteger selectedIndexBtn = 0;
 - (IBAction)addBtnPressedAction:(id)sender
 {
     Singleton *instance = [Singleton sharedInstance];
-    AddViewController *vc = [instance.storyBoard instantiateViewControllerWithIdentifier:@"addNewController"];
-    vc.delegate = self;
+    PopTaskViewController *vc = [instance.storyBoard instantiateViewControllerWithIdentifier:@"popTask"];
     vc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+
     [self presentViewController:vc animated:YES completion:NULL];
+
 }
 
 - (IBAction)toggleViewsAction:(UIButton *)sender

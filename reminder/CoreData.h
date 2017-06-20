@@ -46,4 +46,9 @@
 - (void)deleteAlarm:(NSManagedObject *)object;
 - (TaskC *)deleteImage:(AttachmentsC *)object
             forTask:(TaskC *)task;
+- (void)addLocationWithLatitude:(NSString *)latidute
+                   andLognitude:(NSString *)longnitude
+                        forTask:(TaskC *)task;
+- (TaskC *)deleteLocation:(LocationC *)object
+                  forTask:(TaskC *)task;
 @end

@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imgAlarm;
 @property (weak, nonatomic) IBOutlet UIImageView *imgAttachmment;
 @property (weak, nonatomic) IBOutlet UIView *vRed;
+@property (weak, nonatomic) IBOutlet UIImageView *imgLoccation;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnChecked;
 - (IBAction)btnCheckedAction:(id)sender;
@@ -62,6 +63,7 @@
         self.vRed.backgroundColor = [UIColor whiteColor];
     }
     int count = 0;
+    int locationCount = 0;
     
     NSArray *alarmsArray = [task.alarms allObjects];
     for (AlarmC *alarm in alarmsArray)
@@ -88,6 +90,18 @@
     {
         self.imgAttachmment.hidden = YES;
     }
+    NSArray *locationsArray = [task.locations allObjects];
+    
+    locationCount = (int)[locationsArray count];
+    if (locationCount > 0)
+    {
+        self.imgLoccation.hidden = NO;
+    }
+    else
+    {
+        self.imgLoccation.hidden = YES;
+    }
+
     NSDateFormatter *formatter = [Date getDateForrmater:@"allNotesCell"];
     NSString *stringFromDate = [formatter stringFromDate:task.date];
     

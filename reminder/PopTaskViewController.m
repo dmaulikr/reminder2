@@ -17,6 +17,10 @@
 #import "Date.h"
 
 @interface PopTaskViewController () <UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AttachmentsDelegate, LocationViewControllerDelegate, MKMapViewDelegate>
+{
+    NSString *operation;
+    NSString *generatedIDforNewTask;
+}
 
 @property (weak, nonatomic) IBOutlet UITextView *textViewTitle;
 @property (weak, nonatomic) IBOutlet UILabel *lblTaskDate;
@@ -31,22 +35,19 @@
 - (IBAction)showAttachments:(id)sender;
 @property (weak, nonatomic) IBOutlet UIView *vAttachBtn;
 
-//@property (strong, nonatomic) UIButton *btnRemoveImg;
+
 @property (strong, nonatomic) UIButton *btnAddImg;
 @property (strong, nonatomic) UIImageView *img;
 @property (weak, nonatomic) IBOutlet UIView *vAddBtn;
-
 @property (strong, nonatomic) UIImage *chosenImage;
-
 @property (strong, nonatomic) NSMutableArray *imagesArray;
 
 @property(nonatomic, assign) int hidden;
 @property(nonatomic, assign) int hiddenMap;
 @property(nonatomic, assign) int number;
-
 @property(nonatomic, assign) float startX;
 @property(nonatomic, assign) float startY;
-
+@property (assign, atomic) BOOL liked;
 
 @property (weak, nonatomic) IBOutlet UIView *vMapView;
 - (IBAction)btnLocationAction:(id)sender;
@@ -57,11 +58,8 @@
 - (IBAction)btnLikeAction:(id)sender;
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapV;
-
-
-
-
 @property (strong, nonatomic) Singleton *instance;
+@property (strong, nonatomic) NSMutableArray<Location *> *arrayLocations;
 
 @end
 
@@ -92,34 +90,122 @@
     self.textViewTitle.delegate = self;
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
-    [self.textViewTitle setText:self.taskC.title];
-    [self.textViewContent setText:self.taskC.content];
+    self.arrayLocations = [[NSMutableArray alloc] init];
     
-    self.hidden = 0;
-    self.hiddenMap = 0;
-    self.lblTaskDate.text = self.task.dateString;
-    self.vMapView.hidden = YES;
     UIImage *btnImage;
-    if (self.taskC.isLiked == YES)
+    if (self.taskC)
     {
-        btnImage = [UIImage imageNamed:@"heartRed.png"];
-        [self.btnLike setImage:btnImage forState:UIControlStateNormal];
+        [self.textViewTitle setText:self.taskC.title];
+        [self.textViewContent setText:self.taskC.content];
+        
+        self.hidden = 0;
+        self.hiddenMap = 0;
+        self.lblTaskDate.text = self.task.dateString;
+        self.vMapView.hidden = YES;
+        
+        if (self.taskC.isLiked == YES)
+        {
+            btnImage = [UIImage imageNamed:@"important.png"];
+            [self.btnLike setImage:btnImage forState:UIControlStateNormal];
+        }
+        else
+        {
+            btnImage = [UIImage imageNamed:@"importantUnchecked.png"];
+            [self.btnLike setImage:btnImage forState:UIControlStateNormal];
+        }
+        [self resizeTextView];
+        NSString *dateString = [Date timeSince:self.taskC.date];
+        self.lblTaskDate.text = dateString;
+
     }
     else
     {
-        btnImage = [UIImage imageNamed:@"heartWhite.png"];
+        self.textViewTitle.text = @"Enter task title";
+        [self.textViewContent setText:@""];
+        self.hidden = 0;
+        self.hiddenMap = 0;
+        self.lblTaskDate.text = @"";
+        self.vMapView.hidden = YES;
+        self.liked = NO;
+        
+        btnImage = [UIImage imageNamed:@"importantUnchecked.png"];
         [self.btnLike setImage:btnImage forState:UIControlStateNormal];
+
     }
-    [self resizeTextView];
-    NSString *dateString = [Date timeSince:self.taskC.date];
-    self.lblTaskDate.text = dateString;
+    
+    if (!self.taskC)
+    {
+        operation = @"newTask";
+        NSDateFormatter *formatter = [Date getDateForrmater:@"addToCoreData"];
+        NSString *noteTitle = self.textViewTitle.text;
+        NSString *noteContent = self.textViewContent.text;
+        NSDate *date = [NSDate date];
+        
+        NSString *stringFromDate = [formatter stringFromDate:date];
+        NSDate *dateFromString = [formatter dateFromString:stringFromDate];
+        
+        NSString *generatedRandomID = [[NSUUID UUID] UUIDString];
+        
+        Singleton *instance = [Singleton sharedInstance];
+        [instance.coreData addNewTaskWithTitle:noteTitle
+                                       content:noteContent
+                                          date:dateFromString isLiked:self.liked
+                                        isDone:NO
+                                        withID:generatedRandomID];
+        generatedIDforNewTask = generatedRandomID;
+    }
+    else
+    {
+        operation = @"editTask";
+        generatedIDforNewTask = self.taskC.idTak;
+    }
+    
 }
 - (IBAction)doneBtn:(id)sender
 {
-    
-    [self editTask:self.taskC]; 
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"dataSourceUpdated" object:nil];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if ([self.textViewTitle.text isEqualToString:@""])
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Please enter task title" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        }];
+        [alertController addAction:ok];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self presentViewController:alertController animated:YES completion:^{
+            }];
+        });
+
+        return;
+    }
+    if ([operation isEqualToString:@"editTask"])
+    {
+        [self editTask:self.taskC];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"dataSourceUpdated" object:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    else
+    {
+//        NSDateFormatter *formatter = [Date getDateForrmater:@"addToCoreData"];
+//        NSString *noteTitle = self.textViewTitle.text;
+//        NSString *noteContent = self.textViewContent.text;
+//        NSDate *date = [NSDate date];
+//        
+//        NSString *stringFromDate = [formatter stringFromDate:date];
+//        NSDate *dateFromString = [formatter dateFromString:stringFromDate];
+//        
+//        NSString *generatedRandomID = [[NSUUID UUID] UUIDString];
+//        
+//        Singleton *instance = [Singleton sharedInstance];
+//        [instance.coreData addNewTaskWithTitle:noteTitle
+//                                       content:noteContent
+//                                          date:dateFromString isLiked:self.liked
+//                                        isDone:NO
+//                                        withID:generatedRandomID];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadTable" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"dataSourceUpdated" object:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
+        NSLog(@"pravi se nova");
+    }
 }
 -(void)editTask:(TaskC *)task
 {
@@ -163,57 +249,16 @@
 {
     if (self.hidden == 0)
     {
-        
         self.hidden = 1;
-//        self.vCollection.backgroundColor = [Colors darkColor];
-//        self.collectionView.backgroundColor = [Colors darkColor];
-//        self.vAddBtn.backgroundColor = [Colors darkColor];
-//        self.vAddBtn.hidden = NO;
-//        self.vCollection.hidden = NO;
-//        [self resizeTextView];
         [self.delegate showImageRemoveButtons:self.hidden];
         return;
     }
     else
     {
         self.hidden = 0;
-//        self.vCollection.backgroundColor = [Colors yellowTask];
-//        self.collectionView.backgroundColor = [Colors yellowTask];
-//        self.vAddBtn.backgroundColor = [Colors yellowTask];
-//        self.vAddBtn.hidden = YES;
-//        self.vCollection.hidden = YES;
-//        [self resizeTextView];
         [self.delegate showImageRemoveButtons:self.hidden];
         return;
     }
-    
-//    if (self.vCollection.hidden == NO)
-//    {
-//        self.number = (int)[self.taskC.attachments count];
-//        while (self.number > 0)
-//        {
-//            NSArray *ar = [self.taskC.attachments allObjects];
-////            self.btnRemoveImg.hidden = NO;
-//            NSLog(@"current number %i", self.number);
-//            for (int i = 0; i<[ar count]; i++) {
-//                
-//                AttachmentsC *atta = ar[i];
-//                
-//                NSLog(@"images --- > %@", atta);
-//                
-//            }
-//            break;
-//        }
-//        
-//        
-//        
-//        
-//    }
-    
-    
-    
-    
-    //    [self.collectionView reloadData];
 }
 -(void)dismiss
 {
@@ -296,7 +341,6 @@
         self.stackViewMainContent.hidden = NO;
         self.vMapView.hidden = NO;
         self.vAddBtn.hidden = NO;
-//        self.btnRemoveImg.hidden = NO;
         self.vCollection.backgroundColor = [Colors darkColor];
         self.collectionView.backgroundColor = [Colors darkColor];
         self.vAddBtn.backgroundColor = [Colors darkColor];
@@ -306,7 +350,6 @@
     {
         self.stackViewMainContent.hidden = NO;
         self.vAddBtn.hidden = YES;
-//        self.btnRemoveImg.hidden = YES;
         self.hiddenMap = 0;
         self.vCollection.backgroundColor = [Colors yellowTask];
         self.collectionView.backgroundColor = [Colors yellowTask];
@@ -361,20 +404,41 @@
 - (IBAction)btnLikeAction:(id)sender
 {
     UIImage *btnImage;
-    if (self.taskC.isLiked == YES)
+    if ([operation isEqualToString:@"editTask"])
     {
-        self.taskC = [self.instance unlike:self.taskC];
-        btnImage = [UIImage imageNamed:@"heartWhite.png"];
-        [self.btnLike setImage:btnImage forState:UIControlStateNormal];
-        [self updateCurrentTask];
+        if (self.taskC.isLiked == YES)
+        {
+            self.taskC = [self.instance unlike:self.taskC];
+            btnImage = [UIImage imageNamed:@"importantUnchecked.png"];
+            [self.btnLike setImage:btnImage forState:UIControlStateNormal];
+            [self updateCurrentTask];
+        }
+        else
+        {
+            
+            self.taskC = [self.instance like:self.taskC];
+            btnImage = [UIImage imageNamed:@"important.png"];
+            [self.btnLike setImage:btnImage forState:UIControlStateNormal];
+            [self updateCurrentTask];
+        }
     }
     else
     {
-        
-        self.taskC = [self.instance like:self.taskC];
-        btnImage = [UIImage imageNamed:@"heartRed.png"];
-        [self.btnLike setImage:btnImage forState:UIControlStateNormal];
-        [self updateCurrentTask];
+        if (self.liked == NO)
+        {
+            self.taskC = [self.instance like:self.taskC];
+            btnImage = [UIImage imageNamed:@"important.png"];
+             [self.btnLike setImage:btnImage forState:UIControlStateNormal];
+            self.liked = YES;
+        }
+        else
+        {
+            self.taskC = [self.instance unlike:self.taskC];
+            btnImage = [UIImage imageNamed:@"importantUnchecked.png"];
+            [self.btnLike setImage:btnImage forState:UIControlStateNormal];
+
+            self.liked = NO;
+        }
     }
 }
 -(IBAction)showLocation:(id)sender
@@ -391,11 +455,22 @@
 {
     LocationViewController *vc = [self.instance.storyBoard instantiateViewControllerWithIdentifier:@"location"];
     vc.delegate = self;
+    NSManagedObjectContext *context = [self.instance.coreData managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskC" inManagedObjectContext:context];
+    NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
+    [fetch setEntity:entity];
+    NSPredicate *p = [NSPredicate predicateWithFormat:@"idTak == %@", generatedIDforNewTask];
+    [fetch setPredicate:p];
+    NSError *fetchError;
+    NSArray *fetchedTasks = [context executeFetchRequest:fetch error:&fetchError];
+    TaskC *task = [fetchedTasks firstObject];
     
-    if (self.task.locationAttachment) {
+    vc.taskForLocation = task;
+    [self presentViewController:vc animated:YES completion:nil];
+    if (self.task.locationAttachment)
+    {
         vc.location = self.task.locationAttachment;
     }
-    [self presentViewController:vc animated:YES completion:nil];
 }
 -(void)loadLocation
 {
@@ -437,4 +512,52 @@
     [self resignFirstResponder];
     return YES;
 }
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+        if ([textView.text isEqualToString:@"Enter task title"])
+        {
+            self.textViewTitle.text = @"";
+        }else
+        {
+            return;
+        }
+    
+    if (textView == self.textViewContent)
+    {
+    
+        if ([textView.text isEqualToString:@"Enter task content"])
+        {
+            self.textViewContent.text = @"";
+        }else
+        {
+            return;
+        }
+    }
+}
+-(void)textViewDidEndEditing:(UITextView *)textView
+{
+    if (textView == self.textViewTitle )
+    {
+        if ([textView.text isEqualToString:@""])
+        {
+            self.textViewTitle.text = @"Task title";
+        }
+        else
+        {
+            return;
+        }
+    }
+    else if (textView == self.textViewContent)
+    {
+        if ([textView.text isEqualToString:@""])
+        {
+            self.textViewContent.text = @"Task content";
+        }
+        else
+        {
+            return;
+        }
+    }
+}
+
 @end

@@ -431,4 +431,71 @@
     [self saveContext];
     return updatedTask;
 }
+-(void)addLocationWithLatitude:(NSString *)latidute
+                  andLognitude:(NSString *)longnitude
+                       forTask:(TaskC *)task
+
+{
+    NSManagedObjectContext *context = [self managedObjectContext];
+    NSManagedObject *taskObject = task;
+    NSEntityDescription *entityAttachment = [NSEntityDescription entityForName:@"LocationC" inManagedObjectContext:context];
+    NSManagedObject *newLocation = [[NSManagedObject alloc] initWithEntity:entityAttachment insertIntoManagedObjectContext:context];
+    [newLocation setValue:latidute forKey:@"latitude"];
+    [newLocation setValue:longnitude forKey:@"longnitude"];
+    NSMutableSet *locations = [taskObject mutableSetValueForKey:@"locations"];
+    [locations addObject:newLocation];
+    [self saveContext];
+
+}
+-(TaskC *)deleteLocation:(LocationC *)object
+                 forTask:(TaskC *)task
+{
+    NSManagedObjectContext *context = [self managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"TaskC" inManagedObjectContext:context];
+    
+    
+    NSManagedObject *taskObject = task;
+    
+    NSMutableSet *attachments = [task mutableSetValueForKey:@"attachments"];
+    NSMutableSet *locations = [task mutableSetValueForKey:@"locations"];
+    NSMutableSet *alarms = [task mutableSetValueForKey:@"alarms"];
+    NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
+    [fetch setEntity:entity];
+    NSPredicate *p = [NSPredicate predicateWithFormat:@"idTak == %@", task.idTak];
+    [fetch setPredicate:p];
+    
+    NSError *fetchError;
+    NSArray *fetchedProducts = [context executeFetchRequest:fetch error:&fetchError];
+    for (NSManagedObject *task in fetchedProducts)
+    {
+        [context deleteObject:task];
+    }
+    NSNumber *done = [[NSNumber alloc] initWithBool:task.isDone];
+    NSNumber *isLiked = [[NSNumber alloc] initWithBool:task.isLiked];
+    
+    NSMutableSet *mutableSet = [locations mutableCopy];
+    [mutableSet removeObject:object]; // removing location
+    attachments = [mutableSet copy];
+    
+    taskObject = [NSEntityDescription insertNewObjectForEntityForName:@"TaskC" inManagedObjectContext:context];
+    [taskObject setValue:task.title forKey:@"title"];
+    [taskObject setValue:task.content forKey:@"content"];
+    [taskObject setValue:task.date forKey:@"date"];
+    [taskObject setValue:isLiked forKey:@"isLiked"];
+    [taskObject setValue:done forKey:@"isDone"];
+    [taskObject setValue:task.idTak forKey:@"idTak"];
+    [taskObject setValue:alarms forKey:@"alarms"];
+    [taskObject setValue:locations forKey:@"locations"];
+    [taskObject setValue:attachments forKey:@"attachments"];
+    
+    
+    NSPredicate *p2 = [NSPredicate predicateWithFormat:@"idTak == %@", task.idTak];
+    [fetch setPredicate:p2];
+    NSArray *updatedTaskArray = [context executeFetchRequest:fetch error:&fetchError];
+    TaskC *updatedTask = (TaskC *)[updatedTaskArray firstObject];
+    
+    [self saveContext];
+    return updatedTask;
+
+}
 @end
